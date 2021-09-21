@@ -1,18 +1,20 @@
 import React from "react";
 import { graphql } from "gatsby";
+import { MDXRenderer } from "gatsby-plugin-mdx";
 
 const ComponentName = ({ data }) => {
-  return <pre>{JSON.stringify(data, null, 4)}</pre>;
+  return <MDXRenderer>{data.allMdx.nodes[0].body}</MDXRenderer>;
 };
 
 export const query = graphql`
   {
-    allMdx(sort: { order: DESC, fields: frontmatter___date }) {
+    allMdx(
+      filter: {
+        slug: { eq: "Gatsby-course-or-Next-ed9776efbd6142fab9baf3cec1e5c87e" }
+      }
+    ) {
       nodes {
-        frontmatter {
-          title
-          date(formatString: "MMMM D, YYYY")
-        }
+        slug
         body
       }
     }

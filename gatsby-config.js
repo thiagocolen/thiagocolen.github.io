@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: "https://www.yourdomain.tld",
+    siteUrl: "https://thiagocolen.github.io",
     title: "Thiago Colen",
   },
   plugins: [
@@ -14,5 +14,6 @@ module.exports = {
       },
     },
     `gatsby-plugin-mdx`,
+    `gatsby-plugin-mdx-embed`
   ],
 };

@@ -1,22 +1,15 @@
 import * as React from "react";
 import { StaticImage } from "gatsby-plugin-image";
-import { Link, useStaticQuery, graphql } from "gatsby";
+import { Link, graphql } from "gatsby";
 
-const IndexPage = () => {
-  const siteTitle = useStaticQuery(graphql`
-    query siteTitle {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `);
+const IndexPage = ({data}) => {
+
+  console.log('data', data);
 
   return (
     <React.Fragment>
       <h2>thiagocolen.github.io</h2>
-      <p>site meta data - title: {siteTitle.site.siteMetadata.title}</p>
+      <p>site meta data - title: {data.site.siteMetadata.title}</p>
 
       <Link to="/blog">blog</Link>
 
@@ -27,5 +20,15 @@ const IndexPage = () => {
     </React.Fragment>
   );
 };
+
+export const query = graphql`
+  {
+    site {
+      siteMetadata {
+        title
+      }
+    }
+  }
+`;
 
 export default IndexPage;

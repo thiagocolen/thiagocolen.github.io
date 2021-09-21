@@ -1,25 +1,7 @@
 import * as React from "react";
 import { Link, graphql } from "gatsby";
-// import { MDXRenderer } from 'gatsby-plugin-mdx'
 
 const BlogPage = ({ data }) => {
-  console.log("data", data);
-
-  // const nodesBodies = useStaticQuery(graphql`
-  //   query nodesBodies {
-  //     allMdx(sort: { order: DESC, fields: frontmatter___date }) {
-  //       nodes {
-  //         frontmatter {
-  //           title
-  //           date(formatString: "MMMM D, YYYY")
-  //         }
-  //         body
-  //       }
-  //     }
-  //   }
-  // `);
-
-  // console.log("nodesBodies", nodesBodies);
 
   return (
     <React.Fragment>

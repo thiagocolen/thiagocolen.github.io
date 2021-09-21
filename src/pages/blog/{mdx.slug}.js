@@ -3,7 +3,7 @@ import { Link, graphql } from "gatsby";
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 
 const BlogPost = ({ data }) => {
-  console.log(data);
+  
   return (
     <React.Fragment>
       <h1>mdx.slug</h1>

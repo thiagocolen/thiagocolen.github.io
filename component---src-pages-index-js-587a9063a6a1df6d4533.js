@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkthiago_colen=self.webpackChunkthiago_colen||[]).push([[678],{704:function(e,n,t){t.r(n);var u=t(294);n.default=function(){return u.createElement("h1",null,"thiagocolen.github.io")}}}]);
+//# sourceMappingURL=component---src-pages-index-js-587a9063a6a1df6d4533.js.map

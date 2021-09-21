@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkthiago_colen=self.webpackChunkthiago_colen||[]).push([[97],{7169:function(e,n,t){t.r(n);var a=t(7294);n.default=function(e){var n=e.data;return a.createElement("pre",null,JSON.stringify(n,null,4))}}}]);
+//# sourceMappingURL=component---src-pages-teste-js-780eb0713a3b2f9c3d39.js.map

@@ -1,6 +1,7 @@
 const axios = require("axios");
 
 // TODO: put apiKeys in environment variables
+// TODO: Is possible divide this file on multiple others?
 
 // -----------------------------------------------------
 
@@ -49,10 +50,10 @@ exports.createPages = async ({ actions: { createPage } }) => {
       urls: { regular: randomBgImage },
     },
   } = await getUnsplashRandomImage();
-
+  
   createPage({
     path: `/`,
-    component: require.resolve("./src/pages/homePage.js"),
+    component: require.resolve("./src/templates/homePage.js"),
     context: { randomBgImage },
   });
 
@@ -60,16 +61,15 @@ exports.createPages = async ({ actions: { createPage } }) => {
 
   createPage({
     path: `/blog/`,
-    component: require.resolve("./src/pages/blogPage.js"),
+    component: require.resolve("./src/templates/blogPage.js"),
     context: { articlesList },
   });
 
   articlesList.forEach((article) => {
     createPage({
       path: `/blog/post/${article.slug}/`,
-      component: require.resolve("./src/pages/postPage.js"),
+      component: require.resolve("./src/templates/postPage.js"),
       context: { article },
     });
   });
-
 };

@@ -7,6 +7,12 @@ const axios = require("axios");
 
 // -----------------------------------------------------
 
+const getGitHubZenMessage = async () => {
+  return await axios.get("https://api.github.com/zen");
+};
+
+// -----------------------------------------------------
+
 const devToApiKey = "f6H6umciRnCNzuYUSRcE4eQY";
 const devToUsername = "thiagocolen";
 
@@ -53,6 +59,7 @@ const init = async () => {
     },
   } = await getUnsplashRandomImage();
   const allDevToData = await getDevToData();
+  const gitHubZenMessage = await getGitHubZenMessage();
   debugger;
 };
 

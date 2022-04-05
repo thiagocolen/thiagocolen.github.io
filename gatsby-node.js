@@ -34,6 +34,8 @@ const getDevToData = async () => {
 
 // -----------------------------------------------------
 
+// TODO: this key should not be here
+// TODO: we don't using this, shall we remove?
 const unsplayAccessKey =
   "7bb44829ebfb671742ab6f123c6581e0eca237754773b58d64940a82c82065f9";
 
@@ -50,7 +52,7 @@ exports.createPages = async ({ actions: { createPage } }) => {
       urls: { regular: randomBgImage },
     },
   } = await getUnsplashRandomImage();
-  
+
   createPage({
     path: `/`,
     component: require.resolve("./src/templates/homePage.js"),
@@ -71,5 +73,11 @@ exports.createPages = async ({ actions: { createPage } }) => {
       component: require.resolve("./src/templates/postPage.js"),
       context: { article },
     });
+  });
+
+  createPage({
+    path: `/about/`,
+    component: require.resolve("./src/templates/aboutPage.js"),
+    context: {},
   });
 };

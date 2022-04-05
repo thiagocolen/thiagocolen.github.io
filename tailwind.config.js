@@ -10,7 +10,7 @@ module.exports = {
       'my-theme-5': '#d90429',
     },
     fontFamily: {
-      'sans': ['"Bree Serif"', 'serif'],
+      'sans': ['"Besley"', 'serif'],
     },
     boxShadow: {
       'inner': 'inset 0 -30px 30px -30px rgba(0, 0, 0, 0.3)',

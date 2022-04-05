@@ -4,6 +4,8 @@ import { Link } from "gatsby";
 
 // TODO: remove old unused lybraries from package.json
 
+// TODO: let's give to this page the pattern of site
+
 const PostPage = ({ pageContext: { article } }) => {
   console.log("### PostPage article:", article);
 

@@ -9,7 +9,7 @@ const Container = (props) => {
 
   return (
     <div className={`${randomBgClass()} pb-48`}>
-      <div className="container mx-auto px-16 pt-10">{props.children}</div>
+      <div className="container mx-auto pt-10 px-4 md:px-16 lg:px-16 xl:px-16 ">{props.children}</div>
     </div>
   );
 };

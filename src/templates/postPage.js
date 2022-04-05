@@ -1,33 +1,51 @@
 import React from "react";
-// import ReactHtmlParser from "react-html-parser";
 import { Link } from "gatsby";
+import MainMenu from "../components/mainMenu";
+import Footer from "../components/footer";
+import Container from "../components/container";
+import { datePipe } from "../utils/datePipe";
+import { ArrowCircleLeftIcon } from "@heroicons/react/solid";
+import { CalendarIcon } from "@heroicons/react/solid";
 
 // TODO: remove old unused lybraries from package.json
 
-// TODO: let's give to this page the pattern of site
-
 const PostPage = ({ pageContext: { article } }) => {
-  console.log("### PostPage article:", article);
-
-  // const fixedHtml = article.body_html.replaceAll("viewbox", "viewBox");
-
+  console.log("@@@ article:", article);
   return (
-    <div className="container mx-auto pt-20">
-      <h1 className="text-white text-xs">Post Page</h1>
-      <hr />
-      <Link className="text-white text-xs" to="/blog/">
-        back to blog page
-      </Link>
-      <hr />
-      <div className="text-white text-lg">
-        <br />
-        <h2>{article.title}</h2>
-        <br />
-        <h6>{article.published_at}</h6>
-        <br />
-        <div dangerouslySetInnerHTML={{ __html: article.body_html }} />
-      </div>
-    </div>
+    <>
+      <MainMenu activePage="blog" />
+      <Container>
+        <Link
+          className="text-my-theme-3 hover:text-my-theme-2 text-xl font-semibold"
+          to={`/blog/`}
+        >
+          <ArrowCircleLeftIcon className="float-left h-8 w-8 mr-2" />
+          <div className="float-left italic">voltar</div>
+        </Link>
+        <div className="clear-both"></div>
+        <h1 className="text-my-theme-3 text-3xl font-semibold mb-6 mt-6 cursor-default">
+          {article.title}
+        </h1>
+        <div className="text-my-theme-3 cursor-default">
+          <h2 className="text-my-theme-4 text-sm text-right">
+            <CalendarIcon className="float-right h-5 w-5 text-my-theme-4 ml-2"></CalendarIcon>
+            {datePipe(article.published_at)}
+          </h2>
+          <div
+            className="text-my-theme-3 text-base font-thin text-justify my-20"
+            dangerouslySetInnerHTML={{ __html: article.body_html }}
+          />
+          <Link
+            className="text-my-theme-3 hover:text-my-theme-2 text-xl font-semibold"
+            to={`/blog/`}
+          >
+            <ArrowCircleLeftIcon className="float-left h-8 w-8 mr-2" />
+            <div className="float-left italic">voltar</div>
+          </Link>
+        </div>
+      </Container>
+      <Footer />
+    </>
   );
 };
 

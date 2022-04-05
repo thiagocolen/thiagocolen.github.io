@@ -5,13 +5,11 @@ import Footer from "../components/footer";
 import Container from "../components/container";
 
 const AboutPage = ({ pageContext }) => {
-  console.log("### About pageContext:", pageContext);
-
   return (
     <>
       <MainMenu activePage="about" />
       <Container>
-        <h1 className="text-my-theme-3 text-3xl mb-6">About</h1>
+        <h1 className="text-my-theme-3 text-3xl font-semibold mb-6">About</h1>
       </Container>
       <Footer />
     </>

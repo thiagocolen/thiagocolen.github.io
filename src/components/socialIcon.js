@@ -1,7 +1,6 @@
 import React from "react";
 
 const SocialIcon = (props) => {
-
   const SocialMediaIconPath = (props) => {
     if (props.socialMedia === "dev.to") {
       return (
@@ -72,7 +71,7 @@ const SocialIcon = (props) => {
         fill="currentColor"
         stroke-width="0"
         viewBox={SocialMediaIconViewBox(props.socialMedia)}
-        class="w-6 h-6 text-my-theme-1 hover:text-my-theme-4"
+        class="w-6 h-6 text-red-600 hover:text-blue-600"
         height="1em"
         width="1em"
         xmlns="http://www.w3.org/2000/svg"

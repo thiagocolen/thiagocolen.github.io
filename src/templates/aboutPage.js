@@ -11,7 +11,7 @@ const AboutPage = ({ pageContext }) => {
     <>
       <MainMenu activePage="about" />
       <Container>
-        <h1 className="text-my-theme-3 text-3xl font-semibold mb-6">About</h1>
+        <h1 className="text-red-500 text-3xl font-semibold mb-6">About</h1>
       </Container>
       <Footer />
     </>

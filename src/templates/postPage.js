@@ -16,27 +16,27 @@ const PostPage = ({ pageContext: { article } }) => {
       <MainMenu activePage="blog" />
       <Container>
         <Link
-          className="text-my-theme-3 hover:text-my-theme-2 text-xl font-semibold"
+          className="text-black hover:text-white text-xl font-semibold"
           to={`/blog/`}
         >
           <ArrowCircleLeftIcon className="float-left h-8 w-8 mr-2" />
           <div className="float-left italic">voltar</div>
         </Link>
         <div className="clear-both"></div>
-        <h1 className="text-my-theme-3 text-3xl font-semibold mb-6 mt-6 cursor-default">
+        <h1 className="text-black text-3xl font-semibold mb-6 mt-6 cursor-default">
           {article.title}
         </h1>
-        <div className="text-my-theme-3 cursor-default">
-          <h2 className="text-my-theme-4 text-sm text-right">
-            <CalendarIcon className="float-right h-5 w-5 text-my-theme-4 ml-2"></CalendarIcon>
+        <div className="text-black cursor-default">
+          <h2 className="text-black text-sm text-right">
+            <CalendarIcon className="float-right h-5 w-5 text-black ml-2"></CalendarIcon>
             {datePipe(article.published_at)}
           </h2>
           <div
-            className="text-my-theme-3 text-base font-thin text-justify my-20"
+            className="text-black text-base font-thin text-justify my-20"
             dangerouslySetInnerHTML={{ __html: article.body_html }}
           />
           <Link
-            className="text-my-theme-3 hover:text-my-theme-2 text-xl font-semibold"
+            className="text-black hover:text-white text-xl font-semibold"
             to={`/blog/`}
           >
             <ArrowCircleLeftIcon className="float-left h-8 w-8 mr-2" />

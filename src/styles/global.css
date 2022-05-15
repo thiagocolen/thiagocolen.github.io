@@ -2,27 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-/* https://coolors.co/palette/2b2d42-8d99ae-edf2f4-ef233c-d90429 */
+/* ---------- */
+
+/* TODO: Shall we remove this background animation and replace by tailwind animate-pulse? */
 
 body {
   margin: 0;
-  background: linear-gradient(270deg, #2b2b2b, #000000, #2b2b2b, #000000, #2b2b2b);
+  background: linear-gradient(
+    270deg,
+    #2b2b2b,
+    #000000,
+    #2b2b2b,
+    #000000,
+    #2b2b2b
+  );
   background-size: 400% 400%;
   animation: AnimationName 15s ease infinite;
 }
 
 @keyframes AnimationName {
-  0%{background-position:0% 50%}
-  50%{background-position:100% 51%}
-  100%{background-position:0% 50%}
-}
-
-p {
-  margin-bottom: 20px;
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 51%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* ---------- */
 
+/* Article Drop Shadow Effect */
+
+.articleDropShadow {
+  background-color: white;
+  border: 1px solid black;
+  transition: box-shadow 200ms ease, transform 200ms ease;
+  box-shadow: 0px 0px 0 black;
+}
+.articleDropShadow:hover {
+  transform: translate(4px, -4px);
+  box-shadow: -8px 8px 0 black;
+}
+
+/* ---------- */
+
+/* TODO: let's remove this background css textures */
 
 .bg-texture-red-0 {
   background-color: #ef233c;

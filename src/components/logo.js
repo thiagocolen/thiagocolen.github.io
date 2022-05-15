@@ -9,21 +9,21 @@ const Logo = () => {
 
     if (randomNumber === 0) {
       return (
-        <VariableIcon className="absolute h-8 w-8 left-4 top-4 text-my-theme-1" />
+        <VariableIcon className="absolute h-8 w-8 left-4 top-4 text-black" />
       );
     } else if (randomNumber === 1) {
       return (
-        <QrcodeIcon className="absolute h-8 w-8 left-4 top-4 text-my-theme-1" />
+        <QrcodeIcon className="absolute h-8 w-8 left-4 top-4 text-black" />
       );
     } else {
       return (
-        <PuzzleIcon className="absolute h-8 w-8 left-4 top-4 text-my-theme-1" />
+        <PuzzleIcon className="absolute h-8 w-8 left-4 top-4 text-black" />
       );
     }
   };
 
   return (
-    <div className="relative w-16 h-16 shadow-xl rounded-full bg-my-theme-3">
+    <div className="relative w-16 h-16 shadow-xl rounded-full bg-gray-500">
       <SelectedLogo></SelectedLogo>
     </div>
   );

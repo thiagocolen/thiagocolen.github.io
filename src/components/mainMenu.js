@@ -3,23 +3,19 @@ import { Link } from "gatsby";
 import Logo from "./logo";
 
 const MainMenu = (props) => {
-  const randomBgClass = () => {
-    const randomNumber = Math.floor(Math.random() * 5);
-    return `bg-texture-red-${randomNumber}`;
-  };
 
   const activePageClass = (item) => {
     if (props.activePage === item) {
-      return "text-my-theme-1";
+      return "text-black";
     } else {
-      return "text-my-theme-3 hover:text-my-theme-1";
+      return "text-white hover:text-black";
     }
   };
 
   return (
     <>
       <nav
-        className={`${randomBgClass()} bg-texture-red-1 p-6 text-white sm:text-xs md:text-xl font-bold border-b-2 border-my-theme-2 border-opacity-50`}
+        className="bg-white border-b-2 border-black"
       >
         <ul className="flex flex-row-reverse">
           <li className="w-72 mt-6">

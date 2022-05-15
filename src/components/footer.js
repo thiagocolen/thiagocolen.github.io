@@ -11,9 +11,9 @@ import SocialIcon from "./socialIcon";
 
 const Footer = () => {
   return (
-    <footer className="bg-my-theme-3 border-t-4 border-opacity-50 border-my-theme-1">
+    <footer className="border-t-4">
       <div className="flex pt-6">
-        <div className="w-full pl-10 py-6 text-my-theme-2 italic">
+        <div className="w-full pl-10 py-6 text-black italic">
           That's me on the back of the bus
           <br /> That's me in the cell
           <br /> That's me inside your head
@@ -42,7 +42,7 @@ const Footer = () => {
           />
         </div>
       </div>
-      <div className="flex flex-row-reverse mt-10 mx-10 border-t-2 border-my-theme-2">
+      <div className="flex flex-row-reverse mt-10 mx-10">
         <div className="w-1/2 text-xs text-right py-4">
           Playing with a grin, singing gibberish in SP/Brazil © 2022
         </div>

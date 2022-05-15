@@ -19,7 +19,7 @@ const MainMenu = (props) => {
   return (
     <>
       <nav
-        className={`${randomBgClass()} bg-texture-red-1 p-6 text-white text-xl font-bold shadow-inner border-b-2 border-my-theme-2 border-opacity-50`}
+        className={`${randomBgClass()} bg-texture-red-1 p-6 text-white sm:text-xs md:text-xl font-bold border-b-2 border-my-theme-2 border-opacity-50`}
       >
         <ul className="flex flex-row-reverse">
           <li className="w-72 mt-6">

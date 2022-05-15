@@ -7,9 +7,11 @@ import SocialIcon from "./socialIcon";
 // xl	1280px	@media (min-width: 1280px) { ... }
 // 2xl	1536px	@media (min-width: 1536px) { ... }
 
+// TODO: responsiveness here is a shit
+
 const Footer = () => {
   return (
-    <footer className="bg-my-theme-3 shadow-footer border-t-4 border-opacity-50 border-my-theme-1">
+    <footer className="bg-my-theme-3 border-t-4 border-opacity-50 border-my-theme-1">
       <div className="flex pt-6">
         <div className="w-full pl-10 py-6 text-my-theme-2 italic">
           That's me on the back of the bus

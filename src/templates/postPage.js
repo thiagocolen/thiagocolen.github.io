@@ -17,10 +17,7 @@ const PostPage = ({ pageContext: { article } }) => {
   const ArrowComponent = () => {
     return (
       <Link to={`/blog/`}>
-        <ArrowCircleLeftIcon
-          className="arrowAnimationLeftBounce h-12 w-12 
-        hover:text-red-600"
-        />
+        <ArrowCircleLeftIcon className="arrowAnimationLeftBounce h-12 w-12 hover:text-white" />
       </Link>
     );
   };
@@ -33,7 +30,10 @@ const PostPage = ({ pageContext: { article } }) => {
     };
 
     return (
-      <div className="bg-white w-96 mx-auto -mt-40 p-4" style={style}>
+      <div
+        className="bg-white w-96 mx-auto -mt-40 p-4 select-none"
+        style={style}
+      >
         <h1 className="text-3xl font-semibold mb-6 mt-6 text-center">
           {article.title}
         </h1>
@@ -64,7 +64,9 @@ const PostPage = ({ pageContext: { article } }) => {
     const tags = [];
     article.tags.forEach((item) => {
       tags.push(
-        <div className="p-2 bg-white border-1 float-right mr-2">{item}</div>
+        <div className="p-2 bg-white border-1 float-right mr-2 select-none">
+          {item}
+        </div>
       );
     });
 
@@ -84,7 +86,7 @@ const PostPage = ({ pageContext: { article } }) => {
         <TitleComponent />
         <TagsComponent />
         <div
-          className="text-justify my-10"
+          className="text-justify my-10 select-none"
           dangerouslySetInnerHTML={{ __html: article.body_html }}
         />
         <div className="clear-both"></div>

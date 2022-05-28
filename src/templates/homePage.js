@@ -62,11 +62,11 @@ const HomePage = ({ pageContext }) => {
         fixed z-40 left-1/2 top-1/2
         container text-center px-10
         transform -translate-x-1/2 -translate-y-1/2
-        text-7xl font-bold text-white uppercase"
+        text-7xl font-bold text-white uppercase select-none"
         style={textStyle}
       >
         {gitHubZenMessage}
-        <div className="text-xs lowercase font-thin px-5">
+        <div className="text-xs lowercase font-thin px-5 select-none">
           {gitHubZenErrorMessage}
         </div>
       </div>
@@ -215,7 +215,7 @@ const HomePage = ({ pageContext }) => {
         fixed z-50 right-10 bottom-10
         h-14 w-14 
         arrowAnimationRightBounce
-        text-white hover:text-red-700 cursor-pointer"
+        text-white hover:text-gray-700 cursor-pointer"
         onClick={goToPage}
       />
     );

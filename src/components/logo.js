@@ -1,28 +1,36 @@
 import React from "react";
-import { VariableIcon } from "@heroicons/react/solid";
-import { QrcodeIcon } from "@heroicons/react/outline";
-import { PuzzleIcon } from "@heroicons/react/outline";
+import Bug0 from "../assets/vector-bugs/bug-0.svg";
+import Bug1 from "../assets/vector-bugs/bug-1.svg";
+import Bug2 from "../assets/vector-bugs/bug-2.svg";
+import Bug3 from "../assets/vector-bugs/bug-3.svg";
+import Bug4 from "../assets/vector-bugs/bug-4.svg";
+import Bug5 from "../assets/vector-bugs/bug-5.svg";
+import Bug6 from "../assets/vector-bugs/bug-6.svg";
+import Bug7 from "../assets/vector-bugs/bug-7.svg";
 
 const Logo = () => {
   const SelectedLogo = () => {
-    const randomNumber = Math.floor(Math.random() * 3);
+    const randomNumber = Math.floor(Math.random() * 8);
 
-    if (randomNumber === 0) {
-      return (
-        <VariableIcon className="relative h-8 w-8 mt-4 text-black" />
-      );
-    } else if (randomNumber === 1) {
-      return (
-        <QrcodeIcon className="relative h-8 w-8 mt-4 text-black" />
-      );
-    } else {
-      return (
-        <PuzzleIcon className="relative h-8 w-8 mt-4 text-black" />
-      );
-    }
+    const bugCollection = {
+      0: Bug0,
+      1: Bug1,
+      2: Bug2,
+      3: Bug3,
+      4: Bug4,
+      5: Bug5,
+      6: Bug6,
+      7: Bug7,
+    };
+
+    const Bug = bugCollection[randomNumber];
+
+    return (
+      <Bug className="fixed -top-32 -left-32 -z-50 transform rotate-45 mix-blend-overlay opacity-30" />
+    );
   };
 
-  return <SelectedLogo></SelectedLogo>;
+  return <SelectedLogo />;
 };
 
 export default Logo;

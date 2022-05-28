@@ -4,13 +4,13 @@ import MainMenu from "../components/mainMenu";
 import Footer from "../components/footer";
 import Container from "../components/container";
 import { datePipe } from "../utils/datePipe";
+import Logo from "../components/logo";
 
 // TODO: design references
 // https://mir-s3-cdn-cf.behance.net/project_modules/2800_opt_1/31dec0139215579.622b7213a3ce5.png
 // https://www.codecademy.com/catalog
 
 const BlogPage = ({ pageContext: { articlesList } }) => {
-
   const articlesList2 = [];
   articlesList.forEach((item) => {
     articlesList2.push(item);
@@ -76,8 +76,11 @@ const BlogPage = ({ pageContext: { articlesList } }) => {
     <>
       <MainMenu activePage="blog" />
       <Container>
+        <Logo />
         <section>
-          <h1 className="text-black text-2xl font-semibold mb-6 mt-16">Articles</h1>
+          <h1 className="text-black text-2xl font-semibold mb-6 mt-16 select-none">
+            Articles
+          </h1>
 
           <ul className="articleGridContainer">
             {articlesList2.map((article, index) => {

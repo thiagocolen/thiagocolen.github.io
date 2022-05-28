@@ -84,9 +84,9 @@ p {
 /* TODO: this grid-template-rows value must be dynamic */
 .articleGridContainer {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   grid-template-rows: repeat(1, 250px);
-  gap: 35px 35px;
+  gap: 35px 0px;
 }
 
 .articleGridItem {
@@ -94,6 +94,9 @@ p {
 }
 
 @media (min-width: 640px) {
+  .articleGridContainer {
+    gap: 35px 35px;
+  }
   .articleGridItem {
     grid-column-end: span 12;
   }

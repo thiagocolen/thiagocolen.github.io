@@ -39,8 +39,11 @@ const MainMenu = (props) => {
 
   return (
     <>
-      <nav className={`${navClass} fixed z-50 top-0 left-0 right-0 h-16`}>
-        <ul className="flex flex-row-reverse container mx-auto px-16 text-black font-bold">
+      <nav className={`${navClass} fixed z-50 top-0 left-0 right-0 h-16 select-none`}>
+        <ul className="
+          flex flex-row-reverse container 
+          px-10 sm:px-16 md:px-16
+          mx-auto text-black font-bold">
           {/* <li className="w-72 mt-6 text-right">
             <Link to="/about" className={`${activePageClass("about")}`}>
               ABOUT
@@ -58,7 +61,6 @@ const MainMenu = (props) => {
           </li>
           <li className="shrink w-full"></li>
           <li>
-            <Logo />
           </li>
         </ul>
       </nav>

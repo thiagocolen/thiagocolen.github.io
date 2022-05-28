@@ -17,7 +17,11 @@ const HeadComponents = [
   ></link>,
 ];
 
-const BodyAttributes = { className: "select-none cursor-default" };
+const BodyAttributes = { };
+// TODO: this classes are not working um prod
+// let's remove this and apply locally
+// const BodyAttributes = { className: "select-none cursor-default" };
+
 
 exports.onRenderBody = (
   { setHeadComponents, setHtmlAttributes, setBodyAttributes },

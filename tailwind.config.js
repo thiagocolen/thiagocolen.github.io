@@ -11,7 +11,7 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     fontFamily: {
-      'sans': ['"Besley"', 'serif'],
+      'sans': ['"IBM Plex Sans"', 'sans-serif'],
     },
     extend: {
       // TODO: [OBS] tailwindcss have a problem with some colors that needs to be imported

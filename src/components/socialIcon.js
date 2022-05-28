@@ -71,7 +71,7 @@ const SocialIcon = (props) => {
         fill="currentColor"
         stroke-width="0"
         viewBox={SocialMediaIconViewBox(props.socialMedia)}
-        class="w-6 h-6 text-red-600 hover:text-blue-600"
+        class="w-6 h-6 text-black hover:text-gray-600"
         height="1em"
         width="1em"
         xmlns="http://www.w3.org/2000/svg"

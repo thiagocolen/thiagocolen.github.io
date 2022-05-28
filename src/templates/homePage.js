@@ -60,9 +60,9 @@ const HomePage = ({ pageContext }) => {
       <div
         className="
         fixed z-40 left-1/2 top-1/2
-        container text-center px-5
+        container text-center px-10
         transform -translate-x-1/2 -translate-y-1/2
-        text-4xl font-bold text-white select-none uppercase"
+        text-7xl font-bold text-white uppercase"
         style={textStyle}
       >
         {gitHubZenMessage}
@@ -144,7 +144,7 @@ const HomePage = ({ pageContext }) => {
   // let's go analise this
   
   const miniTextSize = {
-    fontSize: "10px",
+    fontSize: "14px",
     textShadow: "2px 2px #000000",
   };
 
@@ -157,10 +157,10 @@ const HomePage = ({ pageContext }) => {
     return (
       <div
         className="
-        absolute z-40 left-5 top-3
+        absolute z-40 left-6 top-3
         transform origin-top-left rotate-90
         text-center text-white italic opacity-70 shadow 
-        whitespace-nowrap select-none tracking-widest"
+        whitespace-nowrap tracking-widest"
         style={miniTextSize}
       >
         {getSongSentence()}
@@ -208,15 +208,13 @@ const HomePage = ({ pageContext }) => {
 
   // --------------------------------------------- arrow component
 
-  // TODO: shall we animate (bounce) this arrow?
-  // https://tailwindcss.com/docs/animation
-
   const ArrowComponent = () => {
     return (
       <ArrowCircleRightIcon
         className="
         fixed z-50 right-10 bottom-10
         h-14 w-14 
+        arrowAnimationRightBounce
         text-white hover:text-red-700 cursor-pointer"
         onClick={goToPage}
       />

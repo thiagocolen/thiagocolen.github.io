@@ -9,24 +9,20 @@ const Logo = () => {
 
     if (randomNumber === 0) {
       return (
-        <VariableIcon className="absolute h-8 w-8 left-4 top-4 text-black" />
+        <VariableIcon className="relative h-8 w-8 mt-4 text-black" />
       );
     } else if (randomNumber === 1) {
       return (
-        <QrcodeIcon className="absolute h-8 w-8 left-4 top-4 text-black" />
+        <QrcodeIcon className="relative h-8 w-8 mt-4 text-black" />
       );
     } else {
       return (
-        <PuzzleIcon className="absolute h-8 w-8 left-4 top-4 text-black" />
+        <PuzzleIcon className="relative h-8 w-8 mt-4 text-black" />
       );
     }
   };
 
-  return (
-    <div className="relative w-16 h-16 shadow-xl rounded-full bg-gray-500">
-      <SelectedLogo></SelectedLogo>
-    </div>
-  );
+  return <SelectedLogo></SelectedLogo>;
 };
 
 export default Logo;

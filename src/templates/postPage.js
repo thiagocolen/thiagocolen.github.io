@@ -9,40 +9,86 @@ import { CalendarIcon } from "@heroicons/react/solid";
 
 // TODO: remove old unused lybraries from package.json
 
+// TODO: make padding of this page more responsive, on mobile this is suck
+
+// TODO: let's find a better imagens to this articles
+
 const PostPage = ({ pageContext: { article } }) => {
-  console.log("@@@ article:", article);
+  const ArrowComponent = () => {
+    return (
+      <Link to={`/blog/`}>
+        <ArrowCircleLeftIcon
+          className="arrowAnimationLeftBounce h-12 w-12 
+        hover:text-red-600"
+        />
+      </Link>
+    );
+  };
+
+  const TitleComponent = () => {
+    const style = {
+      border: "solid 1px black",
+      transform: "translate(4px, -4px)",
+      boxShadow: "15px 15px 0px black",
+    };
+
+    return (
+      <div className="bg-white w-96 mx-auto -mt-40 p-4" style={style}>
+        <h1 className="text-3xl font-semibold mb-6 mt-6 text-center">
+          {article.title}
+        </h1>
+        <div className="text-sm float-right mx-auto">
+          <CalendarIcon className="float-left h-5 w-5 mr-2"></CalendarIcon>
+          {datePipe(article.published_at)}
+        </div>
+        <div className="clear-both"></div>
+      </div>
+    );
+  };
+
+  const BannerComponent = () => {
+    const style = {
+      backgroundImage: `url(${article.cover_image})`,
+      backgroundPosition: "center",
+      backgroundSize: "100%",
+    };
+    return (
+      <>
+        <div className="h-16 border-b-1"></div>
+        <div className="h-72" style={style}></div>
+      </>
+    );
+  };
+
+  const TagsComponent = () => {
+    const tags = [];
+    article.tags.forEach((item) => {
+      tags.push(
+        <div className="p-2 bg-white border-1 float-right mr-2">{item}</div>
+      );
+    });
+
+    return (
+      <>
+        <div className="mt-20">{tags}</div>
+        <div className="clear-both"></div>
+      </>
+    );
+  };
+
   return (
     <>
       <MainMenu activePage="blog" />
+      <BannerComponent />
       <Container>
-        <Link
-          className="text-black hover:text-white text-xl font-semibold"
-          to={`/blog/`}
-        >
-          <ArrowCircleLeftIcon className="float-left h-8 w-8 mr-2" />
-          <div className="float-left italic">voltar</div>
-        </Link>
+        <TitleComponent />
+        <TagsComponent />
+        <div
+          className="text-justify my-10"
+          dangerouslySetInnerHTML={{ __html: article.body_html }}
+        />
         <div className="clear-both"></div>
-        <h1 className="text-black text-3xl font-semibold mb-6 mt-6 cursor-default">
-          {article.title}
-        </h1>
-        <div className="text-black cursor-default">
-          <h2 className="text-black text-sm text-right">
-            <CalendarIcon className="float-right h-5 w-5 text-black ml-2"></CalendarIcon>
-            {datePipe(article.published_at)}
-          </h2>
-          <div
-            className="text-black text-base font-thin text-justify my-20"
-            dangerouslySetInnerHTML={{ __html: article.body_html }}
-          />
-          <Link
-            className="text-black hover:text-white text-xl font-semibold"
-            to={`/blog/`}
-          >
-            <ArrowCircleLeftIcon className="float-left h-8 w-8 mr-2" />
-            <div className="float-left italic">voltar</div>
-          </Link>
-        </div>
+        <ArrowComponent />
       </Container>
       <Footer />
     </>

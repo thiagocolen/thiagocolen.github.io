@@ -47,19 +47,29 @@ const getUnsplashRandomImage = async () =>
 // -----------------------------------------------------
 
 exports.createPages = async ({ actions: { createPage } }) => {
-  const {
-    data: {
-      urls: { regular: randomBgImage },
-    },
-  } = await getUnsplashRandomImage();
+
+  // TODO: a random image from unsplash is coming into pageContext,
+  // what shall we do with it?
+
+  // const {
+  //   data: {
+  //     urls: { regular: randomBgImage },
+  //   },
+  // } = await getUnsplashRandomImage();
+
+  const articlesList = await getDevToData();
 
   createPage({
     path: `/`,
-    component: require.resolve("./src/templates/homePage.js"),
-    context: { randomBgImage },
+    component: require.resolve("./src/templates/homePage2.js"),
+    context: { articlesList },
   });
-
-  const articlesList = await getDevToData();
+  
+  createPage({
+    path: `/homepage/`,
+    component: require.resolve("./src/templates/homePage.js"),
+    context: {},
+  });
 
   createPage({
     path: `/blog/`,

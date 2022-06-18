@@ -8,6 +8,8 @@ import Bug5 from "../assets/vector-bugs/bug-5.svg";
 import Bug6 from "../assets/vector-bugs/bug-6.svg";
 import Bug7 from "../assets/vector-bugs/bug-7.svg";
 
+// TODO: this bug logo is a shit, let's make it again
+
 const Logo = () => {
   const SelectedLogo = () => {
     const randomNumber = Math.floor(Math.random() * 8);
@@ -26,7 +28,7 @@ const Logo = () => {
     const Bug = bugCollection[randomNumber];
 
     return (
-      <Bug className="fixed -top-32 -left-32 -z-50 transform rotate-45 mix-blend-overlay opacity-30" />
+      <Bug className="w-20 h-20" />
     );
   };
 

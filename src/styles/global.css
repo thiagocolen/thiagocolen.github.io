@@ -150,3 +150,12 @@ p {
     animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
 }
+
+/* ---------- */
+
+.ltag__replit > iframe {
+  width: 100%;
+}
+
+
+/* TODO: let's use thi color palette https://brilliant.org/daily-problems/ */

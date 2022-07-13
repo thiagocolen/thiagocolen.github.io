@@ -15,6 +15,7 @@ const ZenMessage = () => {
         const { data: apiResponse } = await axios.get(
           "https://api.github.com/zen"
         );
+
         setGitHubZenMessage(apiResponse);
         setGitHubZenErrorMessage("");
       } catch (error) {
@@ -27,24 +28,19 @@ const ZenMessage = () => {
     fetchData();
   }, [gitHubZenMessage, gitHubZenErrorMessage]);
 
-  const textStyle = {
-    textShadow:
-      "0px 0px 0 rgb(-85,-85,-85)," +
-      "0px 1px 0 rgb(-170,-170,-170)," +
-      "0px 2px 0 rgb(-255,-255,-255)," +
-      "0px 3px 0 rgb(-340,-340,-340)," +
-      "0px 4px 3px rgba(0,0,0,0)," +
-      "0px 4px 1px rgba(0,0,0,0.5)," +
-      "0px 0px 3px rgba(0,0,0,.2)",
+  const shadow = {
+    transform: "translate(4px, -4px)",
+    boxShadow: "-8px 8px 0 black",
   };
 
   return (
     <div
-      className="absolute z-10 
+      className="absolute z-40 
         top-1/2 left-1/4 mr-10
         p-4 sm:p-8
         bg-white border-2 border-black 
         select-none"
+      style={shadow}
     >
       <div class="font-bold text-3xl sm:text-5xl md:text-6xl">
         {gitHubZenMessage}

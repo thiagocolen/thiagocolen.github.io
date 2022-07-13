@@ -9,8 +9,7 @@ import poster4 from "../assets/webm-posters/poster-4.webm";
 import poster5 from "../assets/webm-posters/poster-5.webm";
 
 const Poster = ({ posterType }) => {
-  console.log("@@@ posterType:", posterType);
-  // ---------------------------------------------
+  // --------------------------------------------- filter
 
   const getRandomColor = () => {
     const coolColor = [
@@ -33,16 +32,18 @@ const Poster = ({ posterType }) => {
       "bg-rose-900",
     ];
     const randomNumber = Math.floor(Math.random() * coolColor.length);
-    console.log("@@@ coolColor[randomNumber]", coolColor[randomNumber]);
     return coolColor[randomNumber];
   };
+
+
 
   const FilterComponent = () => {
     return (
       <div
-        className={`fixed top-0 left-0 z-30 
-            w-screen h-screen object-cover
+        className={`absolute top-0 left-0 z-30 
+            object-cover w-full
             ${getRandomColor()} opacity-70 mix-blend-multiply`}
+        style={{ height: "90vh" }}
         onClick={changePoster}
       ></div>
     );
@@ -143,6 +144,7 @@ const Poster = ({ posterType }) => {
       return (
         <>
           <ZenMessage />
+          <FilterComponent />
           <div className="border-b-2 border-black">{selectedPoster}</div>
           {/* <ArrowCircleDownIcon
             className="animate-bounce

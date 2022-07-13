@@ -5,7 +5,6 @@ import Container from "../components/container";
 import Footer from "../components/footer";
 
 const HomePage2 = ({ pageContext: { articlesList } }) => {
-  console.log("@@@ articlesList", articlesList);
   return (
     <>
       <Poster posterType="top" />

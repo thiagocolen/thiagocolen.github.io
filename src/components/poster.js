@@ -8,41 +8,15 @@ import poster3 from "../assets/webm-posters/poster-3.webm";
 import poster4 from "../assets/webm-posters/poster-4.webm";
 import poster5 from "../assets/webm-posters/poster-5.webm";
 
-const Poster = ({ posterType }) => {
+const Poster = ({ posterType, color }) => {
   // --------------------------------------------- filter
-
-  const getRandomColor = () => {
-    const coolColor = [
-      "bg-red-900",
-      "bg-orange-900",
-      "bg-amber-900",
-      "bg-yellow-900",
-      "bg-lime-900",
-      "bg-green-900",
-      "bg-emerald-900",
-      "bg-teal-900",
-      "bg-cyan-900",
-      "bg-sky-900",
-      "bg-blue-900",
-      "bg-indigo-900",
-      "bg-violet-900",
-      "bg-purple-900",
-      "bg-fuchsia-900",
-      "bg-pink-900",
-      "bg-rose-900",
-    ];
-    const randomNumber = Math.floor(Math.random() * coolColor.length);
-    return coolColor[randomNumber];
-  };
-
-
 
   const FilterComponent = () => {
     return (
       <div
         className={`absolute top-0 left-0 z-30 
             object-cover w-full
-            ${getRandomColor()} opacity-70 mix-blend-multiply`}
+            ${color} opacity-70 mix-blend-multiply`}
         style={{ height: "90vh" }}
         onClick={changePoster}
       ></div>

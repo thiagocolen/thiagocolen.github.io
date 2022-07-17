@@ -4,17 +4,9 @@
 
 /* ---------- */
 
-/* TODO: Shall we remove this background animation and replace by tailwind animate-pulse? */
-
 body {
   margin: 0;
-  background-color: darkkhaki;
   text-rendering: optimizeLegibility;
-  /* 
-  background: linear-gradient(270deg, #2b2b2b, #000000, #2b2b2b, #000000, #2b2b2b);
-  background-size: 400% 400%;
-  animation: AnimationName 15s ease infinite; 
-  */
 }
 
 @keyframes AnimationName {

@@ -49,11 +49,11 @@ const MainMenu = (props) => {
               ABOUT
             </Link>
           </li> */}
-          <li className="w-52 mt-6 text-right">
+          {/* <li className="w-52 mt-6 text-right">
             <Link to="/blog" className={`${activePageClass("blog")}`}>
               BLOG
             </Link>
-          </li>
+          </li> */}
           <li className="w-52 mt-6 text-right">
             <Link to="/" className={`${activePageClass("home")}`}>
               HOME

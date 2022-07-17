@@ -16,7 +16,7 @@ import { CalendarIcon } from "@heroicons/react/solid";
 const PostPage = ({ pageContext: { article } }) => {
   const ArrowComponent = () => {
     return (
-      <Link to={`/blog/`}>
+      <Link to={`/`}>
         <ArrowCircleLeftIcon className="arrowAnimationLeftBounce h-12 w-12 hover:text-white" />
       </Link>
     );

@@ -6,6 +6,8 @@ import Container from "../components/container";
 import { datePipe } from "../utils/datePipe";
 import { ArrowCircleLeftIcon } from "@heroicons/react/solid";
 import { CalendarIcon } from "@heroicons/react/solid";
+import { getRandomColor } from '../utils/getRandomColor';
+
 
 // TODO: remove old unused lybraries from package.json
 
@@ -14,6 +16,8 @@ import { CalendarIcon } from "@heroicons/react/solid";
 // TODO: let's find a better imagens to this articles
 
 const PostPage = ({ pageContext: { article } }) => {
+  const selectedColor = getRandomColor();
+
   const ArrowComponent = () => {
     return (
       <Link to={`/`}>
@@ -82,11 +86,11 @@ const PostPage = ({ pageContext: { article } }) => {
     <>
       <MainMenu activePage="blog" />
       <BannerComponent />
-      <Container>
+      <Container color={selectedColor}>
         <TitleComponent />
         <TagsComponent />
         <div
-          className="text-justify my-10 select-none"
+          className="text-justify my-10 font-bold select-none"
           dangerouslySetInnerHTML={{ __html: article.body_html }}
         />
         <div className="clear-both"></div>

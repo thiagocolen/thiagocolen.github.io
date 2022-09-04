@@ -6,5 +6,6 @@ export const songsSnippets = [
   "As the world goes. The strong do what they can. And the weak suffer what they must. Shallow be thy graves.",
   "All I ever wanted. All I ever needed is here in my arms. Words are very unnecessary. They can only do harm.",
   "And I'm watchin' and I'm waitin' Hopin' for the best, Even think I'll go to prayin' Every time I hear 'em sayin' That there's no way to delay, That trouble comin' every day",
-  "My name is Mud, Not to be confused with Bill or Jack or Pete or Dennis, My name is Mud and it's always been"
+  "My name is Mud, Not to be confused with Bill or Jack or Pete or Dennis, My name is Mud and it's always been",
+  "Watch out where the huskies go, and don't you eat that yellow snow"
 ];

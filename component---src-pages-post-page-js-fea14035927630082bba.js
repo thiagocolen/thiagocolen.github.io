@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkthiago_colen=self.webpackChunkthiago_colen||[]).push([[35],{382:function(e,t,n){n.r(t);var a=n(294);t.default=function(e){var t=e.pageContext;return console.log("### PostPage pageContext:",t),a.createElement("div",null,a.createElement("span",null,"PostPage"))}}}]);
-//# sourceMappingURL=component---src-pages-post-page-js-fea14035927630082bba.js.map

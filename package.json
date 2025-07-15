@@ -17,6 +17,7 @@
     "deploy": "gatsby build && gh-pages -d public"
   },
   "dependencies": {
+    "@babel/core": "^7.28.0",
     "@heroicons/react": "^1.0.5",
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",

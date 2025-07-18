@@ -20,11 +20,14 @@ const Footer = () => {
         {getSongSentence()}
       </div>
       <div className="float-right sm:w-full md:w-1/2 flex flex-row-reverse p-10 py-10">
-        <SocialIcon link="https://dev.to/thiagocolen" socialMedia="dev.to" />
-        <SocialIcon
+        <SocialIcon 
+          link="https://dev.to/thiagocolen" 
+          socialMedia="dev.to" 
+        />
+        {/* <SocialIcon
           link="https://twitter.com/thiagocolen"
           socialMedia="Twitter"
-        />
+        /> */}
         <SocialIcon
           link="https://github.com/thiagocolen"
           socialMedia="Github"
@@ -33,10 +36,10 @@ const Footer = () => {
           link="https://www.linkedin.com/in/thiagocolen/"
           socialMedia="LinkedIn"
         />
-        <SocialIcon
+        {/* <SocialIcon
           link="https://www.instagram.com/thiagocolen/"
           socialMedia="Instagram"
-        />
+        /> */}
         <SocialIcon
           link="mailto:thiago.souzacolen@gmail.com"
           socialMedia="Email"

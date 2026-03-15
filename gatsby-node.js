@@ -1,11 +1,13 @@
 const axios = require("axios");
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
 
-// TODO: put apiKeys in environment variables
 // TODO: Is possible divide this file on multiple others?
 
 // -----------------------------------------------------
 
-const devToApiKey = "f6H6umciRnCNzuYUSRcE4eQY";
+const devToApiKey = process.env.DEV_TO_API_KEY;
 const devToUsername = "thiagocolen";
 
 const getDevToArticlesMe = async () =>
@@ -34,10 +36,8 @@ const getDevToData = async () => {
 
 // -----------------------------------------------------
 
-// TODO: this key should not be here
 // TODO: we don't using this, shall we remove?
-const unsplayAccessKey =
-  "7bb44829ebfb671742ab6f123c6581e0eca237754773b58d64940a82c82065f9";
+const unsplayAccessKey = process.env.UNSPLASH_ACCESS_KEY;
 
 const getUnsplashRandomImage = async () =>
   await axios.get(

@@ -2,5 +2,7 @@ node_modules/
 .cache/
 public
 _outside-project-assets/
-.env*
+.env.development
+.env.production
 target/
+prompt.md

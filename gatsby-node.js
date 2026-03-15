@@ -24,14 +24,42 @@ const getDevToArticleByPath = async (slug) => {
   );
 };
 
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const getDevToData = async () => {
   const { data: articlesList } = await getDevToArticlesMe();
-  return await Promise.all(
-    articlesList.map(async (articleItem) => {
-      const { data } = await getDevToArticleByPath(articleItem.slug);
-      return data;
-    })
-  );
+  const articles = [];
+
+  for (const articleItem of articlesList) {
+    let retries = 3;
+    let fetched = false;
+
+    while (retries > 0 && !fetched) {
+      try {
+        console.log(`Fetching article: ${articleItem.slug}`);
+        const { data } = await getDevToArticleByPath(articleItem.slug);
+        articles.push(data);
+        fetched = true;
+        // Add a small delay between requests to respect rate limits
+        await delay(300);
+      } catch (error) {
+        if (error.response && error.response.status === 429) {
+          console.error(
+            `Rate limit hit while fetching ${articleItem.slug}. Waiting 2s before retry... (${retries} retries left)`
+          );
+          await delay(2000);
+          retries--;
+        } else {
+          console.error(
+            `Failed to fetch article: ${articleItem.slug}`,
+            error.message
+          );
+          break; // Don't retry for other errors
+        }
+      }
+    }
+  }
+  return articles;
 };
 
 // -----------------------------------------------------

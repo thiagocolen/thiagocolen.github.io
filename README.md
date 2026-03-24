@@ -1,10 +1,8 @@
-# 🚀 Thiago Colen's Digital Universe 🌌
-
 ```text
  _________________________________________
-/ Hello World! Welcome to the source code \
-| of my digital presence. 👾                 |
-\ --------------------------------------- /
+/ I don't have milk for you, big ape!     \
+|   Call your mom. 👾                     |
+\ ----------------------------------------/
          \   ^__^
           \  (oo)\_______
              (__)\       )\/\
@@ -30,13 +28,13 @@ This is a personal blog and portfolio site for **Thiago Colen**. It serves as a 
 
 This project leverages a modern web development stack:
 
-| Technology | Purpose | Link |
-| :--- | :--- | :--- |
-| **Gatsby** | Static Site Generator (SSG) | [Website](https://www.gatsbyjs.com/) |
-| **React** | Core UI Library | [Website](https://reactjs.org/) |
-| **Tailwind CSS** | Utility-first Styling | [Website](https://tailwindcss.com/) |
-| **Axios** | API Fetching | [Website](https://axios-http.com/) |
-| **PostCSS** | CSS Transformation | [Website](https://postcss.org/) |
+| Technology       | Purpose                     | Link                                 |
+| :--------------- | :-------------------------- | :----------------------------------- |
+| **Gatsby**       | Static Site Generator (SSG) | [Website](https://www.gatsbyjs.com/) |
+| **React**        | Core UI Library             | [Website](https://reactjs.org/)      |
+| **Tailwind CSS** | Utility-first Styling       | [Website](https://tailwindcss.com/)  |
+| **Axios**        | API Fetching                | [Website](https://axios-http.com/)   |
+| **PostCSS**      | CSS Transformation          | [Website](https://postcss.org/)      |
 
 ## 📡 DEV.to Integration (`dev.to`)
 
@@ -68,4 +66,5 @@ Code is viewed as both a functional tool and a medium for technical expression. 
 > This project represents a convergence of systematic engineering and creative digital craftsmanship—though whether it constitutes a genuine human endeavor or merely a curated batch of high-fidelity AI slop is left entirely to the reader's suspicious intuition. 🤖❔
 
 ---
-*Made with 🤢 (and potentially some slop) by ~~Thiago Colen~~.* 👾
+
+_Made with 🤢 (and potentially some slop) by ~~Thiago Colen~~._ 👾

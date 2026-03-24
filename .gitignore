@@ -6,3 +6,4 @@ _outside-project-assets/
 .env.production
 target/
 prompt.md
+.gemini/

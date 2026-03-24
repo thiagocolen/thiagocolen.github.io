@@ -12,11 +12,11 @@
 
 ## 📋 Table of Contents
 
-- [✨ What is this site?](#-what-is-this-site)
-- [🛠️ Technologies Involved](#-technologies-involved)
-- [📡 DEV.to Integration](#-devto-integration)
-- [⚙️ How the Site Works](#-how-the-site-works)
-- [🧠 Development Philosophy](#-development-philosophy)
+- ✨ [What is this site?](#-what-is-this-site)
+- 🛠️ [Technologies Involved](#-technologies-involved)
+- 📡 [DEV.to Integration](#-devto-integration)
+- ⚙️ [How the Site Works](#-how-the-site-works)
+- 🧠 [Development Philosophy](#-development-philosophy)
 
 ---
 

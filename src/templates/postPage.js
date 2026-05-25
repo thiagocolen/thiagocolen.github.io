@@ -1,100 +1,88 @@
 import React from "react";
 import { Link } from "gatsby";
-import MainMenu from "../components/mainMenu";
 import Footer from "../components/footer";
 import Container from "../components/container";
+import Poster from "../components/poster";
 import { datePipe } from "../utils/datePipe";
-import { ArrowCircleLeftIcon } from "@heroicons/react/solid";
-import { CalendarIcon } from "@heroicons/react/solid";
-import { getRandomColor } from '../utils/getRandomColor';
-
-
-// TODO: remove old unused lybraries from package.json
-
-// TODO: make padding of this page more responsive, on mobile this is suck
-
-// TODO: let's find a better imagens to this articles
 
 const PostPage = ({ pageContext: { article } }) => {
-  const selectedColor = getRandomColor();
-
-  const ArrowComponent = () => {
-    return (
-      <Link to={`/`}>
-        <ArrowCircleLeftIcon className="arrowAnimationLeftBounce h-12 w-12 hover:text-white" />
-      </Link>
-    );
-  };
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("fromPost", "true");
+    }
+  }, []);
 
   const TitleComponent = () => {
-    const style = {
-      border: "solid 1px black",
-      transform: "translate(4px, -4px)",
-      boxShadow: "15px 15px 0px black",
-    };
-
     return (
-      <div
-        className="bg-white w-96 mx-auto -mt-40 p-4 select-none"
-        style={style}
-      >
-        <h1 className="text-3xl font-semibold mb-6 mt-6 text-center">
+      <div className="bg-white border-2 border-black rounded shadow-lg max-w-2xl mx-auto mt-8 sm:mt-12 p-6 sm:p-8 z-10 relative select-none animate-float-instant">
+        <h1 className="font-head text-2xl sm:text-3xl md:text-4xl text-center leading-tight mb-4 text-black">
           {article.title}
         </h1>
-        <div className="text-sm float-right mx-auto">
-          <CalendarIcon className="float-left h-5 w-5 mr-2"></CalendarIcon>
-          {datePipe(article.published_at)}
+        <div className="flex items-center justify-center text-xs sm:text-sm font-semibold text-black/60 font-sans">
+          <span className="bg-primary/20 border border-black/20 rounded px-2.5 py-0.5">
+            Published: {datePipe(article.published_at || article.created_at)}
+          </span>
         </div>
-        <div className="clear-both"></div>
       </div>
     );
   };
 
   const BannerComponent = () => {
-    const style = {
-      backgroundImage: `url(${article.cover_image})`,
-      backgroundPosition: "center",
-      backgroundSize: "100%",
-    };
     return (
-      <>
-        <div className="h-16 border-b-1"></div>
-        <div className="h-72" style={style}></div>
-      </>
+      <div className="relative w-full h-[30vh] sm:h-[40vh] border-b-2 border-black overflow-hidden bg-accent/10">
+        {article.cover_image ? (
+          <div 
+            className="w-full h-full bg-cover bg-center"
+            style={{ backgroundImage: `url(${article.cover_image})` }}
+          />
+        ) : (
+          <div className="w-full h-full retro-grid" />
+        )}
+      </div>
     );
   };
 
   const TagsComponent = () => {
-    const tags = [];
-    article.tags.forEach((item) => {
-      tags.push(
-        <div className="p-2 bg-white border-1 float-right mr-2 select-none">
-          {item}
-        </div>
-      );
-    });
-
     return (
-      <>
-        <div className="mt-20">{tags}</div>
-        <div className="clear-both"></div>
-      </>
+      <div className="flex flex-wrap justify-center gap-2 mt-8 max-w-2xl mx-auto select-none">
+        {article.tags && article.tags.map((tag) => (
+          <span 
+            key={tag} 
+            className="border-2 border-black bg-accent text-black text-xs font-semibold px-2.5 py-1 rounded shadow-xs"
+          >
+            #{tag}
+          </span>
+        ))}
+      </div>
     );
   };
 
   return (
     <>
-      <MainMenu activePage="blog" />
+      <Poster colorOpacity={0.8} />
       <BannerComponent />
-      <Container color={selectedColor}>
+      <Container className="bg-transparent">
         <TitleComponent />
         <TagsComponent />
-        <div
-          className="text-justify my-10 font-bold select-none"
-          dangerouslySetInnerHTML={{ __html: article.body_html }}
-        />
-        <div className="clear-both"></div>
-        <ArrowComponent />
+        
+        {/* Main Article Content Container */}
+        <article className="max-w-3xl mx-auto px-6 sm:px-8 py-12 bg-white border-2 border-black rounded shadow-md mt-12">
+          <div
+            className="article-content"
+            dangerouslySetInnerHTML={{ __html: article.body_html }}
+          />
+        </article>
+
+        {/* Back Link Component */}
+        <div className="max-w-3xl mx-auto px-4 mt-8 flex justify-start select-none">
+          <Link 
+            to="/"
+            state={{ fromPost: true }}
+            className="font-head text-sm bg-white text-black border-2 border-black rounded px-4 py-2 shadow-md hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all inline-flex items-center space-x-2"
+          >
+            <span>← BACK TO ARTICLES</span>
+          </Link>
+        </div>
       </Container>
       <Footer />
     </>

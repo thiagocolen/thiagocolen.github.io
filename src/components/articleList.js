@@ -1,72 +1,142 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "gatsby";
 import { datePipe } from "../utils/datePipe";
 
-const ArticleComponent = ({ index, article }) => {
-  const isBigBox = () => {
-    if (index === 0) return;
-    return index % 4 === 0 ? true : false;
-  };
-
-  const gridStyle = () => {
-    return isBigBox() ? { gridRowEnd: "span 2" } : {};
-  };
-
-  const articleImageStyle = () => {
-    const style = {
-      backgroundImage: `url(${article.cover_image})`,
-      backgroundPosition: "center",
-    };
-    const smallBox = { height: "85px", backgroundSize: "120%" };
-    const bigBox = { height: "370px", backgroundSize: "370%" };
-
-    return isBigBox() ? { ...style, ...bigBox } : { ...style, ...smallBox };
-  };
-
+const ArticleComponent = ({ article, index }) => {
   return (
-    <li
-      key={article.id}
-      style={gridStyle()}
-      className="overflow-hidden border-1 articleDropShadow articleGridItem p-3"
+    <li 
+      className="flex flex-col bg-white border-2 border-black rounded shadow-md hover:shadow-lg hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0 active:translate-y-0 active:shadow-sm transition-all duration-200 overflow-hidden animate-fade-in-up opacity-0"
+      style={{ animationDelay: `${index * 100}ms` }}
     >
-      <Link to={`/blog/post/${article.slug}`}>
-        <article>
-          <div className="relative float-left">
-            <div className="text-xs text-black">
-              {datePipe(article.created_at)}
+      <Link to={`/blog/post/${article.slug}`} className="flex flex-col h-full">
+        {/* Cover Image */}
+        {article.cover_image && (
+          <div 
+            className="w-full h-44 bg-cover bg-center border-b-2 border-black"
+            style={{ backgroundImage: `url(${article.cover_image})` }}
+          />
+        )}
+        
+        {/* Card Body */}
+        <div className="p-5 flex-grow flex flex-col justify-between text-black">
+          <div>
+            {/* Metadata (Date) */}
+            <div className="inline-block border border-black bg-accent text-black text-xs font-semibold px-2 py-0.5 rounded mb-3">
+              {datePipe(article.published_at)}
             </div>
-            <h2 className="text-lg font-bold">{article.title}</h2>
-            <div className={`text-xs my-2 overflow-hidden`}>
+
+            {/* Title */}
+            <h2 className="font-head text-lg sm:text-xl leading-tight mb-2 hover:underline">
+              {article.title}
+            </h2>
+
+            {/* Description */}
+            <p className="text-sm text-black/70 font-sans leading-relaxed line-clamp-3 mb-4">
               {article.description}
-            </div>
+            </p>
           </div>
-          <div
-            className="relative float-left my-2 w-full"
-            style={articleImageStyle()}
-          ></div>
-          <p className="float-right text-black text-xs font-bold">
-            + read more
-          </p>
-          <div className="clear-both"></div>
-        </article>
+
+          {/* Button Link */}
+          <div className="flex justify-end">
+            <span className="font-head text-xs bg-primary text-black border-2 border-black rounded px-3 py-1.5 shadow-sm hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all">
+              READ ARTICLE →
+            </span>
+          </div>
+        </div>
       </Link>
     </li>
   );
 };
 
 const ArticleList = ({ articles }) => {
+  const [selectedTag, setSelectedTag] = useState(null);
+
+  // Extract unique tags from articles
+  const allTags = articles.reduce((acc, article) => {
+    if (article.tags) {
+      article.tags.forEach((tag) => {
+        const normalizedTag = tag.trim().toLowerCase();
+        if (normalizedTag && !acc.includes(normalizedTag)) {
+          acc.push(normalizedTag);
+        }
+      });
+    }
+    return acc;
+  }, []);
+
+  // Filter articles based on selected tag
+  const filteredArticles = selectedTag
+    ? articles.filter(
+        (article) =>
+          article.tags &&
+          article.tags.some((t) => t.trim().toLowerCase() === selectedTag)
+      )
+    : articles;
 
   return (
-    <section>
-      <h1 className="text-black text-2xl font-semibold mb-6 mt-16 select-none">
-        Articles
-      </h1>
+    <section className="mt-12 select-none">
+      <h2 
+        className="font-head text-3xl sm:text-4xl text-white mb-6 border-b-4 border-white pb-2 inline-block"
+        style={{ filter: "drop-shadow(2px 2px 0px #000000)" }}
+      >
+        LATEST ARTICLES
+      </h2>
 
-      <ul className="articleGridContainer">
-        {articles.map((article, index) => {
-          return <ArticleComponent index={index} article={article} />;
-        })}
-      </ul>
+      {/* Tag Filtering System */}
+      {allTags.length > 0 && (
+        <div className="mb-10 bg-white border-2 border-black rounded shadow-md p-4 sm:p-5">
+          <div className="font-head text-xs tracking-wider text-black/60 mb-3 uppercase">
+            🏷️ Filter Articles By Tag:
+          </div>
+          <div className="flex flex-wrap gap-2.5">
+            {/* "ALL" Button */}
+            <button
+              onClick={() => setSelectedTag(null)}
+              className={`font-head text-xs border-2 border-black rounded px-3.5 py-1.5 transition-all duration-100 shadow-xs cursor-pointer select-none ${
+                selectedTag === null
+                  ? "bg-black text-white shadow-none translate-x-[1px] translate-y-[1px]"
+                  : "bg-white text-black hover:bg-primary hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]"
+              }`}
+            >
+              ALL POSTS ({articles.length})
+            </button>
+
+            {/* Individual Tag Buttons */}
+            {allTags.map((tag) => {
+              const count = articles.filter(
+                (a) => a.tags && a.tags.some((t) => t.trim().toLowerCase() === tag)
+              ).length;
+
+              return (
+                <button
+                  key={tag}
+                  onClick={() => setSelectedTag(tag)}
+                  className={`font-head text-xs border-2 border-black rounded px-3.5 py-1.5 transition-all duration-100 shadow-xs cursor-pointer select-none uppercase ${
+                    selectedTag === tag
+                      ? "bg-black text-white shadow-none translate-x-[1px] translate-y-[1px]"
+                      : "bg-white text-black hover:bg-primary hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]"
+                  }`}
+                >
+                  #{tag} ({count})
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Grid container with standard auto-fill layouts for responsiveness */}
+      {filteredArticles.length > 0 ? (
+        <ul key={selectedTag || 'all'} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredArticles.map((article, index) => (
+            <ArticleComponent key={article.id} article={article} index={index} />
+          ))}
+        </ul>
+      ) : (
+        <div key="empty" className="bg-white border-2 border-black rounded shadow-md p-10 text-center font-head text-lg text-black/60 animate-fade-in-up opacity-0">
+          No articles found for tag #{selectedTag}
+        </div>
+      )}
     </section>
   );
 };

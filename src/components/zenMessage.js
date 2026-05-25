@@ -79,11 +79,11 @@ const ZenMessage = ({ animationClass = "animate-brutalist-pop" }) => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-lime-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-lime-500 border border-black/20"></span>
             </span>
-            <span className="font-head text-[10px] sm:text-xs tracking-wider text-black font-extrabold uppercase">
+            <span className="font-head text-[8px] sm:text-[10px] md:text-xs tracking-wider text-black font-extrabold uppercase">
               api.github.com/zen
             </span>
           </div>
-          <div className="font-head text-[9px] bg-accent border-2 border-black rounded px-2.5 py-0.5 shadow-xs">
+          <div className="font-head text-[7px] sm:text-[9px] bg-accent border-2 border-black rounded px-2 py-0.5 sm:px-2.5 shadow-xs">
             REV. 1.1.0
           </div>
         </div>

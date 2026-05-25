@@ -1,21 +1,40 @@
-// TODO: [OBS] tailwindcss have a problem with some colors, to more details:
-// https://blog.montoulieu.dev/post/how-to-add-colors-from-the-new-color-palette-in-tailwindcss-v2-0
 const colors = require('./node_modules/tailwindcss/colors');
-
-
-// TODO: Shall we change fontFamily?
-// "Apercu",-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
 
 module.exports = {
   purge: ["./src/**/*.{js,jsx,ts,tsx}"],
   darkMode: false, // or 'media' or 'class'
   theme: {
     fontFamily: {
-      'sans': ['"IBM Plex Sans"', 'sans-serif'],
+      head: ['"Archivo Black"', 'sans-serif'],
+      sans: ['"Space Grotesk"', 'sans-serif'],
     },
     extend: {
-      // TODO: [OBS] tailwindcss have a problem with some colors that needs to be imported
       colors: {
+        background: '#F5ECE7',
+        foreground: '#000000',
+        primary: {
+          DEFAULT: '#ffdb33',
+          hover: '#ffcc00',
+          foreground: '#000000',
+        },
+        secondary: {
+          DEFAULT: '#000000',
+          foreground: '#ffffff',
+        },
+        muted: {
+          DEFAULT: '#aeaeae',
+          foreground: '#5a5a5a',
+        },
+        accent: {
+          DEFAULT: '#fae583',
+          foreground: '#000000',
+        },
+        card: {
+          DEFAULT: '#ffffff',
+          foreground: '#000000',
+        },
+        border: '#000000',
+        // Retain original colors for compatibility if needed
         rose: colors.rose,
         fuchsia: colors.fuchsia,
         indigo: colors.indigo,
@@ -28,10 +47,22 @@ module.exports = {
         sky: colors.sky,
         violet: colors.violet,
       },
+      boxShadow: {
+        xs: '1px 1px 0 0 #000000',
+        sm: '2px 2px 0 0 #000000',
+        DEFAULT: '3px 3px 0 0 #000000',
+        md: '4px 4px 0 0 #000000',
+        lg: '6px 6px 0 0 #000000',
+        xl: '10px 10px 0 1px #000000',
+        '2xl': '16px 16px 0 1px #000000',
+      },
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      translate: ['active'],
+      boxShadow: ['active'],
+    },
   },
   plugins: [],
 };

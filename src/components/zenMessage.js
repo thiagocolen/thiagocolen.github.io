@@ -80,19 +80,19 @@ const ZenMessage = ({ animationClass = "animate-brutalist-pop" }) => {
               <span className="relative inline-flex rounded-full h-3 w-3 bg-lime-500 border border-black/20"></span>
             </span>
             <span className="font-head text-[10px] sm:text-xs tracking-wider text-black font-extrabold uppercase">
-              THOUGHT_STREAM // LIVE
+              api.github.com/zen
             </span>
           </div>
           <div className="font-head text-[9px] bg-accent border-2 border-black rounded px-2.5 py-0.5 shadow-xs">
-            REV. 1.0.4
+            REV. 1.1.0
           </div>
         </div>
 
         {/* Main Content Area: Typed Zen Message inside Brutalist Font wrapper */}
-        <div className="min-h-[80px] sm:min-h-[100px] flex items-center">
-          <p className="font-head text-xl sm:text-2xl md:text-3xl text-black uppercase tracking-tight leading-none m-0">
+        <div className="py-2 sm:py-4 flex items-center">
+          <p className="font-head text-base sm:text-xl md:text-3xl text-black uppercase tracking-tight leading-tight m-0">
             "{typedText}
-            <span className="animate-pulse bg-black inline-block w-2.5 h-6 ml-1 align-middle" />"
+            <span className="animate-pulse bg-black inline-block w-2 sm:w-2.5 h-4 sm:h-5 md:h-6 ml-1 align-middle" />"
           </p>
         </div>
 

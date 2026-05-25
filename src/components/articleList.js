@@ -19,7 +19,7 @@ const ArticleComponent = ({ article }) => {
           <div>
             {/* Metadata (Date) */}
             <div className="inline-block border border-black bg-accent text-black text-xs font-semibold px-2 py-0.5 rounded mb-3">
-              {datePipe(article.created_at)}
+              {datePipe(article.published_at)}
             </div>
 
             {/* Title */}

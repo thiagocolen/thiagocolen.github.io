@@ -1,6 +1,6 @@
 {
   "name": "thiago-colen",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "private": true,
   "description": "Thiago Colen",
   "author": "Thiago Colen",
@@ -15,7 +15,8 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "deploy": "gatsby build && gh-pages -d public",
-    "db:migrate": "node develop-tools/migrate-devto-to-sqlite.js"
+    "db:migrate": "node develop-tools/migrate-devto-to-sqlite.js",
+    "db:add-status": "node develop-tools/add-status-column.js"
   },
   "dependencies": {
     "@babel/core": "^7.28.0",

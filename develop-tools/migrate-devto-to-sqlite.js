@@ -110,7 +110,9 @@ const setupDatabase = (dbPath) => {
       body_html     TEXT,
       slug          TEXT    UNIQUE NOT NULL,
       published_at  TEXT,
-      cover_image   TEXT
+      cover_image   TEXT,
+      status        TEXT    NOT NULL DEFAULT 'unpublished'
+                            CHECK (status IN ('published', 'unpublished'))
     );
 
     CREATE TABLE IF NOT EXISTS tags (
@@ -128,9 +130,14 @@ const setupDatabase = (dbPath) => {
 // -----------------------------------------------------
 
 const seedDatabase = (db, articles) => {
+  // Guard: refuse to overwrite published (read-only) articles
+  const isPublished = db.prepare(
+    `SELECT status FROM articles WHERE id = @id`
+  );
+
   const insertArticle = db.prepare(`
-    INSERT OR REPLACE INTO articles (id, title, description, body_html, slug, published_at, cover_image)
-    VALUES (@id, @title, @description, @body_html, @slug, @published_at, @cover_image)
+    INSERT OR REPLACE INTO articles (id, title, description, body_html, slug, published_at, cover_image, status)
+    VALUES (@id, @title, @description, @body_html, @slug, @published_at, @cover_image, @status)
   `);
 
   const insertTag = db.prepare(`
@@ -143,6 +150,15 @@ const seedDatabase = (db, articles) => {
 
   const seedAll = db.transaction((articles) => {
     for (const article of articles) {
+      // Read-only guard: skip published articles (they cannot be re-imported)
+      const existing = isPublished.get({ id: article.id });
+      if (existing && existing.status === 'published') {
+        console.log(`  ⊘ Skipped (published/read-only): "${article.title}"`);
+        continue;
+      }
+
+      // Articles imported from Dev.to are set to 'published' immediately
+      // because they are already live posts.
       insertArticle.run({
         id: article.id,
         title: article.title || null,
@@ -151,6 +167,7 @@ const seedDatabase = (db, articles) => {
         slug: article.slug,
         published_at: article.published_at || null,
         cover_image: article.cover_image || null,
+        status: 'published',
       });
 
       // Replace tags for this article

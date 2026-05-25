@@ -10,3 +10,5 @@ prompt.md
 .antigravitycli/
 # Local SQLite database — never commit
 src/data/*.db
+src/data/*.db-shm
+src/data/*.db-wal

@@ -95,9 +95,12 @@ const getLocalData = () => {
         a.slug,
         a.published_at,
         a.cover_image,
+        a.status,
         GROUP_CONCAT(t.name, ',') AS tags_raw
       FROM articles a
       LEFT JOIN tags t ON t.article_id = a.id
+      -- Only serve published posts; unpublished are local drafts
+      WHERE a.status = 'published'
       GROUP BY a.id
     `
     )

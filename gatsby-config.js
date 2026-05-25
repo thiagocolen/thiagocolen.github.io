@@ -32,6 +32,7 @@ module.exports = {
               LEFT JOIN tags t ON t.article_id = a.id
               WHERE a.status = 'published'
               GROUP BY a.id
+              ORDER BY a.published_at DESC
             `,
             idCol: "id",
             fitType: "Article",

@@ -102,6 +102,7 @@ const getLocalData = () => {
       -- Only serve published posts; unpublished are local drafts
       WHERE a.status = 'published'
       GROUP BY a.id
+      ORDER BY a.published_at DESC
     `
     )
     .all();

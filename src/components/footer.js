@@ -66,11 +66,11 @@ const Footer = () => {
           <div className="lg:col-span-7 w-full">
             <div className="bg-white border-4 border-black p-6 shadow-md relative rounded transform -rotate-1 hover:rotate-0 transition-transform duration-200">
               {song.title && (
-                <div className="absolute -top-3.5 left-4 bg-black text-white px-2.5 py-1 text-[9px] font-head uppercase border-2 border-black tracking-widest">
+                <div className="absolute -top-3.5 left-4 max-w-[85%] bg-black text-white px-2.5 py-1 text-[9px] font-head uppercase border-2 border-black tracking-widest leading-snug break-words">
                   🔊 {song.title}
                 </div>
               )}
-              <p className="font-sans italic font-semibold text-base sm:text-lg text-black m-0 pt-2 leading-relaxed">
+              <p className="font-sans italic font-semibold text-base sm:text-lg text-black m-0 pt-6 sm:pt-4 leading-relaxed">
                 {song.content}
               </p>
             </div>

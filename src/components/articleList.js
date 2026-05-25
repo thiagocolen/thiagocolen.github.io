@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Link } from "gatsby";
 import { datePipe } from "../utils/datePipe";
 
-const ArticleComponent = ({ article }) => {
+const ArticleComponent = ({ article, index }) => {
   return (
-    <li className="flex flex-col bg-white border-2 border-black rounded shadow-md hover:shadow-lg hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0 active:translate-y-0 active:shadow-sm transition-all duration-200 overflow-hidden">
+    <li 
+      className="flex flex-col bg-white border-2 border-black rounded shadow-md hover:shadow-lg hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0 active:translate-y-0 active:shadow-sm transition-all duration-200 overflow-hidden animate-fade-in-up opacity-0"
+      style={{ animationDelay: `${index * 100}ms` }}
+    >
       <Link to={`/blog/post/${article.slug}`} className="flex flex-col h-full">
         {/* Cover Image */}
         {article.cover_image && (
@@ -19,7 +22,7 @@ const ArticleComponent = ({ article }) => {
           <div>
             {/* Metadata (Date) */}
             <div className="inline-block border border-black bg-accent text-black text-xs font-semibold px-2 py-0.5 rounded mb-3">
-              {datePipe(article.created_at)}
+              {datePipe(article.published_at)}
             </div>
 
             {/* Title */}
@@ -124,13 +127,13 @@ const ArticleList = ({ articles }) => {
 
       {/* Grid container with standard auto-fill layouts for responsiveness */}
       {filteredArticles.length > 0 ? (
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredArticles.map((article) => (
-            <ArticleComponent key={article.id} article={article} />
+        <ul key={selectedTag || 'all'} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredArticles.map((article, index) => (
+            <ArticleComponent key={article.id} article={article} index={index} />
           ))}
         </ul>
       ) : (
-        <div className="bg-white border-2 border-black rounded shadow-md p-10 text-center font-head text-lg text-black/60">
+        <div key="empty" className="bg-white border-2 border-black rounded shadow-md p-10 text-center font-head text-lg text-black/60 animate-fade-in-up opacity-0">
           No articles found for tag #{selectedTag}
         </div>
       )}

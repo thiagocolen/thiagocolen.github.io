@@ -79,20 +79,20 @@ const ZenMessage = ({ animationClass = "animate-brutalist-pop" }) => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-lime-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-lime-500 border border-black/20"></span>
             </span>
-            <span className="font-head text-[10px] sm:text-xs tracking-wider text-black font-extrabold uppercase">
-              THOUGHT_STREAM // LIVE
+            <span className="font-head text-tiny sm:text-xs tracking-wider text-black font-extrabold uppercase">
+              api.github.com/zen
             </span>
           </div>
-          <div className="font-head text-[9px] bg-accent border-2 border-black rounded px-2.5 py-0.5 shadow-xs">
-            REV. 1.0.4
+          <div className="font-head text-tiny sm:text-xxs bg-accent border-2 border-black rounded px-2 py-0.5 sm:px-2.5 shadow-xs">
+            REV. 1.1.0
           </div>
         </div>
 
         {/* Main Content Area: Typed Zen Message inside Brutalist Font wrapper */}
-        <div className="min-h-[80px] sm:min-h-[100px] flex items-center">
-          <p className="font-head text-xl sm:text-2xl md:text-3xl text-black uppercase tracking-tight leading-none m-0">
+        <div className="py-2 sm:py-4 flex items-center">
+          <p className="font-head text-base sm:text-xl md:text-3xl text-black uppercase tracking-tight leading-tight m-0">
             "{typedText}
-            <span className="animate-pulse bg-black inline-block w-2.5 h-6 ml-1 align-middle" />"
+            <span className="animate-pulse bg-black inline-block w-2 sm:w-2.5 h-4 sm:h-5 md:h-6 ml-1 align-middle" />"
           </p>
         </div>
 
@@ -100,14 +100,14 @@ const ZenMessage = ({ animationClass = "animate-brutalist-pop" }) => {
         <div className="border-t-2 border-black pt-4 mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0 text-xs">
           {/* Mock Buffer progress bar loading loader */}
           <div className="flex items-center space-x-2.5">
-            <span className="font-head text-[9px] uppercase tracking-wider text-black/60 font-bold">BUFFER:</span>
+            <span className="font-head text-tiny sm:text-xxs uppercase tracking-wider text-black/60 font-bold">BUFFER:</span>
             <div className="w-32 sm:w-40 h-4 bg-gray-100 border-2 border-black relative overflow-hidden rounded-sm shadow-xs">
               <div className="h-full bg-primary border-r-2 border-black transition-all duration-500" style={{ width: "85%" }} />
             </div>
-            <span className="font-sans text-[10px] font-extrabold">85%</span>
+            <span className="font-sans text-tiny sm:text-xs font-extrabold">85%</span>
           </div>
           
-          <div className="font-head text-[9px] font-extrabold text-black/50 uppercase tracking-widest">
+          <div className="font-head text-tiny sm:text-xxs font-extrabold text-black/50 uppercase tracking-widest">
             SYS_STATUS: OPTIMAL
           </div>
         </div>

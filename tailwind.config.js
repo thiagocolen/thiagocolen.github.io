@@ -9,6 +9,17 @@ module.exports = {
       sans: ['"Space Grotesk"', 'sans-serif'],
     },
     extend: {
+      fontSize: {
+        'nano': '0.375rem',    // 6px
+        'micro': '0.4375rem',  // 7px
+        'tiny': '0.5rem',      // 8px
+        'xxs': '0.5625rem',    // 9px
+        'xs-plus': '0.625rem', // 10px
+      },
+      height: {
+        '40vh': '40vh',
+        '60vh': '60vh',
+      },
       colors: {
         background: '#F5ECE7',
         foreground: '#000000',
@@ -55,6 +66,15 @@ module.exports = {
         lg: '6px 6px 0 0 #000000',
         xl: '10px 10px 0 1px #000000',
         '2xl': '16px 16px 0 1px #000000',
+      },
+      keyframes: {
+        fadeInUp: {
+          '0%': { opacity: '0', transform: 'translateY(15px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        }
+      },
+      animation: {
+        'fade-in-up': 'fadeInUp 0.4s ease-out forwards',
       },
     },
   },

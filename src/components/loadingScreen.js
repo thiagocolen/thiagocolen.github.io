@@ -21,7 +21,7 @@ const LoadingScreen = ({ onDismiss, isShort = false }) => {
         "> LOADED WEBM COMPONENT LAYERS...",
         "> COMPILING NEUTRAL THEME...",
         "> LIVE THOUGHT STREAM: ONLINE",
-        "> RETRO_UI v1.0.4 INITIALIZED"
+        "> RETRO_UI v1.1.0 INITIALIZED"
       ];
 
   useEffect(() => {

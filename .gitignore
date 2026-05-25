@@ -8,3 +8,7 @@ target/
 prompt.md
 .gemini/
 .antigravitycli/
+# Local SQLite database — never commit
+src/data/*.db
+src/data/*.db-shm
+src/data/*.db-wal

@@ -9,6 +9,17 @@ module.exports = {
       sans: ['"Space Grotesk"', 'sans-serif'],
     },
     extend: {
+      fontSize: {
+        'nano': '0.375rem',    // 6px
+        'micro': '0.4375rem',  // 7px
+        'tiny': '0.5rem',      // 8px
+        'xxs': '0.5625rem',    // 9px
+        'xs-plus': '0.625rem', // 10px
+      },
+      height: {
+        '40vh': '40vh',
+        '60vh': '60vh',
+      },
       colors: {
         background: '#F5ECE7',
         foreground: '#000000',

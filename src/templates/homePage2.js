@@ -40,7 +40,7 @@ const HomePage2 = ({ location, pageContext: { articlesList } }) => {
 
       <Container className="bg-transparent">
         {/* Spacer of browser height to see the face in the background poster video */}
-        <div className="w-full pointer-events-none h-[40vh] sm:h-[60vh]" />
+        <div className="w-full pointer-events-none h-40vh sm:h-60vh" />
 
         {/* Typographic Hero Section holding only the Zen Message card */}
         <section className="flex flex-col items-center justify-center pb-12 text-center select-none max-w-3xl mx-auto w-full">

@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import ZenMessage from "./zenMessage";
-import { ArrowCircleDownIcon } from "@heroicons/react/solid";
 import poster0 from "../assets/webm-posters/poster-0.webm";
 import poster1 from "../assets/webm-posters/poster-1.webm";
 import poster2 from "../assets/webm-posters/poster-2.webm";
@@ -8,129 +6,172 @@ import poster3 from "../assets/webm-posters/poster-3.webm";
 import poster4 from "../assets/webm-posters/poster-4.webm";
 import poster5 from "../assets/webm-posters/poster-5.webm";
 
-const Poster = ({ posterType, color }) => {
-  // --------------------------------------------- filter
+const posters = [poster0, poster1, poster2, poster3, poster4, poster5];
 
-  const FilterComponent = () => {
-    return (
-      <div
-        className={`absolute top-0 left-0 z-30 
-            object-cover w-full
-            ${color} opacity-70 mix-blend-multiply`}
-        style={{ height: "90vh" }}
-        onClick={changePoster}
-      ></div>
-    );
-  };
+const neonColors = [
+  "#FF0055", // Neon Red
+  "#00F0FF", // Electric Cyan
+  "#AAFC3D", // Acid Lime
+  "#FF30CD", // Hot Magenta
+  "#FF7A00", // Bright Orange
+  "#7000FF", // Electric Purple
+  "#FFD600", // Electric Yellow
+];
 
-  // ---------------------------------------------
+const posterIcons    = ["📺", "📡", "🎬", "🎞️", "📼", "🎮", "🔀", "🎲"];
+const glitchOnIcons  = ["⚡", "👾", "🔮", "💥", "🌀", "✨", "🎯", "🛸"];
+const glitchOffIcons = ["❌", "🔕", "🚫", "💤", "⛔", "🔇", "🙈", "😶"];
+const loadingIcons   = ["⏳", "⌛", "🔄", "💫"];
+const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-  const fullscreenBgContainer = {
-    position: "fixed",
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    overflow: "hidden",
-    zIndex: -100,
-  };
+const Poster = ({ colorOpacity = 0.7 }) => {
+  const [currentPosterIndex, setCurrentPosterIndex] = useState(0);
+  const [currentColorIndex, setCurrentColorIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [transitionEffect, setTransitionEffect] = useState(null);
+  const [glitchEnabled, setGlitchEnabled] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("glitchEnabled") !== "false";
+    }
+    return true;
+  });
+  const [icons] = useState(() => ({
+    poster:   pick(posterIcons),
+    loading:  pick(loadingIcons),
+    glitchOn: pick(glitchOnIcons),
+    glitchOff: pick(glitchOffIcons),
+  }));
 
-  const fullscreenBgVideo = {
-    width: "100vw",
-    height: "100vh",
-    objectFit: "cover",
-    position: "fixed",
-    top: 0,
-    left: 0,
-    zIndex: -1,
-  };
-
-  const topBgVideo = {
-    width: "100vw",
-    height: "90vh",
-    objectFit: "cover",
-    position: "relative",
-  };
-
-  const getRandomPoster = () => {
-    const randomNumber = Math.floor(Math.random() * 5);
-    switch (randomNumber) {
-      case 1:
-        return poster1;
-      case 2:
-        return poster2;
-      case 3:
-        return poster3;
-      case 4:
-        return poster4;
-      case 5:
-        return poster5;
-      default:
-        return poster0;
+  const toggleGlitch = () => {
+    const nextVal = !glitchEnabled;
+    setGlitchEnabled(nextVal);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("glitchEnabled", String(nextVal));
+      window.dispatchEvent(new CustomEvent("glitchToggle", { detail: nextVal }));
     }
   };
 
-  const getVideoSourceTag = () => {
-    const selectedStyle = () => {
-      if (posterType === "full") {
-        return fullscreenBgVideo;
-      }
-
-      if (posterType === "top") {
-        return topBgVideo;
-      }
-    };
-
-    return (
-      <video
-        key={Math.random()}
-        style={selectedStyle()}
-        autoPlay
-        loop
-        muted
-        playsinline
-      >
-        <source src={getRandomPoster()} type="video/webm" />
-      </video>
-    );
-  };
-
-  // ---------------------------------------------
-
-  const [selectedPoster, setSelectedPoster] = useState(getVideoSourceTag());
+  useEffect(() => {
+    // Select random poster and random color on mount
+    const randomPoster = Math.floor(Math.random() * posters.length);
+    const randomColor = Math.floor(Math.random() * neonColors.length);
+    setCurrentPosterIndex(randomPoster);
+    setCurrentColorIndex(randomColor);
+  }, []);
 
   const changePoster = () => {
-    setSelectedPoster(getVideoSourceTag());
+    if (isTransitioning) return;
+
+    const effects = ["static", "glitch", "flash", "shutter"];
+    const randomEffect = effects[Math.floor(Math.random() * effects.length)];
+    
+    setIsTransitioning(true);
+    setTransitionEffect(randomEffect);
+
+    // Swap index and color mid-transition (at 200ms)
+    setTimeout(() => {
+      setCurrentPosterIndex((prevIndex) => {
+        let nextIndex = Math.floor(Math.random() * posters.length);
+        while (nextIndex === prevIndex) {
+          nextIndex = Math.floor(Math.random() * posters.length);
+        }
+        return nextIndex;
+      });
+
+      setCurrentColorIndex((prevIndex) => {
+        let nextIndex = Math.floor(Math.random() * neonColors.length);
+        while (nextIndex === prevIndex) {
+          nextIndex = Math.floor(Math.random() * neonColors.length);
+        }
+        return nextIndex;
+      });
+    }, 200);
+
+    // Complete transition (at 400ms)
+    setTimeout(() => {
+      setIsTransitioning(false);
+      setTransitionEffect(null);
+    }, 400);
   };
 
-  // ---------------------------------------------
-
-  const SelectPosterType = () => {
-    if (posterType === "full") {
-      return (
-        <>
-          <FilterComponent />
-          <div style={fullscreenBgContainer}>{selectedPoster}</div>;
-        </>
-      );
-    }
-    if (posterType === "top") {
-      return (
-        <>
-          <ZenMessage />
-          <FilterComponent />
-          <div className="border-b-2 border-black">{selectedPoster}</div>
-          {/* <ArrowCircleDownIcon
-            className="animate-bounce
-            w-20 h-20 -mt-36 mx-auto
-            text-white"
-          ></ArrowCircleDownIcon> */}
-        </>
-      );
+  const getEffectVideoClass = (effect) => {
+    switch (effect) {
+      case "static": return "animate-trans-static-video";
+      case "glitch": return "animate-trans-glitch-video";
+      case "flash": return "animate-trans-flash-video";
+      default: return "";
     }
   };
 
-  return <SelectPosterType />;
+  const getEffectOverlayClass = (effect) => {
+    switch (effect) {
+      case "static": return "animate-trans-static-overlay";
+      case "glitch": return "animate-trans-glitch-overlay";
+      case "flash": return "animate-trans-flash-overlay";
+      case "shutter": return "animate-trans-shutter-overlay";
+      default: return "";
+    }
+  };
+
+  return (
+    <>
+      {/* Floating Retro Controls (Change Poster + Glitch Toggle Buttons) */}
+      <div className="fixed bottom-6 left-6 z-50 flex items-center space-x-3 animate-brutalist-wiggle">
+        <button 
+          onClick={changePoster}
+          disabled={isTransitioning}
+          className="font-head text-xl bg-primary text-black border-2 border-black rounded w-11 h-11 flex items-center justify-center shadow-md hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-xs transition-all duration-150 cursor-pointer select-none disabled:opacity-75 disabled:cursor-not-allowed"
+          title="Switch background video and color theme"
+        >
+          {isTransitioning ? icons.loading : icons.poster}
+        </button>
+
+        <button 
+          onClick={toggleGlitch}
+          className={`font-head text-xl border-2 border-black rounded w-11 h-11 flex items-center justify-center shadow-md hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 transition-all duration-150 cursor-pointer select-none ${
+            glitchEnabled 
+              ? "bg-accent text-black" 
+              : "bg-red-500 text-white"
+          }`}
+          title={glitchEnabled ? "Glitch effects ON — click to disable" : "Glitch effects OFF — click to enable"}
+        >
+          {glitchEnabled ? icons.glitchOn : icons.glitchOff}
+        </button>
+      </div>
+
+      {/* Fullscreen Video Background & Dual Overlay (Color + Dark) */}
+      <div className="fixed inset-0 w-full h-full -z-50 overflow-hidden bg-background pointer-events-none">
+        {/* Layer 1: Solid black overlay at 60% opacity to darken the video for readability */}
+        <div className="absolute inset-0 w-full h-full z-20 bg-black opacity-60" />
+
+        {/* Layer 2: Neo-brutalist color overlay blending with the video underneath */}
+        <div 
+          className="absolute inset-0 w-full h-full z-10 mix-blend-multiply"
+          style={{ 
+            backgroundColor: neonColors[currentColorIndex],
+            opacity: colorOpacity
+          }}
+        />
+        
+        {/* Layer 3: The looping poster video (Grayscale filter creates a duotone effect with color layer on top) */}
+        <video
+          key={currentPosterIndex}
+          className={`w-full h-full object-cover filter grayscale transition-all duration-300 ${isTransitioning ? getEffectVideoClass(transitionEffect) : ""}`}
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          <source src={posters[currentPosterIndex]} type="video/webm" />
+        </video>
+
+        {/* Layer 4: Transition Visual Effect Overlay */}
+        {isTransitioning && (
+          <div className={`absolute inset-0 z-30 pointer-events-none ${getEffectOverlayClass(transitionEffect)}`} />
+        )}
+      </div>
+    </>
+  );
 };
 
 export default Poster;

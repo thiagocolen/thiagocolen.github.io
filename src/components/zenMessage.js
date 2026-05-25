@@ -1,52 +1,131 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-// TODO: reference to improve zen message -> https://freefrontend.com/css-3d-text-effects/
-// and take this of here and put in a exclusive new component
-
-// TODO: Shall we load another zenMessage on changePoster event?
-
-const ZenMessage = () => {
-  const [gitHubZenMessage, setGitHubZenMessage] = useState("loading...");
+const ZenMessage = ({ animationClass = "animate-brutalist-pop" }) => {
+  const [gitHubZenMessage, setGitHubZenMessage] = useState("Always push your limits.");
   const [gitHubZenErrorMessage, setGitHubZenErrorMessage] = useState("");
+  const [typedText, setTypedText] = useState("");
+
+  const handleZenBoxClick = () => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({
+        top: window.innerHeight * 0.75, // Scroll down 75% of viewport height to center the articles
+        behavior: "smooth"
+      });
+    }
+  };
+
   useEffect(() => {
+    let isMounted = true;
     const fetchData = async () => {
       try {
         const { data: apiResponse } = await axios.get(
           "https://api.github.com/zen"
         );
-
-        setGitHubZenMessage(apiResponse);
-        setGitHubZenErrorMessage("");
+        if (isMounted) {
+          setGitHubZenMessage(apiResponse);
+          setGitHubZenErrorMessage("");
+        }
       } catch (error) {
-        setGitHubZenMessage("Always push your limits.");
-        setGitHubZenErrorMessage(
-          `[status error ${error.response.status}]: ${error.response.data.message}`
-        );
+        if (isMounted) {
+          setGitHubZenMessage("Always push your limits.");
+          setGitHubZenErrorMessage(
+            error.response 
+              ? `[status error ${error.response.status}]: ${error.response.data?.message || 'Failed to connect'}`
+              : "Failed to connect to GitHub API."
+          );
+        }
       }
     };
     fetchData();
-  }, [gitHubZenMessage, gitHubZenErrorMessage]);
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
-  const shadow = {
-    transform: "translate(4px, -4px)",
-    boxShadow: "-8px 8px 0 black",
-  };
+  // Snappy typing animation effect
+  useEffect(() => {
+    let currentText = "";
+    let currentIndex = 0;
+    setTypedText("");
+
+    if (!gitHubZenMessage) return;
+
+    const interval = setInterval(() => {
+      if (currentIndex < gitHubZenMessage.length) {
+        currentText += gitHubZenMessage[currentIndex];
+        setTypedText(currentText);
+        currentIndex++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 25);
+
+    return () => clearInterval(interval);
+  }, [gitHubZenMessage]);
 
   return (
-    <div
-      className="absolute z-40 
-        top-1/2 left-1/4 mr-10
-        p-4 sm:p-8
-        bg-white border-2 border-black 
-        select-none"
-      style={shadow}
-    >
-      <div class="font-bold text-3xl sm:text-5xl md:text-6xl">
-        {gitHubZenMessage}
+    <div className={`relative w-full max-w-2xl mx-auto group select-none text-black cursor-pointer ${animationClass}`} onClick={handleZenBoxClick}>
+      {/* Neo-brutalist Underlay Shadow Box (Offset border shadow that matches user hover and active actions) */}
+      <div className="absolute inset-0 bg-black border-4 border-black rounded translate-x-2.5 translate-y-2.5 group-hover:translate-x-3.5 group-hover:translate-y-3.5 group-active:translate-x-1 group-active:translate-y-1 transition-transform duration-200" />
+
+      {/* Main Complex Brutalist Panel Box with tactile click and hover transitions */}
+      <div className="relative bg-white border-4 border-black rounded p-5 sm:p-6 md:p-8 text-left transition-all duration-200 group-hover:-translate-x-1.5 group-hover:-translate-y-1.5 group-hover:bg-amber-50 group-active:translate-x-2 group-active:translate-y-2 group-active:bg-primary/10 overflow-hidden">
+
+        {/* Top Header Row (Online stream indicator) */}
+        <div className="flex items-center justify-between border-b-2 border-black pb-3.5 mb-5">
+          <div className="flex items-center space-x-2">
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-lime-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-lime-500 border border-black/20"></span>
+            </span>
+            <span className="font-head text-[10px] sm:text-xs tracking-wider text-black font-extrabold uppercase">
+              THOUGHT_STREAM // LIVE
+            </span>
+          </div>
+          <div className="font-head text-[9px] bg-accent border-2 border-black rounded px-2.5 py-0.5 shadow-xs">
+            REV. 1.0.4
+          </div>
+        </div>
+
+        {/* Main Content Area: Typed Zen Message inside Brutalist Font wrapper */}
+        <div className="min-h-[80px] sm:min-h-[100px] flex items-center">
+          <p className="font-head text-xl sm:text-2xl md:text-3xl text-black uppercase tracking-tight leading-none m-0">
+            "{typedText}
+            <span className="animate-pulse bg-black inline-block w-2.5 h-6 ml-1 align-middle" />"
+          </p>
+        </div>
+
+        {/* Bottom Status Panel Widgets */}
+        <div className="border-t-2 border-black pt-4 mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0 text-xs">
+          {/* Mock Buffer progress bar loading loader */}
+          <div className="flex items-center space-x-2.5">
+            <span className="font-head text-[9px] uppercase tracking-wider text-black/60 font-bold">BUFFER:</span>
+            <div className="w-32 sm:w-40 h-4 bg-gray-100 border-2 border-black relative overflow-hidden rounded-sm shadow-xs">
+              <div className="h-full bg-primary border-r-2 border-black transition-all duration-500" style={{ width: "85%" }} />
+            </div>
+            <span className="font-sans text-[10px] font-extrabold">85%</span>
+          </div>
+          
+          <div className="font-head text-[9px] font-extrabold text-black/50 uppercase tracking-widest">
+            SYS_STATUS: OPTIMAL
+          </div>
+        </div>
+
+        {/* Output Error console log if connection fails */}
+        {gitHubZenErrorMessage && (
+          <div className="mt-3 p-2 bg-destructive/10 border-2 border-destructive text-[9px] text-destructive font-mono rounded">
+            {gitHubZenErrorMessage}
+          </div>
+        )}
+
       </div>
-      <div className="lowercase select-none text-xs">
-        {gitHubZenErrorMessage}
+
+      {/* Downside Scroll Indicator Arrow */}
+      <div className="flex justify-center mt-6 pointer-events-none">
+        <div className="animate-bounce bg-primary text-black border-2 border-black rounded-full w-10 h-10 flex items-center justify-center shadow-sm font-head text-lg select-none">
+          ↓
+        </div>
       </div>
     </div>
   );

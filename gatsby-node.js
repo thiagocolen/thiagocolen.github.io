@@ -92,18 +92,6 @@ exports.createPages = async ({ actions: { createPage } }) => {
     component: require.resolve("./src/templates/homePage2.js"),
     context: { articlesList },
   });
-  
-  createPage({
-    path: `/homepage/`,
-    component: require.resolve("./src/templates/homePage.js"),
-    context: {},
-  });
-
-  createPage({
-    path: `/blog/`,
-    component: require.resolve("./src/templates/blogPage.js"),
-    context: { articlesList },
-  });
 
   articlesList.forEach((article) => {
     createPage({
@@ -113,6 +101,25 @@ exports.createPages = async ({ actions: { createPage } }) => {
     });
   });
 
+
+  // todo: this page is not be used
+  // this is a old layout version
+  createPage({
+    path: `/homepage/`,
+    component: require.resolve("./src/templates/homePage.js"),
+    context: {},
+  });
+
+  // todo: this page is not be used
+  // this is a old layout version
+  createPage({
+    path: `/blog/`,
+    component: require.resolve("./src/templates/blogPage.js"),
+    context: { articlesList },
+  });
+
+  // todo: this page is not be used
+  // this is a old layout version
   createPage({
     path: `/about/`,
     component: require.resolve("./src/templates/aboutPage.js"),

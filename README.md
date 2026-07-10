@@ -68,7 +68,3 @@ Code is viewed as both a functional tool and a medium for technical expression. 
 ---
 
 _Made with 🤢 (and potentially some slop) by ~~Thiago Colen~~._ 👾
-
----
-
-> "But if you harbor bitter envy and selfish ambition in your hearts, do not boast about it or deny the truth." — James 3:14 (NIV)

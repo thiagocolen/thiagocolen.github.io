@@ -68,3 +68,7 @@ Code is viewed as both a functional tool and a medium for technical expression. 
 ---
 
 _Made with 🤢 (and potentially some slop) by ~~Thiago Colen~~._ 👾
+
+---
+
+> "Above all, my brothers and sisters, do not swear—not by heaven or by earth or by anything else. All you need to say is a simple ‘Yes’ or ‘No,’ or you will be condemned." — James 5:12 (NIV)

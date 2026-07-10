@@ -68,3 +68,7 @@ Code is viewed as both a functional tool and a medium for technical expression. 
 ---
 
 _Made with 🤢 (and potentially some slop) by ~~Thiago Colen~~._ 👾
+
+---
+
+> "So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you; I will uphold you with my righteous right hand." — Isaiah 41:10 (NIV) 💪

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thiagocolen.github.io/schemas/posts.schema.json",
+  "title": "Posts input file",
+  "description": "Schema for JSON files consumed by develop-tools/add-posts-from-json.js. Accepts either a single post object or an array of post objects.",
+  "oneOf": [
+    { "$ref": "#/$defs/post" },
+    { "type": "array", "items": { "$ref": "#/$defs/post" }, "minItems": 1 }
+  ],
+  "$defs": {
+    "post": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Post title."
+        },
+        "description": {
+          "type": ["string", "null"],
+          "description": "Short summary/excerpt shown in listings."
+        },
+        "body_html": {
+          "type": ["string", "null"],
+          "description": "Full post content, as HTML."
+        },
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "URL-safe unique identifier, e.g. \"my-first-post\". Used to find existing posts for update."
+        },
+        "published_at": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "ISO-8601 timestamp. Null/omitted for drafts."
+        },
+        "cover_image": {
+          "type": ["string", "null"],
+          "format": "uri",
+          "description": "URL of the cover image."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["published", "unpublished"],
+          "default": "unpublished",
+          "description": "Posts marked 'published' become read-only — the script will refuse to update them."
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [],
+          "description": "List of tag names."
+        }
+      },
+      "required": ["title", "slug"]
+    }
+  }
+}

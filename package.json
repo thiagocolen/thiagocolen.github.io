@@ -16,7 +16,8 @@
     "clean": "gatsby clean",
     "deploy": "gatsby build && gh-pages -d public",
     "db:migrate": "node develop-tools/migrate-devto-to-sqlite.js",
-    "db:add-status": "node develop-tools/add-status-column.js"
+    "db:add-status": "node develop-tools/add-status-column.js",
+    "db:add-posts": "node develop-tools/add-posts-from-json.js"
   },
   "dependencies": {
     "@babel/core": "^7.28.0",

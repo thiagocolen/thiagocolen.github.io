@@ -16,6 +16,7 @@
 - 🛠️ [Technologies Involved](#-technologies-involved)
 - 📡 [DEV.to Integration](#-devto-integration)
 - ⚙️ [How the Site Works](#-how-the-site-works)
+- 🧰 [Available Scripts](#-available-scripts)
 - 👀 [PR Previews](#-pr-previews)
 - 🧠 [Development Philosophy](#-development-philosophy)
 
@@ -60,6 +61,34 @@ graph TD
 3. **Page Generation:** Gatsby dynamically creates individual post pages for each article at `/blog/post/[slug]/` and updates the article lists on the home and blog pages. 📄
 4. **Deployment:** Once the build is complete, a static version of the site is deployed, ensuring high performance and security. 🛡️
 
+## 🧰 Available Scripts
+
+Every script below is run with `npm run <name>` (e.g. `npm run develop`).
+
+### Site lifecycle
+
+| Script | Command | What it does |
+| :--- | :--- | :--- |
+| `develop` | `gatsby develop` | Starts the local dev server with hot reload, usually at `http://localhost:8000`. This is what you run day-to-day while writing code. |
+| `start` | `gatsby develop` | Alias for `develop`. Exists because `npm start` is the conventional entry point many tools (and habits) expect. |
+| `build` | `gatsby build` | Produces the optimized, static production build in `public/` — runs `gatsby-node.js` (page creation from the local SQLite DB) and `gatsby-config.js` (plugin/source setup) as part of the build. |
+| `serve` | `gatsby serve` | Serves the already-built `public/` folder locally, so you can sanity-check a production build before deploying it. Run `build` first. |
+| `clean` | `gatsby clean` | Deletes Gatsby's cache and `public/` output (`.cache/`, `public/`). Use this when the dev server is misbehaving after config/schema changes — a stale cache is a common culprit. |
+| `deploy` | `gatsby build && gh-pages -d public` | Builds the site, then publishes the `public/` folder to the `gh-pages` branch via the `gh-pages` package. This is the manual production deploy path. |
+
+### Database tooling (`src/data/posts.db`)
+
+The blog's posts live in a local SQLite database, `src/data/posts.db`, which is **never committed** (see `.gitignore`) — it's the personal, editable source of truth for drafts and published posts alike. `src/data/schema.sql` is the committed, reference copy of its schema. These scripts create, populate, and export that database:
+
+| Script | Command | What it does |
+| :--- | :--- | :--- |
+| `db:migrate` | `node develop-tools/migrate-devto-to-sqlite.js` | **One-time, legacy.** Pulls every article from the Dev.to API (with retry/rate-limit handling) and seeds `posts.db` with them, marking each `published`. This was the original bootstrap from Dev.to → local DB and is kept for historical/reference purposes; it refuses to overwrite posts already marked `published`. |
+| `db:add-status` | `node develop-tools/add-status-column.js` | **One-time, legacy.** Adds the `status` column (`published`/`unpublished`) to an existing `posts.db` that predates it, and backfills existing rows to `published`. Idempotent — does nothing if the column already exists. |
+| `db:add-posts` | `node develop-tools/add-posts-from-json.js <path-to-json>` | **The main way to add or update posts.** Reads a JSON file — a single post object or an array of them, see `develop-tools/schema/posts.schema.json` and `develop-tools/schema/post.example.json` — and upserts it into `posts.db`, matching on `slug`. New slugs are inserted; existing `unpublished` posts are updated; existing `published` posts are **skipped**, since published posts are treated as read-only. Respects `POSTS_DB_PATH` to target a database other than the default (used by CI). |
+| `db:init` | `node develop-tools/init-db.js` | Creates `posts.db` from `src/data/schema.sql` if it doesn't already exist. Idempotent (`CREATE TABLE IF NOT EXISTS`), so it's safe to run against an existing database — it won't touch your data. Mainly used by CI, which has no access to the real `posts.db` and needs to build one from scratch. |
+| `db:export` | `node develop-tools/export-published-to-json.js [output-path]` | Exports only `published` posts (the same filter the site itself uses at build time) from `posts.db` to `src/data/published-posts.json`, which **is** committed. Run this after publishing a new post locally, and commit the result — otherwise CI/PR previews will show stale content, since they seed from this file rather than your local database. |
+| `db:seed` | `npm run db:init && npm run db:add-posts -- src/data/published-posts.json` | Combines the two scripts above: creates a fresh database, then imports `published-posts.json` into it. This is exactly what the PR preview workflow runs in CI to reconstruct a working database without ever seeing your local `posts.db`. |
+
 ## 👀 PR Previews
 
 Every pull request is built and published to a preview URL, so changes can be reviewed from any device before being merged:
@@ -80,11 +109,7 @@ npm run db:export   # writes src/data/published-posts.json (published posts only
 
 Only `published` posts are exported; unpublished drafts stay local and out of git.
 
-| Command | Purpose |
-| :--- | :--- |
-| `npm run db:init` | Create the database from `schema.sql` (idempotent) |
-| `npm run db:export` | Export published posts to `published-posts.json` |
-| `npm run db:seed` | Init + seed from the JSON — what CI runs |
+See [Available Scripts](#-available-scripts) for details on `db:init`, `db:export`, and `db:seed` — the last one is exactly what the PR preview workflow runs in CI.
 
 ## 🧠 Development Philosophy
 

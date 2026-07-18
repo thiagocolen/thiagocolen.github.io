@@ -1,5 +1,0 @@
-{
-    "componentChunkName": "component---src-templates-post-page-js",
-    "path": "/blog/post/data-structures-exercicesstackqueue-4l1/",
-    "result": {"pageContext":{"article":{"id":4,"title":"Data Structures: Stack/Queue","description":"Today we will learn about queues and stacks.  Where they live? What they eat? How they reproduce?","body_html":"<p>Today we will learn about queues and stacks.</p>\n\n<p>Where they live? What they eat? How they reproduce? </p>\n\n<p><iframe src=\"https://stackblitz.com/edit/js-cm9a8d?ctl=1&amp;embed=1&amp;file=index.js&amp;hideExplorer=1&amp;hideNavigation=1&amp;theme=dark\" width=\"100%\" height=\"500\" scrolling=\"no\" frameborder=\"no\" allowfullscreen allowtransparency=\"true\" loading=\"lazy\">\n</iframe>\n</p>\n\n","slug":"data-structures-exercicesstackqueue-4l1","published_at":"2022-09-14T23:05:07Z","cover_image":"https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fb7a6uwq2mxo6ld1uriul.png","status":"published","tags":["algorithms","beginners","javascript"]}}},
-    "staticQueryHashes": []}

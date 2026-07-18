@@ -1,5 +1,0 @@
-{
-    "componentChunkName": "component---src-templates-post-page-js",
-    "path": "/blog/post/keywords-and-expressions-14dd/",
-    "result": {"pageContext":{"article":{"id":10,"title":"Keywords and Expressions","description":"A keyword is a word that you can't use, it's a reserved word and just the JAVA language can use it....","body_html":"<p>A keyword is a word that you can't use, it's a reserved word and just the JAVA language can use it. Is it confuse? Expressions are more easy to understand...</p>\n\n\n<hr>\n\n\n<div class=\"ltag__replit\">\n  <iframe frameborder=\"0\" height=\"550px\" src=\"https://repl.it/@thiagocolen/Java-Programming-Masterclass-3-Keywords-and-Expressions?lite=true\" loading=\"lazy\"></iframe>\n</div>\n\n\n","slug":"keywords-and-expressions-14dd","published_at":"2022-07-13T15:32:12Z","cover_image":"https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8u83695kgwp6fi3w69q2.jpg","status":"published","tags":["beginners","java"]}}},
-    "staticQueryHashes": []}

@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-templates-post-page-js",
+    "path": "/blog/post/data-structures-linked-lists-ffb/",
+    "result": {"pageContext":{"article":{"id":1,"title":"Data Structures: Linked Lists","description":"Today we are going to travel through crazy linked lists!","body_html":"<p>Today we are going to travel through crazy linked lists!</p>\n\n<p><iframe src=\"https://stackblitz.com/edit/js-nlivnb?ctl=1&amp;embed=1&amp;file=index.js&amp;hideExplorer=1&amp;hideNavigation=1&amp;theme=dark\" width=\"100%\" height=\"500\" scrolling=\"no\" frameborder=\"no\" allowfullscreen allowtransparency=\"true\" loading=\"lazy\">\n</iframe>\n</p>\n\n","slug":"data-structures-linked-lists-ffb","published_at":"2022-11-28T23:25:43Z","cover_image":"https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fmjhfu1d82kku6drlli7q.jpg","status":"published","tags":["emptystring"]}}},
+    "staticQueryHashes": []}

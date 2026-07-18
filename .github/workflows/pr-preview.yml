@@ -43,7 +43,10 @@ jobs:
 
       - name: Install dependencies
         if: github.event.action != 'closed'
-        run: npm ci
+        # --legacy-peer-deps: gatsby-plugin-mdx-embed@0.0.20-alpha declares a
+        # peer on react@16.x while the project is on react@17; npm's default
+        # (strict) resolver rejects that even though it works fine in practice.
+        run: npm ci --legacy-peer-deps
 
       - name: Seed posts database
         if: github.event.action != 'closed'

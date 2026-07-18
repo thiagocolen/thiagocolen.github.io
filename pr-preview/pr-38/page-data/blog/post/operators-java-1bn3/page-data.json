@@ -1,5 +1,0 @@
-{
-    "componentChunkName": "component---src-templates-post-page-js",
-    "path": "/blog/post/operators-java-1bn3/",
-    "result": {"pageContext":{"article":{"id":11,"title":"Operators","description":"This is one more post of my java lessons. That's a long, long way to done.","body_html":"<p>This is one more post of my java lessons. That's a long, long way to done.</p>\n\n\n<hr>\n\n\n<div class=\"ltag__replit\">\n  <iframe frameborder=\"0\" height=\"550px\" src=\"https://repl.it/@thiagocolen/Java-Programming-Masterclass-2-Operators?lite=true\" loading=\"lazy\"></iframe>\n</div>\n\n\n","slug":"operators-java-1bn3","published_at":"2022-06-17T22:06:00Z","cover_image":"https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fbp1vz8dfe5ovi1pmjuw2.jpeg","status":"published","tags":["beginners","java"]}}},
-    "staticQueryHashes": []}

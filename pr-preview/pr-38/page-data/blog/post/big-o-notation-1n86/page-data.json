@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-templates-post-page-js",
+    "path": "/blog/post/big-o-notation-1n86/",
+    "result": {"pageContext":{"article":{"id":6,"title":"Big O Notation","description":"How bad are our code?   Let's figure it out, learning a little bit about Big O Notation!","body_html":"<p>How bad are our code? </p>\n\n<p>Let's figure it out, learning a little bit about Big O Notation!</p>\n\n<p><iframe src=\"https://stackblitz.com/edit/js-3n3rxx?ctl=1&amp;embed=1&amp;file=index.js&amp;hideExplorer=1&amp;hideNavigation=1&amp;theme=dark\" width=\"100%\" height=\"500\" scrolling=\"no\" frameborder=\"no\" allowfullscreen allowtransparency=\"true\" loading=\"lazy\">\n</iframe>\n</p>\n\n","slug":"big-o-notation-1n86","published_at":"2022-09-04T19:05:08Z","cover_image":"https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1519ii3jxd71i0ovpbfl.jpg","status":"published","tags":["algorithms","beginners","javascript"]}}},
+    "staticQueryHashes": []}

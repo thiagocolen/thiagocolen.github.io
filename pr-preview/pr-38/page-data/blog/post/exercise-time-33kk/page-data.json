@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-templates-post-page-js",
+    "path": "/blog/post/exercise-time-33kk/",
+    "result": {"pageContext":{"article":{"id":8,"title":"Exercise Time!","description":"Ok, it's time to get harder, better, faster, stronger!","body_html":"<p>Ok, it's time to get harder, better, faster, stronger!</p>\n\n\n<div class=\"ltag__replit\">\n  <iframe frameborder=\"0\" height=\"550px\" src=\"https://repl.it/@thiagocolen/Java-Programming-Masterclass-5-Exercise-Time?lite=true\" loading=\"lazy\"></iframe>\n</div>\n\n\n","slug":"exercise-time-33kk","published_at":"2022-08-13T20:40:12Z","cover_image":"https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fyb57p5ockyarewno1yp0.jpg","status":"published","tags":["beginners","java"]}}},
+    "staticQueryHashes": []}

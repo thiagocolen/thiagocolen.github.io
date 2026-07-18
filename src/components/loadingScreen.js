@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
 const LoadingScreen = ({ onDismiss, isShort = false }) => {
   const [progress, setProgress] = useState(0);
-  const [visibleLogs, setVisibleLogs] = useState([]);
   const [isDismissing, setIsDismissing] = useState(false);
 
-  const logsList = isShort
+  const logsList = useMemo(() => (isShort
     ? [
         "> SYSTEM RESUMING...",
         "> DETECTING REFERRER: BLOG_POST",
@@ -22,7 +21,14 @@ const LoadingScreen = ({ onDismiss, isShort = false }) => {
         "> COMPILING NEUTRAL THEME...",
         "> LIVE THOUGHT STREAM: ONLINE",
         "> RETRO_UI v1.1.0 INITIALIZED"
-      ];
+      ]), [isShort]);
+
+  // Logs are revealed sequentially as the progress bar fills
+  const visibleLogs = useMemo(() => {
+    if (isShort) return [];
+    const logIndexToShow = Math.floor((progress / 100) * logsList.length);
+    return logsList.slice(0, Math.min(logIndexToShow + 1, logsList.length));
+  }, [progress, logsList, isShort]);
 
   useEffect(() => {
     if (isShort) return;
@@ -41,14 +47,6 @@ const LoadingScreen = ({ onDismiss, isShort = false }) => {
 
     return () => clearInterval(interval);
   }, [isShort]);
-
-  useEffect(() => {
-    if (isShort) return;
-    // Show logs sequentially based on progress
-    const logIndexToShow = Math.floor((progress / 100) * logsList.length);
-    const shownLogs = logsList.slice(0, Math.min(logIndexToShow + 1, logsList.length));
-    setVisibleLogs(shownLogs);
-  }, [progress, logsList, isShort]);
 
   const handleDismiss = () => {
     if ((!isShort && progress < 100) || isDismissing) return;

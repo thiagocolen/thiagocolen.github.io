@@ -21,7 +21,11 @@ const Database = require("better-sqlite3");
 const path = require("path");
 const fs = require("fs");
 
-const DB_PATH = path.resolve(__dirname, "../src/data/posts.db");
+// POSTS_DB_PATH lets CI (and tests) target a database outside the default
+// location without disturbing the local source-of-true database.
+const DB_PATH = process.env.POSTS_DB_PATH
+  ? path.resolve(process.cwd(), process.env.POSTS_DB_PATH)
+  : path.resolve(__dirname, "../src/data/posts.db");
 const VALID_STATUSES = ["published", "unpublished"];
 const SLUG_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 

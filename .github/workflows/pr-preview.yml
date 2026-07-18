@@ -1,0 +1,66 @@
+# Publishes a preview of every pull request to GitHub Pages so changes can be
+# reviewed from any device (phone included) before being merged.
+#
+#   Preview URL: https://thiagocolen.github.io/pr-preview/pr-<number>/
+#
+# The preview is removed automatically when the PR is closed or merged.
+#
+# Notes:
+#   - The local SQLite database (src/data/posts.db) is never committed, so CI
+#     rebuilds one from src/data/schema.sql and seeds it with the published
+#     posts exported to src/data/published-posts.json (npm run db:export).
+#   - Previews are served from a subdirectory, so the build needs PATH_PREFIX
+#     plus --prefix-paths. Production builds are unaffected.
+#   - Previews live alongside production content on the gh-pages branch and are
+#     publicly reachable, like the rest of the site.
+
+name: PR Preview
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+
+concurrency:
+  group: pr-preview-${{ github.event.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        if: github.event.action != 'closed'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        if: github.event.action != 'closed'
+        run: npm ci
+
+      - name: Seed posts database
+        if: github.event.action != 'closed'
+        run: npm run db:seed
+
+      - name: Build site
+        if: github.event.action != 'closed'
+        env:
+          # No leading slash: Gatsby's config validation rejects one and adds it
+          # itself (see the pathPrefix note in gatsby-config.js).
+          PATH_PREFIX: pr-preview/pr-${{ github.event.number }}
+        run: npm run build -- --prefix-paths
+
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: public/
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          action: auto

@@ -16,6 +16,7 @@
 - 🛠️ [Technologies Involved](#-technologies-involved)
 - 📡 [DEV.to Integration](#-devto-integration)
 - ⚙️ [How the Site Works](#-how-the-site-works)
+- 👀 [PR Previews](#-pr-previews)
 - 🧠 [Development Philosophy](#-development-philosophy)
 
 ---
@@ -58,6 +59,32 @@ graph TD
 2. **Data Fetching:** It retrieves all published articles and their full content. 📦
 3. **Page Generation:** Gatsby dynamically creates individual post pages for each article at `/blog/post/[slug]/` and updates the article lists on the home and blog pages. 📄
 4. **Deployment:** Once the build is complete, a static version of the site is deployed, ensuring high performance and security. 🛡️
+
+## 👀 PR Previews
+
+Every pull request is built and published to a preview URL, so changes can be reviewed from any device before being merged:
+
+```
+https://thiagocolen.github.io/pr-preview/pr-<number>/
+```
+
+The preview is created when the PR opens, refreshed on every push, and deleted when the PR is closed or merged.
+
+**⚠️ Keeping previews in sync with your posts:** the local database (`src/data/posts.db`) is the source of true and is never committed, so CI cannot read it. Preview builds instead rebuild a database from `src/data/schema.sql` and seed it from `src/data/published-posts.json`.
+
+That means **after publishing a new post, re-export and commit the JSON** — otherwise previews will show stale content:
+
+```bash
+npm run db:export   # writes src/data/published-posts.json (published posts only)
+```
+
+Only `published` posts are exported; unpublished drafts stay local and out of git.
+
+| Command | Purpose |
+| :--- | :--- |
+| `npm run db:init` | Create the database from `schema.sql` (idempotent) |
+| `npm run db:export` | Export published posts to `published-posts.json` |
+| `npm run db:seed` | Init + seed from the JSON — what CI runs |
 
 ## 🧠 Development Philosophy
 

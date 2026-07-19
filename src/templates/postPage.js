@@ -18,10 +18,17 @@ const PostPage = ({ pageContext: { article } }) => {
         <h1 className="font-head text-2xl sm:text-3xl md:text-4xl text-center leading-tight mb-4 text-black">
           {article.title}
         </h1>
-        <div className="flex items-center justify-center text-xs sm:text-sm font-semibold text-black/60 font-sans">
-          <span className="bg-primary/20 border border-black/20 rounded px-2.5 py-0.5">
-            Published: {datePipe(article.published_at || article.created_at)}
-          </span>
+        <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-black/60 font-sans">
+          {article.status !== "published" && (
+            <span className="bg-amber-400/70 border border-black/20 rounded px-2.5 py-0.5 text-black">
+              DRAFT
+            </span>
+          )}
+          {article.published_at && (
+            <span className="bg-primary/20 border border-black/20 rounded px-2.5 py-0.5">
+              Published: {datePipe(article.published_at)}
+            </span>
+          )}
         </div>
       </div>
     );

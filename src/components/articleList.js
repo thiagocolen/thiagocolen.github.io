@@ -20,9 +20,18 @@ const ArticleComponent = ({ article, index }) => {
         {/* Card Body */}
         <div className="p-5 flex-grow flex flex-col justify-between text-black">
           <div>
-            {/* Metadata (Date) */}
-            <div className="inline-block border border-black bg-accent text-black text-xs font-semibold px-2 py-0.5 rounded mb-3">
-              {datePipe(article.published_at)}
+            {/* Metadata (Draft badge + Date) */}
+            <div className="flex items-center gap-2 mb-3">
+              {article.status !== "published" && (
+                <span className="inline-block border border-black bg-amber-400 text-black text-xs font-semibold px-2 py-0.5 rounded">
+                  DRAFT
+                </span>
+              )}
+              {article.published_at && (
+                <div className="inline-block border border-black bg-accent text-black text-xs font-semibold px-2 py-0.5 rounded">
+                  {datePipe(article.published_at)}
+                </div>
+              )}
             </div>
 
             {/* Title */}

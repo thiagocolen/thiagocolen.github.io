@@ -6,9 +6,8 @@
 # The preview is removed automatically when the PR is closed or merged.
 #
 # Notes:
-#   - The local SQLite database (src/data/posts.db) is never committed, so CI
-#     rebuilds one from src/data/schema.sql and seeds it with the published
-#     posts exported to src/data/published-posts.json (npm run db:export).
+#   - Posts are committed MDX files under content/posts/, so CI builds
+#     directly from whatever's checked in — no reconstruction step needed.
 #   - Previews are served from a subdirectory, so the build needs PATH_PREFIX
 #     plus --prefix-paths. Production builds are unaffected.
 #   - Previews live alongside production content on the gh-pages branch and are
@@ -48,10 +47,6 @@ jobs:
         # peer on react@16.x while the project is on react@17; npm's default
         # (strict) resolver rejects that even though it works fine in practice.
         run: npm ci --legacy-peer-deps
-
-      - name: Seed posts database
-        if: github.event.action != 'closed'
-        run: npm run db:seed
 
       - name: Build site
         if: github.event.action != 'closed'

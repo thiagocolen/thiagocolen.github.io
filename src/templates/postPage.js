@@ -1,11 +1,12 @@
 import React from "react";
-import { Link } from "gatsby";
+import { Link, graphql } from "gatsby";
+import { MDXRenderer } from "gatsby-plugin-mdx";
 import Footer from "../components/footer";
 import Container from "../components/container";
 import Poster from "../components/poster";
 import { datePipe } from "../utils/datePipe";
 
-const PostPage = ({ pageContext: { article } }) => {
+const PostPage = ({ pageContext: { article }, data }) => {
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       sessionStorage.setItem("fromPost", "true");
@@ -74,10 +75,9 @@ const PostPage = ({ pageContext: { article } }) => {
         
         {/* Main Article Content Container */}
         <article className="max-w-3xl mx-auto px-6 sm:px-8 py-12 bg-white border-2 border-black rounded shadow-md mt-12">
-          <div
-            className="article-content"
-            dangerouslySetInnerHTML={{ __html: article.body_html }}
-          />
+          <div className="article-content">
+            <MDXRenderer>{data.mdx.body}</MDXRenderer>
+          </div>
         </article>
 
         {/* Back Link Component */}
@@ -97,3 +97,11 @@ const PostPage = ({ pageContext: { article } }) => {
 };
 
 export default PostPage;
+
+export const query = graphql`
+  query PostPageQuery($id: String!) {
+    mdx(id: { eq: $id }) {
+      body
+    }
+  }
+`;

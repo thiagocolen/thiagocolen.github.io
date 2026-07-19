@@ -23,34 +23,22 @@ module.exports = {
       },
     },
     {
-      // Source: local SQLite database (source of true for posts)
-      // Database lives at src/data/posts.db — excluded from git
-      resolve: "gatsby-source-sqlite",
+      // Source: posts live as MDX files under content/posts/, one per post.
+      // Filename (minus extension) is the slug.
+      resolve: "gatsby-source-filesystem",
       options: {
-        fileName: "./src/data/posts.db",
-        queries: [
-          {
-            statement: `
-              SELECT
-                a.id,
-                a.title,
-                a.description,
-                a.body_html,
-                a.slug,
-                a.published_at,
-                a.cover_image,
-                a.status,
-                GROUP_CONCAT(t.name, ',') AS tags_raw
-              FROM articles a
-              LEFT JOIN tags t ON t.article_id = a.id
-              WHERE a.status = 'published'
-              GROUP BY a.id
-              ORDER BY a.published_at DESC
-            `,
-            idCol: "id",
-            fitType: "Article",
-          },
-        ],
+        name: "posts",
+        path: `${__dirname}/content/posts`,
+      },
+    },
+    // Must precede gatsby-plugin-mdx so MdxEmbedProvider wraps every .mdx
+    // file automatically, making mdx-embed components available with no
+    // manual imports in post content.
+    "gatsby-plugin-mdx-embed",
+    {
+      resolve: "gatsby-plugin-mdx",
+      options: {
+        extensions: [".mdx"],
       },
     },
   ],

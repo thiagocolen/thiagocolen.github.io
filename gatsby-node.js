@@ -77,12 +77,19 @@ const DB_PATH = path.resolve(__dirname, "./src/data/posts.db");
  * this function normalises them back to an array to match the shape that all
  * templates expect from the previous Dev.to data source.
  *
+ * In `gatsby develop` (NODE_ENV=development), unpublished drafts are included
+ * too, so they can be previewed locally. `gatsby build` (production deploys
+ * and CI/PR previews both run this) keeps excluding them.
+ *
  * @returns {Array} articles — same shape as Dev.to API response
  */
 const getLocalData = () => {
   // Lazy-require so the build doesn't fail if better-sqlite3 isn't installed
   const Database = require("better-sqlite3");
   const db = new Database(DB_PATH, { readonly: true });
+
+  const isDevelopEnv = process.env.NODE_ENV === "development";
+  const statusFilter = isDevelopEnv ? "" : "WHERE a.status = 'published'";
 
   const rows = db
     .prepare(
@@ -99,9 +106,10 @@ const getLocalData = () => {
         GROUP_CONCAT(t.name, ',') AS tags_raw
       FROM articles a
       LEFT JOIN tags t ON t.article_id = a.id
-      -- Only serve published posts; unpublished are local drafts
-      WHERE a.status = 'published'
+      ${statusFilter}
       GROUP BY a.id
+      -- Drafts (published_at IS NULL) sort last here: SQLite treats NULL as
+      -- the smallest value, so DESC pushes them to the end, not the top.
       ORDER BY a.published_at DESC
     `
     )

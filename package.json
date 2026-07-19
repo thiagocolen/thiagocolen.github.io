@@ -18,6 +18,7 @@
     "db:migrate": "node develop-tools/migrate-devto-to-sqlite.js",
     "db:add-status": "node develop-tools/add-status-column.js",
     "db:add-posts": "node develop-tools/add-posts-from-json.js",
+    "db:publish": "node develop-tools/publish-post.js",
     "db:init": "node develop-tools/init-db.js",
     "db:export": "node develop-tools/export-published-to-json.js",
     "db:seed": "npm run db:init && npm run db:add-posts -- src/data/published-posts.json"

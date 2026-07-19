@@ -1,0 +1,25 @@
+---
+title: >-
+  So You Want to Be an AI Engineer (And Not Just Someone Who Says "Prompt
+  Engineering" at Parties)
+description: >-
+  A practical tour of the AI Engineer role, from LLMs and inference to
+  embeddings, RAG, and reasoning-based prompting
+published_at: null
+cover_image: >-
+  /images/posts/so-you-want-to-be-an-ai-engineer-and-not-just-someone-who-says-prompt-engineering-at-parties.jpg
+status: unpublished
+tags:
+  - ai-engineer
+  - llm
+  - machine-learning
+  - career
+---
+
+<h3>A Practical Roadmap: LLMs, Inference, Embeddings, Retrieval-Augmented Generation, and Reasoning Techniques</h3>
+<p>The title &quot;AI Engineer&quot; has proliferated rapidly, and with that proliferation comes a fair amount of confusion about what the role actually entails — particularly how it differs from the more established &quot;ML Engineer.&quot; The distinction is one of altitude: an ML Engineer typically builds and trains models from the ground up, wrangling datasets, tuning architectures, and optimizing loss functions. An AI Engineer, by contrast, works primarily at the application layer, taking existing foundation models — usually Large Language Models (LLMs) — and integrating them into functioning products. Both roles require technical depth, but the AI Engineer&#39;s craft is closer to systems design and orchestration than to raw model training, which makes the entry path shorter but no less rigorous.</p>
+<p>At the center of this discipline sits the LLM itself, and understanding <em>inference</em> — the process by which a trained model takes an input and produces an output — is non-negotiable. Inference is where cost, latency, and quality all collide: an AI Engineer must understand how models generate tokens sequentially, why context window size matters, and how choices like temperature and sampling strategy affect the reliability of outputs. This is also the layer where practical trade-offs get made, since running inference against a hosted API differs enormously from self-hosting an open-source model in terms of control, cost, and predictability.</p>
+<p>Beyond raw generation lies the machinery that lets these models reason over information they weren&#39;t originally trained on: embeddings. An embedding is a numerical representation of text (or images, audio, and so on) that captures semantic meaning as a vector, allowing a machine to judge that &quot;dog&quot; and &quot;puppy&quot; are conceptually closer than &quot;dog&quot; and &quot;spreadsheet.&quot; AI Engineers need to be comfortable generating embeddings through hosted services such as the OpenAI Embeddings API, or through open-source alternatives when cost or data privacy demands it, and — just as importantly — indexing those embeddings efficiently so that relevant information can be retrieved in milliseconds rather than minutes.</p>
+<p>That retrieval capability is what powers Retrieval-Augmented Generation, or RAG: a pattern in which a system fetches relevant, up-to-date, or proprietary information from an external knowledge base and feeds it into the model&#39;s context before generation happens. <strong>RAG exists because an LLM&#39;s knowledge is frozen at training time, but the world, infuriatingly, keeps on moving.</strong> Complementing RAG is a family of reasoning techniques such as ReAct prompting, which interleaves the model&#39;s internal reasoning steps with concrete actions — like calling a tool or querying a database — so the model can verify its own logic against real-world results rather than simply guessing.</p>
+<p>Taken together, these pieces — the LLM/ML Engineer distinction, inference mechanics, embeddings, retrieval, and reasoning-driven prompting — form the practical backbone of the AI Engineer roadmap. None of it requires reinventing a neural network from scratch, but all of it requires genuine fluency in how these systems behave, fail, and can be steered. For anyone approaching a technical interview for this role, the expectation isn&#39;t that you can derive backpropagation on a whiteboard — it&#39;s that you can explain, clearly and correctly, how these components fit together into a system that actually works.</p>
+

@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-templates-post-page-js",
+    "path": "/blog/post/data-structures-exercices-sets-of-data-1n07/",
+    "result": {"pageContext":{"article":{"id":3,"title":"Data Structures: Sets of Data","description":"Today we are going to win some sets!","body_html":"<p>Today we are going to win some sets!</p>\n\n<p><iframe src=\"https://stackblitz.com/edit/js-5wlhvy?ctl=1&amp;embed=1&amp;file=index.js&amp;hideExplorer=1&amp;hideNavigation=1&amp;theme=dark\" width=\"100%\" height=\"500\" scrolling=\"no\" frameborder=\"no\" allowfullscreen allowtransparency=\"true\" loading=\"lazy\">\n</iframe>\n</p>\n\n","slug":"data-structures-exercices-sets-of-data-1n07","published_at":"2022-11-19T23:09:47Z","cover_image":"https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Flwlotmby6590oj4rfrsu.png","status":"published","tags":["watercooler"]}}},
+    "staticQueryHashes": []}

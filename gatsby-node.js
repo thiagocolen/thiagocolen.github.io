@@ -1,3 +1,23 @@
+// Gatsby infers the GraphQL schema from the frontmatter that posts actually
+// use, so an optional field no post has set yet does not exist on the type and
+// querying it fails the build. `headline` is exactly that case: the MCP server
+// can write it and postPage.js renders it, but no published post carries one.
+// Declaring the frontmatter explicitly keeps the schema stable no matter which
+// optional fields the current set of posts happens to use.
+exports.createSchemaCustomization = ({ actions: { createTypes } }) => {
+  createTypes(`
+    type MdxFrontmatter {
+      title: String
+      headline: String
+      description: String
+      published_at: Date @dateformat
+      cover_image: String
+      status: String
+      tags: [String]
+    }
+  `);
+};
+
 exports.createPages = async ({ actions: { createPage }, graphql }) => {
   const isDevelopEnv = process.env.NODE_ENV === "development";
 

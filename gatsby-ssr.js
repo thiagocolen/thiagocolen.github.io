@@ -1,5 +1,10 @@
 const React = require("react");
 
+// Same provider gatsby-browser.js registers, so the SSR'd HTML and the
+// hydrated app render post bodies identically. This file is CommonJS (it uses
+// `exports.` below), hence require rather than import.
+exports.wrapRootElement = require("./src/wrapRootElement").wrapRootElement;
+
 const HtmlAttributes = {};
 
 const HeadComponents = [

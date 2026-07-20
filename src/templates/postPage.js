@@ -5,6 +5,7 @@ import Footer from "../components/footer";
 import Container from "../components/container";
 import Poster from "../components/poster";
 import { datePipe } from "../utils/datePipe";
+import { assetUrl } from "../utils/assetUrl";
 
 const PostPage = ({ pageContext: { article }, data }) => {
   React.useEffect(() => {
@@ -16,9 +17,20 @@ const PostPage = ({ pageContext: { article }, data }) => {
   const TitleComponent = () => {
     return (
       <div className="bg-white border-2 border-black rounded shadow-lg max-w-2xl mx-auto mt-8 sm:mt-12 p-6 sm:p-8 z-10 relative select-none animate-float-instant">
-        <h1 className="font-head text-2xl sm:text-3xl md:text-4xl text-center leading-tight mb-4 text-black">
+        <h1
+          className={`font-head text-2xl sm:text-3xl md:text-4xl text-center leading-tight text-black ${
+            article.headline ? "mb-2" : "mb-4"
+          }`}
+        >
           {article.title}
         </h1>
+        {/* text-opacity-*, not text-black/60: this project is Tailwind 2
+            without JIT, where slash-opacity utilities generate no CSS. */}
+        {article.headline && (
+          <p className="font-sans text-base sm:text-lg text-center leading-snug mb-4 text-black text-opacity-60">
+            {article.headline}
+          </p>
+        )}
         <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-black/60 font-sans">
           {article.status !== "published" && (
             <span className="bg-amber-400/70 border border-black/20 rounded px-2.5 py-0.5 text-black">
@@ -41,7 +53,7 @@ const PostPage = ({ pageContext: { article }, data }) => {
         {article.cover_image ? (
           <div 
             className="w-full h-full bg-cover bg-center"
-            style={{ backgroundImage: `url(${article.cover_image})` }}
+            style={{ backgroundImage: `url(${assetUrl(article.cover_image)})` }}
           />
         ) : (
           <div className="w-full h-full retro-grid" />

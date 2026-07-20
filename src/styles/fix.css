@@ -49,7 +49,21 @@
   font-style: italic;
 }
 
-.article-content ul, 
+/* Callout (src/components/callout.js). MDX wraps the children in <p>, which
+   picks up the 1.5rem bottom margin from the rule above — that leaves dead
+   space inside the box. Drop it on the last child only. */
+.article-content .callout-body > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Images inside a callout are inline illustrations, not full-width figures,
+   so they skip the large margins and hard shadow applied further down. */
+.article-content .callout-body img {
+  margin: 1rem auto;
+  box-shadow: none;
+}
+
+.article-content ul,
 .article-content ol {
   margin-left: 1.5rem;
   margin-bottom: 1.5rem;

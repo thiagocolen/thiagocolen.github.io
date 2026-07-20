@@ -17,6 +17,7 @@
 - ✍️ [Content](#-content)
 - ⚙️ [How the Site Works](#-how-the-site-works)
 - 🧰 [Available Scripts](#-available-scripts)
+- 🤖 [Publishing from an AI agent](#-publishing-from-an-ai-agent)
 - 👀 [PR Previews](#-pr-previews)
 - 🧠 [Development Philosophy](#-development-philosophy)
 
@@ -100,6 +101,42 @@ Posts are plain files under `content/posts/` — see [Content](#-content) for th
 | `publish-post` | `node develop-tools/publish-post.js <slug>` | Flips a post's `status` from `unpublished` to `published`. No-op (not an error) if already published. Sets `published_at` to the current time only if it isn't already set, so republishing after an edit never clobbers the original publish date. |
 
 After publishing, commit `content/posts/` and run `npm run deploy` (or push — see [PR Previews](#-pr-previews)) to ship it.
+
+## 🤖 Publishing from an AI agent
+
+`mcp-server/` is an [MCP](https://modelcontextprotocol.io) server that exposes the post lifecycle as typed tools, so an AI agent (Claude Code, Claude Desktop, Cursor — anything that speaks MCP) can draft, edit and publish articles without guessing at shell commands.
+
+It's registered in `.mcp.json`, so Claude Code picks it up automatically in this repo. Install its dependencies once:
+
+```bash
+cd mcp-server && npm install
+```
+
+| Tool | What it does |
+| :--- | :--- |
+| `list_posts` | Every article with slug, title, status, date and tags |
+| `read_post` | One article's frontmatter and MDX body |
+| `create_draft` | New `.mdx` with `status: unpublished`; refuses to overwrite |
+| `update_post` | Partial update of metadata and/or body |
+| `publish_post` | Flip to `published` and stamp `published_at` |
+| `stage_changes` | Commit and push the posts to the `new-articles` branch |
+
+All tools share `develop-tools/posts.js` with the npm scripts above, so the CLI and the agent can't drift apart.
+
+### Where the agent can and can't reach
+
+The agent writes to a **separate git worktree** at `.mcp-worktree/` (gitignored), checked out to a branch called `new-articles`. Two things follow from that:
+
+- **Your working tree is never touched.** You can be mid-edit or mid-rebase on another branch while the agent works.
+- **Nothing the agent does can reach the live site.** No workflow builds `new-articles` — `pr-preview.yml` triggers on `pull_request`, not `push`. The agent stages; *you* open the PR, which is what triggers the preview build, and `npm run deploy` stays manual.
+
+```
+agent → new-articles → you open a PR → preview build → merge → npm run deploy
+```
+
+`new-articles` is branched from whatever the main working tree has checked out the first time the worktree is created (override with `MCP_BASE_BRANCH`). Note this is deliberately *not* `master` — until `release/v1.2.0` lands, master predates the MDX pipeline and has no `content/posts` at all.
+
+One tradeoff worth knowing: because agent drafts live on `new-articles`, `npm run develop` in the repo root won't show them. Check out `new-articles` yourself to preview locally, or open the PR and use the preview URL.
 
 ## 👀 PR Previews
 

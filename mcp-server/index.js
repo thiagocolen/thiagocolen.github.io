@@ -6,14 +6,15 @@
 //
 // All post logic is delegated to develop-tools/posts.js — the same module the
 // npm scripts use, so the CLI and the agent can never drift apart. Writes land
-// in a git worktree on `new-articles` (see git.js), never your working tree.
+// on the `new-articles` branch in your working tree (see git.js), which the
+// server switches to on every call.
 
 import { createRequire } from "node:module";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-import { ensureWorktree, commitAndPush, pendingChanges, BRANCH } from "./git.js";
+import { ensureBranch, commitAndPush, pendingChanges, BRANCH } from "./git.js";
 
 // posts.js is CommonJS; createRequire is the unambiguous way to load it from ESM.
 const require = createRequire(import.meta.url);
@@ -34,8 +35,8 @@ const COVER_IMAGE_HINT =
 // read and correct. Wrapping here keeps every handler free of try/catch.
 const tool = (handler) => async (args) => {
   try {
-    // { postsDir, assetsDir } — both live inside the worktree.
-    const dirs = await ensureWorktree();
+    // { postsDir, assetsDir } — both under the repo root on the new-articles branch.
+    const dirs = await ensureBranch();
     const result = await handler(args, dirs);
 
     return {

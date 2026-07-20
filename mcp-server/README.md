@@ -77,16 +77,21 @@ untouched. Skipping it produces images that work locally and in production but
 
 ## Where the files live
 
-None of these tools touch your working tree. The server keeps a separate git
-worktree at `.mcp-worktree/`, checked out to the `new-articles` branch. Posts
-live in `.mcp-worktree/content/posts/` and images in
-`.mcp-worktree/static/images/` (see `PATHS` in `git.js` — the commit pathspec is
-an explicit allowlist, so an unrelated dirty file can never ride along). You can
-be mid-edit on any branch and article writing won't collide with it.
+The server works directly in your main working tree. On every call it switches
+the tree to the `new-articles` branch (creating it if needed) and writes posts
+to `content/posts/` and images to `static/images/` (see `PATHS` in `git.js` —
+the commit pathspec is an explicit allowlist, so an unrelated dirty file can
+never ride along). If the tree has uncommitted changes that would block the
+switch, the call fails with an explanation instead of forcing it — commit or
+stash first.
 
-The base branch for `new-articles` is inferred from whatever branch you are
-currently on (`master` if you are already on `new-articles`), overridable with
-`MCP_BASE_BRANCH`.
+Two consequences worth knowing: a publishing session **leaves your working tree
+on `new-articles`**, and the draft files sit there uncommitted until
+`stage_changes` lands them.
+
+The base branch for `new-articles` is inferred from whatever branch the tree was
+on before the first switch (`master` if it was already on `new-articles`),
+overridable with `MCP_BASE_BRANCH`.
 
 All post logic is delegated to `develop-tools/posts.js` — the same module the npm
 scripts use, so the CLI and the agent can never drift apart.
@@ -103,8 +108,8 @@ create_draft ──► update_post (iterate) ──► publish_post ──► st
 ```
 
 1. **Draft** — `create_draft` writes the file with `status: unpublished`. It is on
-   disk in the worktree, uncommitted. `add_asset` first if the post needs local
-   images, so the returned URLs can go straight into the body.
+   disk on the `new-articles` branch, uncommitted. `add_asset` first if the post
+   needs local images, so the returned URLs can go straight into the body.
 2. **Iterate** — `read_post` / `update_post` as many times as you like. Still local,
    still uncommitted.
 3. **Publish** — `publish_post` only edits frontmatter. Nothing is live yet; this is

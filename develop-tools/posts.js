@@ -2,8 +2,8 @@
 // created, and mutated.
 //
 // Every entry point takes `postsDir` rather than resolving it here — the CLI
-// scripts pass the repo's content/posts/, while the MCP server points at a
-// separate git worktree so it can commit without touching your working tree.
+// scripts and the MCP server both pass the repo's content/posts/; the server
+// simply switches the working tree to the new-articles branch first.
 
 const path = require("path");
 const fs = require("fs");

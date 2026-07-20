@@ -125,18 +125,18 @@ All tools share `develop-tools/posts.js` with the npm scripts above, so the CLI 
 
 ### Where the agent can and can't reach
 
-The agent writes to a **separate git worktree** at `.mcp-worktree/` (gitignored), checked out to a branch called `new-articles`. Two things follow from that:
+The agent works in your **main working tree**, switching it to a branch called `new-articles` on every call. Two things follow from that:
 
-- **Your working tree is never touched.** You can be mid-edit or mid-rebase on another branch while the agent works.
+- **Everything stays on `new-articles`.** The commit pathspec is an explicit allowlist (`content/posts`, `static/images`), so an unrelated dirty file can't ride along — but the switch itself moves your working tree. If uncommitted changes would block it, the call fails with an explanation instead of forcing it, so commit or stash first.
 - **Nothing the agent does can reach the live site.** No workflow builds `new-articles` — `pr-preview.yml` triggers on `pull_request`, not `push`. The agent stages; *you* open the PR, which is what triggers the preview build, and `npm run deploy` stays manual.
 
 ```
 agent → new-articles → you open a PR → preview build → merge → npm run deploy
 ```
 
-`new-articles` is branched from whatever the main working tree has checked out the first time the worktree is created (override with `MCP_BASE_BRANCH`). Note this is deliberately *not* `master` — until `release/v1.2.0` lands, master predates the MDX pipeline and has no `content/posts` at all.
+`new-articles` is branched from whatever the working tree was on before the first switch (override with `MCP_BASE_BRANCH`). Note this is deliberately *not* `master` — until `release/v1.2.0` lands, master predates the MDX pipeline and has no `content/posts` at all.
 
-One tradeoff worth knowing: because agent drafts live on `new-articles`, `npm run develop` in the repo root won't show them. Check out `new-articles` yourself to preview locally, or open the PR and use the preview URL.
+Two tradeoffs worth knowing: a publishing session **leaves your working tree checked out on `new-articles`** (files stay uncommitted there until `stage_changes`), and because agent drafts live on `new-articles`, `npm run develop` from that branch is where you preview them — or open the PR and use the preview URL.
 
 ## 👀 PR Previews
 

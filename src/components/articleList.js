@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "gatsby";
 import { datePipe } from "../utils/datePipe";
+import { assetUrl } from "../utils/assetUrl";
 
 const ArticleComponent = ({ article, index }) => {
   return (
@@ -13,7 +14,7 @@ const ArticleComponent = ({ article, index }) => {
         {article.cover_image && (
           <div 
             className="w-full h-44 bg-cover bg-center border-b-2 border-black"
-            style={{ backgroundImage: `url(${article.cover_image})` }}
+            style={{ backgroundImage: `url(${assetUrl(article.cover_image)})` }}
           />
         )}
         

@@ -8,6 +8,7 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
           id
           frontmatter {
             title
+            headline
             description
             published_at
             cover_image

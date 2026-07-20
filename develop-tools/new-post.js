@@ -1,10 +1,11 @@
 // Scaffolds a new draft post.
 //
 //   npm run new-post -- "My Post Title" tag1,tag2
+//
+// Logic lives in posts.js, shared with the MCP server.
 
 const path = require("path");
-const fs = require("fs");
-const matter = require("gray-matter");
+const { createDraft } = require("./posts");
 
 const POSTS_DIR = path.resolve(__dirname, "../content/posts");
 
@@ -19,32 +20,12 @@ if (!title) {
   process.exit(1);
 }
 
-const slug = title
-  .toLowerCase()
-  .trim()
-  .replace(/[^a-z0-9]+/g, "-")
-  .replace(/^-+|-+$/g, "");
+try {
+  const { path: outPath } = createDraft(POSTS_DIR, { title, tags });
 
-const outPath = path.join(POSTS_DIR, `${slug}.mdx`);
-
-if (fs.existsSync(outPath)) {
-  console.error(`Refusing to overwrite existing post: ${outPath}`);
+  console.log(`Created ${outPath}`);
+  console.log(`Preview it with: npm run develop`);
+} catch (error) {
+  console.error(error.message);
   process.exit(1);
 }
-
-const frontmatter = {
-  title,
-  description: "",
-  published_at: null,
-  cover_image: "",
-  status: "unpublished",
-  tags,
-};
-
-const file = matter.stringify("\nWrite your post here.\n", frontmatter);
-
-fs.mkdirSync(POSTS_DIR, { recursive: true });
-fs.writeFileSync(outPath, file);
-
-console.log(`Created ${outPath}`);
-console.log(`Preview it with: npm run develop`);

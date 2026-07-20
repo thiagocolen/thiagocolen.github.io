@@ -8,3 +8,6 @@ target/
 prompt.md
 .gemini/
 .antigravitycli/
+
+# Git worktree the MCP publisher server writes posts into (branch: new-articles)
+.mcp-worktree/

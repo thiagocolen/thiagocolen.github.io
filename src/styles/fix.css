@@ -31,8 +31,7 @@
 }
 
 /* The figure owns the vertical rhythm, so the image inside it drops the 2.5rem
-   margins it gets further down — otherwise the caption floats a block away
-   from the image it describes. */
+   margins it gets further down — otherwise a figure would space itself twice. */
 .article-content figure {
   margin: 2.5rem 0;
 }
@@ -41,15 +40,12 @@
   margin: 0 auto;
 }
 
-/* Captions are an aside to the figure, not body copy: smaller, lighter and set
-   tight so they read as a label rather than a paragraph. */
+/* Captions stay in the markup for screen readers and for anything that reads
+   the source, but they are not shown: the images here carry their own context
+   from the surrounding copy, and a repeated description under each one just
+   adds noise. */
 .article-content figcaption {
-  font-size: 0.8125rem;
-  font-weight: 400;
-  line-height: 1.5;
-  text-align: center;
-  color: #5a5a5a;
-  margin-top: 0.75rem;
+  display: none;
 }
 
 .article-content h1, 
@@ -182,10 +178,6 @@
 
 .article-box.article-dark .article-content .callout-body img {
   box-shadow: none;
-}
-
-.article-box.article-dark .article-content figcaption {
-  color: #9c938e;
 }
 
 /* Links keep the yellow highlight, so their text has to stay black. */

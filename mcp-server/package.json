@@ -1,0 +1,14 @@
+{
+  "name": "thiago-colen-mcp-publisher",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MCP server exposing the article lifecycle to AI agents",
+  "type": "module",
+  "main": "index.js",
+  "comment": "Deliberately isolated from the root package.json: that tree is Gatsby 3 / React 17 and needs --legacy-peer-deps. Keeping the SDK here avoids a resolution fight.",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "gray-matter": "^4.0.3",
+    "zod": "^3.23.8"
+  }
+}

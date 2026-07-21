@@ -7,6 +7,11 @@ module.exports = {
     fontFamily: {
       head: ['"Archivo Black"', 'sans-serif'],
       sans: ['"Space Grotesk"', 'sans-serif'],
+      // Article typography: Bentham for titles/callouts, Domine for
+      // everything that carries the reading weight. Domine tops out at 700,
+      // so `font-bold` is its heaviest.
+      bentham: ['Bentham', 'serif'],
+      domine: ['Domine', 'serif'],
     },
     extend: {
       fontSize: {
@@ -19,6 +24,11 @@ module.exports = {
       height: {
         '40vh': '40vh',
         '60vh': '60vh',
+      },
+      spacing: {
+        // 60% of the 2.75rem the fixed control buttons used to be. A named key
+        // rather than '6.6' so the generated class needs no dot-escaping.
+        control: '1.65rem',
       },
       colors: {
         background: '#F5ECE7',

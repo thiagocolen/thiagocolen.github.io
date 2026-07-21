@@ -1,14 +1,51 @@
 /* Markdown / Dev.to Article Styling Overrides */
 
+/* Body size and leading come from custom properties so the reader controls in
+   postPage.js can retune the whole article by swapping one class on the
+   wrapper, instead of every rule below needing a variant.
+   2.1 is the previous 1.75 plus 20%. Domine tops out at 700, so that is its
+   heaviest weight — `font-weight: 800` here would silently synthesize. */
 .article-content {
-  font-family: 'Space Grotesk', sans-serif;
+  --article-font-size: 1.125rem;
+  --article-line-height: 2.1;
+  font-family: 'Domine', serif;
+  font-weight: 700;
   color: #000000;
-  line-height: 1.75;
+  font-size: var(--article-font-size);
+  line-height: var(--article-line-height);
 }
+
+/* Reader control: text size. The -m values match the defaults above. */
+.article-content.article-size-s { --article-font-size: 1rem; }
+.article-content.article-size-m { --article-font-size: 1.125rem; }
+.article-content.article-size-l { --article-font-size: 1.375rem; }
+
+/* Reader control: line spacing. */
+.article-content.article-leading-s { --article-line-height: 1.6; }
+.article-content.article-leading-m { --article-line-height: 2.1; }
+.article-content.article-leading-l { --article-line-height: 2.6; }
 
 .article-content p {
   margin-bottom: 1.5rem;
-  font-size: 1.125rem;
+  font-size: var(--article-font-size);
+}
+
+/* The figure owns the vertical rhythm, so the image inside it drops the 2.5rem
+   margins it gets further down — otherwise a figure would space itself twice. */
+.article-content figure {
+  margin: 2.5rem 0;
+}
+
+.article-content figure img {
+  margin: 0 auto;
+}
+
+/* Captions stay in the markup for screen readers and for anything that reads
+   the source, but they are not shown: the images here carry their own context
+   from the surrounding copy, and a repeated description under each one just
+   adds noise. */
+.article-content figcaption {
+  display: none;
 }
 
 .article-content h1, 
@@ -49,7 +86,32 @@
   font-style: italic;
 }
 
-.article-content ul, 
+/* Callout (src/components/callout.js). MDX wraps the children in <p>, which
+   picks up the 1.5rem bottom margin from the rule above — that leaves dead
+   space inside the box. Drop it on the last child only. */
+.article-content .callout-body > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Callouts are the pull-quote moment of a post: Bentham, set larger than the
+   surrounding Domine body. The `p` selector is needed because MDX wraps the
+   children, and `.article-content p` would otherwise win on font-size. */
+.article-content .callout-body,
+.article-content .callout-body p {
+  font-family: 'Bentham', serif;
+  font-weight: 400;
+  font-size: calc(var(--article-font-size) * 1.33);
+  line-height: 1.5;
+}
+
+/* Images inside a callout are inline illustrations, not full-width figures,
+   so they skip the large margins and hard shadow applied further down. */
+.article-content .callout-body img {
+  margin: 1rem auto;
+  box-shadow: none;
+}
+
+.article-content ul,
 .article-content ol {
   margin-left: 1.5rem;
   margin-bottom: 1.5rem;
@@ -75,6 +137,90 @@
   max-width: 100%;
   height: auto;
   display: block;
+}
+
+/* ---------- Article dark theme (reader control in postPage.js) ----------
+   Scoped to the two `.article-box` containers only — the poster background,
+   tag chips, footer and back link stay as they are. Every selector doubles up
+   (`.article-box.article-dark`) to outrank the single-class Tailwind utilities
+   it overrides, rather than relying on stylesheet order. */
+.article-box.article-dark {
+  background-color: #14110f;
+  border-color: #f5ece7;
+  color: #f5ece7;
+}
+
+.article-box.article-dark .article-content,
+.article-box.article-dark h1,
+.article-box.article-dark h2,
+.article-box.article-dark h3,
+.article-box.article-dark h4 {
+  color: #f5ece7;
+}
+
+.article-box.article-dark .article-headline {
+  color: #cfc6c1;
+}
+
+/* h2's underline and the figure/cover borders are hard black by default, which
+   vanishes against the dark panel. */
+.article-box.article-dark .article-content h2 {
+  border-bottom-color: #f5ece7;
+}
+
+.article-box.article-dark img {
+  border-color: #f5ece7;
+}
+
+.article-box.article-dark .article-content img {
+  box-shadow: 6px 6px 0 0 #f5ece7;
+}
+
+.article-box.article-dark .article-content .callout-body img {
+  box-shadow: none;
+}
+
+/* Links keep the yellow highlight, so their text has to stay black. */
+.article-box.article-dark .article-content a {
+  color: #000000;
+}
+
+/* Callouts. In light mode the box is its accent colour at 20–30% over white, a
+   pale tint that black body text sits on happily. Over the dark panel that same
+   tint composites to a muddy olive, and callout.js puts `text-black` straight on
+   .callout-body — a declaration on the element itself, so it beats the light
+   colour the rest of the body inherits. Result is black on dark. Thin the wash
+   out and flip the text; the chip stays solid and keeps carrying the variant
+   colour, because `bg-accent` and friends re-declare --tw-bg-opacity locally. */
+.article-box.article-dark .article-content .callout {
+  --tw-bg-opacity: 0.14;
+  border-color: #f5ece7;
+  box-shadow: 4px 4px 0 0 #f5ece7;
+}
+
+.article-box.article-dark .article-content .callout-body {
+  color: #f5ece7;
+}
+
+.article-box.article-dark .article-content blockquote {
+  background-color: #14110f;
+  border-color: #f5ece7;
+  box-shadow: 4px 4px 0 0 #f5ece7;
+}
+
+.article-box.article-dark .article-content code {
+  background-color: #14110f;
+  border-color: #f5ece7;
+  color: #f5ece7;
+}
+
+.article-box.article-dark .article-content pre {
+  border-color: #f5ece7;
+  box-shadow: 4px 4px 0 0 #f5ece7;
+}
+
+.article-box.article-dark .article-content pre code {
+  color: inherit;
 }
 
 /* Code & Highlight Custom Styling */

@@ -1,5 +1,10 @@
 const React = require("react");
 
+// Same provider gatsby-browser.js registers, so the SSR'd HTML and the
+// hydrated app render post bodies identically. This file is CommonJS (it uses
+// `exports.` below), hence require rather than import.
+exports.wrapRootElement = require("./src/wrapRootElement").wrapRootElement;
+
 const HtmlAttributes = {};
 
 const HeadComponents = [
@@ -12,7 +17,7 @@ const HeadComponents = [
   />,
   <link
     key="3"
-    href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@300..700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bentham&family=Domine:wght@400..700&family=Space+Grotesk:wght@300..700&display=swap"
     rel="stylesheet"
   ></link>,
   <script

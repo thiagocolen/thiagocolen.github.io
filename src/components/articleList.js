@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "gatsby";
 import { datePipe } from "../utils/datePipe";
+import { assetUrl } from "../utils/assetUrl";
 
 const ArticleComponent = ({ article, index }) => {
   return (
@@ -13,16 +14,25 @@ const ArticleComponent = ({ article, index }) => {
         {article.cover_image && (
           <div 
             className="w-full h-44 bg-cover bg-center border-b-2 border-black"
-            style={{ backgroundImage: `url(${article.cover_image})` }}
+            style={{ backgroundImage: `url(${assetUrl(article.cover_image)})` }}
           />
         )}
         
         {/* Card Body */}
         <div className="p-5 flex-grow flex flex-col justify-between text-black">
           <div>
-            {/* Metadata (Date) */}
-            <div className="inline-block border border-black bg-accent text-black text-xs font-semibold px-2 py-0.5 rounded mb-3">
-              {datePipe(article.published_at)}
+            {/* Metadata (Draft badge + Date) */}
+            <div className="flex items-center gap-2 mb-3">
+              {article.status !== "published" && (
+                <span className="inline-block border border-black bg-amber-400 text-black text-xs font-semibold px-2 py-0.5 rounded">
+                  DRAFT
+                </span>
+              )}
+              {article.published_at && (
+                <div className="inline-block border border-black bg-accent text-black text-xs font-semibold px-2 py-0.5 rounded">
+                  {datePipe(article.published_at)}
+                </div>
+              )}
             </div>
 
             {/* Title */}

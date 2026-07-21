@@ -97,16 +97,20 @@ Every script below is run with `npm run <name>` (e.g. `npm run develop`).
 
 ### Post scripts
 
-Posts are plain files under `content/posts/` — see [Content](#-content) for the frontmatter shape. These two scripts are conveniences, not requirements; you can also just create/edit the `.mdx` files by hand.
+Posts are plain files under `content/posts/` — see [Content](#-content) for the frontmatter shape. These scripts are conveniences, not requirements; you can also just create/edit/delete the `.mdx` files by hand.
 
 | Script | Command | What it does |
 | :--- | :--- | :--- |
 | `new-post` | `npm run new-post -- "Title" tag1,tag2` | Scaffolds `content/posts/<slug>.mdx` with `status: unpublished` and empty frontmatter fields ready to fill in. Slug is derived from the title. Refuses to overwrite an existing file. |
 | `publish-post` | `npm run publish-post -- <slug>` | Flips a post's `status` from `unpublished` to `published`. No-op (not an error) if already published. Sets `published_at` to the current time only if it isn't already set, so republishing after an edit never clobbers the original publish date. |
+| `unpublish-post` | `npm run unpublish-post -- <slug>` | The inverse: flips `status` back to `unpublished`, so the post is dropped from production builds while still showing up in `develop`. No-op if it isn't published. Leaves `published_at` alone, so republishing later keeps the original date. |
+| `delete-post` | `npm run delete-post -- <slug> [--dry-run] [--keep-assets]` | Removes `content/posts/<slug>.mdx` **and** the `static/images/` files only that post references (its `cover_image` plus any `/images/...` in the body). An image another post still uses is kept and reported. `--dry-run` prints the file list without touching anything; `--keep-assets` deletes just the `.mdx`. |
 
 > The `--` is not optional. Without it, npm swallows the arguments and the script sees nothing.
 
-These two are the middle of a longer flow — see [Publishing a Post](#-publishing-a-post) for the whole thing, start to finish.
+`new-post` and `publish-post` are the middle of a longer flow — see [Publishing a Post](#-publishing-a-post) for the whole thing, start to finish.
+
+For taking something down, prefer `unpublish-post`: deleting a post that has been live breaks its permalink for anyone who linked to it, while unpublishing just removes it from production builds. Either way the change only reaches the site once you commit and deploy.
 
 ## 🚀 Publishing a Post
 

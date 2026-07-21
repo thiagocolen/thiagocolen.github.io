@@ -16,7 +16,9 @@
     "clean": "gatsby clean",
     "deploy": "gatsby build && gh-pages -d public",
     "new-post": "node develop-tools/new-post.js",
-    "publish-post": "node develop-tools/publish-post.js"
+    "publish-post": "node develop-tools/publish-post.js",
+    "unpublish-post": "node develop-tools/unpublish-post.js",
+    "delete-post": "node develop-tools/delete-post.js"
   },
   "dependencies": {
     "@babel/core": "^7.28.0",

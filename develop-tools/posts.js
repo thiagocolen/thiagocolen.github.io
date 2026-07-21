@@ -287,6 +287,86 @@ const publishPost = (postsDir, slug) => {
   return { slug, path: file, alreadyPublished: false, published_at: post.data.published_at };
 };
 
+// The inverse of publishPost. `published_at` is deliberately left alone: it
+// records when the post first went live, and publishPost only fills it when
+// empty — so an unpublish/republish round trip keeps the original date.
+const unpublishPost = (postsDir, slug) => {
+  const file = postPath(postsDir, slug);
+
+  if (!fs.existsSync(file)) {
+    throw new Error(`No post found at ${file}`);
+  }
+
+  const post = matter.read(file);
+
+  if (post.data.status !== "published") {
+    return { slug, path: file, alreadyUnpublished: true, published_at: post.data.published_at || null };
+  }
+
+  post.data.status = "unpublished";
+
+  fs.writeFileSync(file, matter.stringify(post.content, post.data));
+
+  return { slug, path: file, alreadyUnpublished: false, published_at: post.data.published_at || null };
+};
+
+// Every /images/... URL a post file mentions, from cover_image and the body
+// alike. Used to work out which assets a deletion should take with it.
+const referencedAssets = (raw) => {
+  const pattern = new RegExp(`${ASSET_URL_BASE}/([A-Za-z0-9][A-Za-z0-9._-]*)`, "g");
+  return new Set(Array.from(raw.matchAll(pattern), (match) => match[1]));
+};
+
+// Removes the post file and the images only it uses. An asset another post
+// still references is kept and reported, so deleting one post can never break
+// the cover of another.
+const deletePost = (postsDir, assetsDir, slug, { keepAssets = false, dryRun = false } = {}) => {
+  const file = postPath(postsDir, slug);
+
+  if (!fs.existsSync(file)) {
+    throw new Error(`No post found at ${file}`);
+  }
+
+  const dir = path.resolve(postsDir);
+  const mine = keepAssets ? new Set() : referencedAssets(fs.readFileSync(file, "utf8"));
+
+  const theirs = new Set();
+  for (const name of fs.readdirSync(dir)) {
+    if (!name.endsWith(".mdx") || path.resolve(dir, name) === file) continue;
+    for (const asset of referencedAssets(fs.readFileSync(path.join(dir, name), "utf8"))) {
+      theirs.add(asset);
+    }
+  }
+
+  const assets = [];
+  const shared = [];
+
+  for (const filename of mine) {
+    if (theirs.has(filename)) {
+      shared.push(filename);
+      continue;
+    }
+
+    // A URL in the body is arbitrary text, so it gets the same treatment as
+    // any other untrusted filename before it becomes a path we unlink.
+    let assetFile;
+    try {
+      assetFile = assetPath(assetsDir, filename);
+    } catch {
+      continue;
+    }
+
+    if (fs.existsSync(assetFile)) assets.push(assetFile);
+  }
+
+  if (!dryRun) {
+    for (const assetFile of assets) fs.unlinkSync(assetFile);
+    fs.unlinkSync(file);
+  }
+
+  return { slug, path: file, assets, shared, dryRun };
+};
+
 module.exports = {
   FRONTMATTER_FIELDS,
   SLUG_PATTERN,
@@ -302,4 +382,6 @@ module.exports = {
   createDraft,
   updatePost,
   publishPost,
+  unpublishPost,
+  deletePost,
 };

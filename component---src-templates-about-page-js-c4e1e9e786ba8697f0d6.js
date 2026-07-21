@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkthiago_colen=self.webpackChunkthiago_colen||[]).push([[553],{1657:function(e,t,l){l.r(t);var a=l(7953),n=l(6420),c=l(1167),r=l(287);t.default=e=>{e.pageContext;return a.createElement(a.Fragment,null,a.createElement(n.A,{activePage:"about"}),a.createElement(r.A,null,a.createElement("h1",{className:"text-red-500 text-3xl font-semibold mb-6"},"About")),a.createElement(c.A,null))}}}]);
-//# sourceMappingURL=component---src-templates-about-page-js-c4e1e9e786ba8697f0d6.js.map

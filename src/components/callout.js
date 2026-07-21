@@ -40,7 +40,7 @@ const Callout = ({ type = "note", title, children }) => {
       >
         {title || variant.label}
       </div>
-      <div className="callout-body font-sans text-black">{children}</div>
+      <div className="callout-body font-bentham text-black">{children}</div>
     </aside>
   );
 };

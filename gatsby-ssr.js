@@ -17,7 +17,7 @@ const HeadComponents = [
   />,
   <link
     key="3"
-    href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@300..700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bentham&family=Domine:wght@400..700&family=Space+Grotesk:wght@300..700&display=swap"
     rel="stylesheet"
   ></link>,
   <script

@@ -1,0 +1,45 @@
+---
+title: How to Think About System Design
+headline: 'Or: the art of choosing which promises to break first'
+description: >-
+  A field guide to the trade-offs — performance vs. scalability, latency vs.
+  throughput, availability vs. consistency — that the system design interview is
+  really testing.
+published_at: null
+cover_image: /images/how-to-think-about-system-design.jpg
+status: unpublished
+tags:
+  - system-design
+  - interviews
+  - distributed-systems
+  - software-architecture
+---
+<p>Ask an engineer to &quot;design Twitter&quot; and watch the panic set in. There&#39;s no single right answer, no compiler to check your work, and forty-five minutes on a whiteboard to prove you understand how millions of moving parts hold together under load. That&#39;s the system design interview — and despite its reputation as an oral exam in anxiety, it rewards a surprisingly learnable skill: knowing which trade-off you&#39;re making, and why.</p>
+<h2>What System Design Actually Tests</h2>
+<p>System design is the discipline of architecting software for scale — deciding how data moves, where it lives, and what breaks first when traffic multiplies by a thousand. Unlike a coding interview, there&#39;s rarely a single correct diagram. What&#39;s being evaluated is whether you can reason out loud: identify the constraints, propose a structure, and defend it when someone pokes a hole in it.</p>
+<p>The right way to approach a system design problem is to resist the urge to start drawing boxes immediately. Clarify the requirements first — how many users, how much data, read-heavy or write-heavy — because every subsequent decision depends on those numbers. A design that&#39;s elegant for a million users can be laughably wrong for a billion, and vice versa.</p>
+
+<Callout type="tip" title="Why this matters">
+<p>Interviewers aren&#39;t grading your final diagram. They&#39;re grading the trade-offs you noticed and the ones you chose to accept.</p>
+
+</Callout>
+<h2>Performance vs. Scalability</h2>
+<p>These two words get used interchangeably by people who shouldn&#39;t. A system has a <strong>performance</strong> problem when it&#39;s slow for a single user. It has a <strong>scalability</strong> problem when it&#39;s fast for one user but falls over once thousands arrive at once. You can have either without the other: a beautifully optimized system that simply can&#39;t be replicated across more machines, or a sluggish system that nonetheless holds steady no matter how many users pile on. Knowing which one you&#39;re solving for changes everything about the fix — optimizing code helps performance; adding servers and rethinking architecture helps scalability.</p>
+<h2>Latency vs. Throughput</h2>
+<p>A close cousin of the pair above. <strong>Latency</strong> is the time to produce a single result — the delay between asking and receiving. <strong>Throughput</strong> is how many results the system produces per unit of time. Ideally you want low latency and high throughput, but systems under real load frequently have to negotiate between them: batching requests together can raise throughput while making any individual request wait a little longer. Recognizing which one your users actually feel — a shopper waiting for a page to load cares about latency; a data pipeline processing logs overnight cares about throughput — tells you which one to defend.</p>
+<h2>Availability vs. Consistency, and the Theorem Behind Them</h2>
+<p>This is where system design stops being a matter of taste and becomes a matter of mathematics. <strong>Availability</strong> means every request gets a response, even if a chunk of the system is down. <strong>Consistency</strong> means every read gets the most recent write, no matter which node answers it. In a distributed system split across multiple machines, the <strong>CAP theorem</strong> states you cannot have both of these at once alongside partition tolerance — and partition tolerance, in any network that can fail (which is to say, any real network), is not optional. So the actual choice engineers make is CP or AP: consistency or availability, when the network inevitably hiccups.</p>
+
+<figure><img src="/images/how-to-think-about-system-design-fig-1.jpg" alt="Two towers connected by a fraying bridge, one glowing steady, the other flickering" /><figcaption>Two towers connected by a fraying bridge, one glowing steady, the other flickering</figcaption></figure>
+
+<Callout type="warn" title="A common trap">
+<p>Don&#39;t treat CAP as a one-time, whole-system decision. Real architectures mix strategies — strongly consistent for account balances, eventually consistent for a &quot;likes&quot; counter — because different data deserves different guarantees.</p>
+
+</Callout>
+<h2>The Shades of Consistency</h2>
+<p>Once you&#39;ve accepted that perfect, instantaneous consistency across every node is often impractical, the interesting question becomes: how much staleness can you tolerate? <strong>Strong consistency</strong> guarantees every read reflects the latest write, immediately, everywhere — expensive, but sometimes non-negotiable. <strong>Weak consistency</strong> offers no such guarantee; reads might return stale or even out-of-order data. <strong>Eventual consistency</strong>, the popular middle ground, promises that if no new updates arrive, all replicas will <em>eventually</em> converge on the same value — good enough for systems like DNS or a social media feed, where a few seconds of lag goes unnoticed.</p>
+
+<figure><img src="/images/how-to-think-about-system-design-fig-2.jpg" alt="A cluster of small orbiting nodes gradually settling into alignment" /><figcaption>A cluster of small orbiting nodes gradually settling into alignment</figcaption></figure>
+<h2>Bringing It Together</h2>
+<p>None of these ideas function in isolation — that&#39;s rather the point. A system optimized purely for low latency but ignorant of throughput will choke under load. A system that chases strong consistency everywhere will sacrifice availability the moment its network partitions, which real networks eventually do. The system design interview, at bottom, isn&#39;t testing whether you&#39;ve memorized the CAP theorem. It&#39;s testing whether you can look at a set of requirements and correctly identify which trade-off actually matters for <em>this</em> system, for <em>these</em> users, right now.</p>
+<p>That instinct — for spotting the trade-off hiding inside a seemingly open-ended question — is exactly what separates an engineer who can build something that survives contact with a million real users from one who can only build something that works on their laptop.</p>

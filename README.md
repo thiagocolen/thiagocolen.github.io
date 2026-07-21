@@ -17,6 +17,7 @@
 - ✍️ [Content](#-content)
 - ⚙️ [How the Site Works](#-how-the-site-works)
 - 🧰 [Available Scripts](#-available-scripts)
+- 🚀 [Publishing a Post](#-publishing-a-post)
 - 🤖 [Publishing from an AI agent](#-publishing-from-an-ai-agent)
 - 👀 [PR Previews](#-pr-previews)
 - 🧠 [Development Philosophy](#-development-philosophy)
@@ -46,6 +47,7 @@ Posts are **MDX files** committed straight into the repo, one per post, under `c
 ```yaml
 ---
 title: "Post Title"
+headline: "Deck shown under the title on the post page"
 description: "Short summary shown in listings"
 published_at: "2026-07-15T12:00:00Z"   # empty/null for drafts
 cover_image: "https://example.com/cover.png"
@@ -56,7 +58,9 @@ tags: ["nodejs", "javascript"]
 Body content in MDX...
 ```
 
-There's no database and nothing to sync — the committed files *are* the source of truth, for drafts and published posts alike. See [Available Scripts](#-available-scripts) for the two helper scripts that create and publish posts.
+`headline` and `description` are easy to conflate but land in different places: the **headline** is the deck rendered under the `<h1>` on the post page itself, while the **description** is the blurb on article cards and in listings, and is *not* shown on the post page.
+
+There's no database and nothing to sync — the committed files *are* the source of truth, for drafts and published posts alike. See [Publishing a Post](#-publishing-a-post) for the full walkthrough.
 
 ## ⚙️ How the Site Works
 
@@ -97,10 +101,130 @@ Posts are plain files under `content/posts/` — see [Content](#-content) for th
 
 | Script | Command | What it does |
 | :--- | :--- | :--- |
-| `new-post` | `node develop-tools/new-post.js "Title" tag1,tag2` | Scaffolds `content/posts/<slug>.mdx` with `status: unpublished` and empty frontmatter fields ready to fill in. Slug is derived from the title. Refuses to overwrite an existing file. |
-| `publish-post` | `node develop-tools/publish-post.js <slug>` | Flips a post's `status` from `unpublished` to `published`. No-op (not an error) if already published. Sets `published_at` to the current time only if it isn't already set, so republishing after an edit never clobbers the original publish date. |
+| `new-post` | `npm run new-post -- "Title" tag1,tag2` | Scaffolds `content/posts/<slug>.mdx` with `status: unpublished` and empty frontmatter fields ready to fill in. Slug is derived from the title. Refuses to overwrite an existing file. |
+| `publish-post` | `npm run publish-post -- <slug>` | Flips a post's `status` from `unpublished` to `published`. No-op (not an error) if already published. Sets `published_at` to the current time only if it isn't already set, so republishing after an edit never clobbers the original publish date. |
 
-After publishing, commit `content/posts/` and run `npm run deploy` (or push — see [PR Previews](#-pr-previews)) to ship it.
+> The `--` is not optional. Without it, npm swallows the arguments and the script sees nothing.
+
+These two are the middle of a longer flow — see [Publishing a Post](#-publishing-a-post) for the whole thing, start to finish.
+
+## 🚀 Publishing a Post
+
+The whole journey, from empty file to live site:
+
+```
+new-post → write → develop (preview) → publish-post → commit/push → PR (preview URL) → merge → deploy
+```
+
+Nine steps, and only the last one is outward-facing.
+
+### 1. Scaffold the draft
+
+```bash
+npm run new-post -- "My Post Title" nodejs,javascript
+```
+
+Creates `content/posts/my-post-title.mdx` with `status: unpublished`. The slug comes from the title (lowercased, non-alphanumerics collapsed to hyphens) and becomes the URL at `/blog/post/<slug>/`. The script refuses to overwrite an existing file, so a title collision fails loudly rather than eating your draft.
+
+Tags are optional — pass them comma-separated, with no spaces around the commas.
+
+### 2. Write it
+
+Open the generated `.mdx` and fill in the frontmatter:
+
+```yaml
+---
+title: My Post Title            # the <h1>
+headline: The one-line deck     # subtitle under the <h1>, on the post page
+description: Listing blurb      # article cards + SEO; NOT shown on the post page
+published_at: null              # leave null — publish-post stamps it
+cover_image: /images/my-post.jpg
+status: unpublished             # leave it — publish-post flips it
+tags:
+  - nodejs
+  - javascript
+---
+```
+
+Then write the body below the frontmatter. It's MDX, so plain Markdown and HTML both work, plus two extras that need **no import**:
+
+- `<Callout type="note|tip|warn" title="Optional heading">…</Callout>` — an unrecognised `type` degrades to `note` instead of crashing the page.
+- The [mdx-embed](https://www.mdx-embed.com/) shortcodes: `<YouTube>`, `<CodePen>`, `<Tweet>`, and friends.
+
+Both come from the `MDXProvider` in `src/wrapRootElement.js`. A component that isn't in that map doesn't degrade gracefully — it fails to render, so stick to what's registered.
+
+### 3. Add images (optional)
+
+Two options:
+
+- **Already hosted somewhere?** Put the URL straight into `cover_image` or an `<img>` in the body. Nothing to do.
+- **Local file?** Drop it in `static/images/` and reference it root-relative as `/images/my-post.jpg`. Gatsby copies `static/` verbatim to the site root.
+
+Keep local paths root-relative (`/images/…`, not `images/…`): `src/utils/assetUrl.js` rewrites them for PR previews, which build under a path prefix. Skip the leading slash and the image works locally and in production but 404s in the preview — the one place you'll actually be reviewing it.
+
+Note there's no image optimisation pipeline. `gatsby-plugin-sharp` is in `package.json` but not enabled in `gatsby-config.js`, so local images ship at whatever size you dropped in. Resize before committing.
+
+### 4. Preview locally
+
+```bash
+npm run develop
+```
+
+Then open `http://localhost:8000`. Your draft appears in the listings even though it's unpublished — `gatsby develop` deliberately includes drafts so you can see them, while `gatsby build` filters them out (see [How the Site Works](#-how-the-site-works)).
+
+Iterate here as long as you like. Hot reload picks up frontmatter and body edits.
+
+### 5. Publish — flip the flag
+
+```bash
+npm run publish-post -- my-post-title
+```
+
+Sets `status: published` and stamps `published_at` with the current time — but **only if it isn't already set**, so re-publishing after a later edit never clobbers the original date. Running it twice is a no-op, not an error.
+
+> **This edits a file. Nothing is live yet.** "Published" here means the post is no longer filtered out of production builds. It says nothing about whether a build has happened.
+
+### 6. Commit and push
+
+```bash
+git add content/posts static/images
+git commit -m 'content: add "My Post Title"'
+git push origin new-articles
+```
+
+Pushing doesn't build anything. The only workflow in the repo, `pr-preview.yml`, triggers on `pull_request` — not on `push`.
+
+### 7. Open a PR into `release/v1.2.0` and check the preview
+
+`new-articles` is where posts are staged; `release/v1.2.0` is where they're integrated. So the PR goes `new-articles → release/v1.2.0`.
+
+(Neither is `master`, deliberately: until `release/v1.2.0` lands there, `master` predates the MDX pipeline and has no `content/posts` directory at all.)
+
+Opening the PR is what triggers the preview build, published at `https://thiagocolen.github.io/pr-preview/pr-<number>/`. It refreshes on every push to the branch and is deleted when the PR closes. See [PR Previews](#-pr-previews) for details.
+
+This is the real review step: the preview is a production build, so it's the first place you see the post as readers will — drafts filtered out, path prefixes applied, images resolved.
+
+### 8. Merge the PR
+
+Merging still doesn't deploy anything — no workflow builds `release/v1.2.0` on push.
+
+### 9. Deploy
+
+```bash
+git checkout release/v1.2.0
+git pull
+npm run deploy
+```
+
+`npm run deploy` is `gatsby build && gh-pages -d public`: it builds the site and pushes `public/` to the `gh-pages` branch, which is what GitHub Pages serves. **This is the only step that touches the live site.**
+
+---
+
+> ⚠️ **Stop the dev server before deploying.** `gatsby build` and `gatsby develop` share the same `.cache/` and `public/` directories. Running a build while the dev server is up corrupts the cache and can produce a broken build with no obvious error. If it happens, `npm run clean` and start over.
+
+> 🚦 **Two independent gates.** `status: published` (a flag in a file) and `npm run deploy` (an actual deploy) are unrelated. Steps 1–8 are all reversible; only step 9 is visible to anyone else.
+
+Prefer to have an agent do the writing? Same flow, different driver — see below.
 
 ## 🤖 Publishing from an AI agent
 

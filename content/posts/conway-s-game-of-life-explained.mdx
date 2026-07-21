@@ -1,0 +1,37 @@
+---
+title: 'Conway''s Game of Life, Explained'
+headline: 'Three rules, zero players, and a universe that computes itself'
+description: >-
+  How three absurdly simple rules in Conway's Game of Life produce gliders,
+  guns, and a system capable of computing anything.
+published_at: null
+cover_image: /images/conway-s-game-of-life-explained.jpg
+status: unpublished
+tags:
+  - cellular-automata
+  - game-of-life
+  - conway
+  - emergence
+  - computation
+---
+<p>In 1970, a British mathematician named John Conway showed off a &quot;game&quot; with no players, no moves, and no way to win. You set up an initial pattern of cells on a grid, press start, and watch. That is the entire interaction. And yet this game — the Game of Life — has been proven capable of simulating a working computer, has spawned five decades of ongoing discovery, and still gets mathematicians and physicists talking about the nature of reality itself. The trick is not that its rules are clever. The trick is that they are almost insultingly simple, and simplicity turns out to be exactly where complexity likes to hide.</p>
+<h2>The three rules that run the universe</h2>
+<p>The Game of Life plays out on an infinite two-dimensional grid, where every cell is either alive or dead. Nothing more nuanced than that — one bit of information per cell. Each generation, every cell counts its eight neighbors and obeys three rules. The birth rule: a dead cell with exactly three live neighbors springs to life. The survival rule: a live cell with two or three live neighbors stays alive. The death rule: everything else dies, whether from isolation — fewer than two live neighbors — or overcrowding — more than three. Apply those three rules to every cell simultaneously, and you have the next generation. Repeat forever, and you have the Game of Life.</p>
+<p>There is no dial to turn, no parameter to tune. The entire richness of the system comes from watching those three rules play out across different starting patterns — which is exactly what mathematicians have spent decades doing.</p>
+<h2>Still lifes, oscillators, and gliders</h2>
+<p>Patterns discovered in the Game of Life fall into a few natural families. Still lifes — shapes like the block, the beehive, and the loaf — never change: every cell in them already satisfies the survival rule, so generation after generation, they simply sit there. Oscillators, like the blinker and the toad, cycle back to their original shape after a fixed number of generations — two steps for those two, but fifteen for a pattern called the pentadecathlon. Then there are spaceships, of which the glider is the simplest: a five-cell shape that returns to its original form every four generations, but shifted diagonally across the grid. As Daniel Shiffman, a computational-media educator, puts it, the glider is not really an object moving through space at all — the individual cells never move — but a pattern of &quot;energy&quot; that propagates, &quot;a second layer of reality&quot; sitting on top of the grid&#39;s basic rules.</p>
+<p>That second layer is where things get strange, and where the Game of Life stops being a curiosity and starts being a serious piece of mathematics.</p>
+
+<Callout type="note" title="A machine built from gliders">
+<p>In 1970, Bill Gosper discovered the &quot;glider gun&quot; — a stable configuration that fires off a new glider every 30 generations, forever. It was the first proof that Life could produce infinite, unbounded growth from a finite starting pattern, and it opened the door to building logic gates, and eventually entire computers, out of nothing but streams of gliders colliding with each other.</p>
+
+</Callout>
+
+<figure><img src="/images/conway-s-game-of-life-explained-fig-1.jpg" alt="A diagonal trail of small repeating shapes crossing a vast grid" /><figcaption>A diagonal trail of small repeating shapes crossing a vast grid</figcaption></figure>
+<h2>A universe that can compute anything</h2>
+<p>The glider gun was the first hint of something remarkable: the Game of Life is Turing complete. That means it can, in principle, compute anything any computer can compute — given a big enough grid and the patience to wait. Researchers and hobbyists have since built working logic gates, memory registers, and even entire virtual machines entirely out of colliding gliders and stable structures, all running on Conway&#39;s original three rules. It is a strange kind of proof: a system built from something as trivial as &quot;three or two neighbors, stay alive&quot; turns out to contain, hidden inside it, the full power of computation itself.</p>
+<p>This is also why the Game of Life keeps resurfacing in conversations about emergence and even about the nature of the universe. Complexity, it turns out, does not require complicated rules. It requires simple rules given enough room to interact — which is precisely why adding more rules to a system, counterintuitively, tends to make it less capable of surprising you, not more. Constraint kills possibility; the Game of Life thrives because its constraints are so minimal that almost anything can still happen within them.</p>
+
+<figure><img src="/images/conway-s-game-of-life-explained-fig-2.jpg" alt="A dense field of small stable clusters beside a chaotic churning region" /><figcaption>A dense field of small stable clusters beside a chaotic churning region</figcaption></figure>
+<h2>Why three rules still matter</h2>
+<p>Conway died in 2020, but the game he invented as, by his own account, a curiosity about self-replicating patterns has outlived any expectation he might have had for it. It has appeared in Scientific American, powered decades of hobbyist research, modeled real phenomena in statistical physics, and inspired an entire family of descendants — SmoothLife, Lenia, and other continuous variants that trade Life&#39;s binary cells for something closer to organic tissue. The lesson underneath all of it is bigger than any single glider or gun: given the right simple rules and enough space to unfold, a system with no designer and no goal can produce structure, movement, and even computation indistinguishable, in its own small universe, from life itself.</p>

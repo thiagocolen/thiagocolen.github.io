@@ -3,6 +3,7 @@ import { navigate } from "gatsby";
 import { ArrowCircleRightIcon } from "@heroicons/react/solid";
 import { songsSnippets } from "../utils/constants";
 import Poster from "../components/poster";
+import Seo from "../components/seo";
 
 const HomePage = ({ pageContext }) => {
 
@@ -59,6 +60,9 @@ const HomePage = ({ pageContext }) => {
 
   return (
     <React.Fragment>
+      {/* Superseded by homePage2 at /. Kept reachable but out of the index so
+          it cannot compete with the real home page for the same terms. */}
+      <Seo title="Home" path="/homepage/" noindex />
       <ArrowComponent />
       <SentenceComponent />
       <Poster posterType="full" />

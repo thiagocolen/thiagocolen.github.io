@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Link } from "gatsby"
+import Seo from "../components/seo"
 
 // styles
 const pageStyles = {
@@ -28,7 +29,10 @@ const codeStyles = {
 const NotFoundPage = () => {
   return (
     <main style={pageStyles}>
-      <title>Not found</title>
+      {/* Was a bare <title> inside <main>, copied from a Gatsby 4 starter where
+          the Head API hoists it. On Gatsby 3 it rendered a <title> element in
+          the body, which no crawler reads as the document title. */}
+      <Seo title="Page not found" path="/404/" noindex />
       <h1 style={headingStyles}>Page not found</h1>
       <p style={paragraphStyles}>
         Sorry{" "}

@@ -14,7 +14,7 @@
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "deploy": "gatsby build && gh-pages -d public",
+    "deploy": "gatsby clean && gatsby build && node develop-tools/deploy.js",
     "new-post": "node develop-tools/new-post.js",
     "publish-post": "node develop-tools/publish-post.js",
     "unpublish-post": "node develop-tools/unpublish-post.js",

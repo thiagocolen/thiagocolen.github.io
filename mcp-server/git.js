@@ -64,13 +64,12 @@ const currentBranch = () => git(["branch", "--show-current"]);
 
 // Which branch `new-articles` is cut from, and what its pull request targets.
 //
-// NOT origin/master: as of this writing master predates the MDX content
-// pipeline (it still carries the SQLite-era gatsby-node.js and no
-// content/posts at all), so a branch based there would hold zero existing
-// posts and its PR would read as a revert. Defaulting to whatever the working
-// tree had checked out before we switched guarantees the base has the same
-// content pipeline you're editing against, and it self-corrects once a release
-// lands on master. Override with MCP_BASE_BRANCH when that isn't what you want.
+// Normally `master`: it carries the MDX content pipeline and every published
+// post, and it is what `npm run deploy` ships. Rather than hardcoding it, we
+// default to whatever the working tree had checked out before we switched —
+// that guarantees the base has the same content pipeline you're editing
+// against even when you're working off a release branch, and it falls back to
+// master below. Override with MCP_BASE_BRANCH when that isn't what you want.
 const resolveBase = (previous) => {
   if (process.env.MCP_BASE_BRANCH) return process.env.MCP_BASE_BRANCH;
 

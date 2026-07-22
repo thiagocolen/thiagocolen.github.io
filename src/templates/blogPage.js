@@ -4,6 +4,7 @@ import Footer from "../components/footer";
 import Container from "../components/container";
 import Logo from "../components/logo";
 import ArticleList from "../components/articleList";
+import Seo from "../components/seo";
 
 // TODO: design references
 // https://mir-s3-cdn-cf.behance.net/project_modules/2800_opt_1/31dec0139215579.622b7213a3ce5.png
@@ -13,6 +14,11 @@ const BlogPage = ({ pageContext: { articlesList } }) => {
 
   return (
     <>
+      <Seo
+        title="Blog"
+        description="Long-form writing on algorithms, data structures, system design, and cellular automata."
+        path="/blog/"
+      />
       <MainMenu activePage="blog" />
       <Container>
         <Logo />

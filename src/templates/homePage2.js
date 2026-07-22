@@ -5,6 +5,30 @@ import ArticleList from "../components/articleList";
 import Container from "../components/container";
 import Footer from "../components/footer";
 import LoadingScreen from "../components/loadingScreen";
+import Seo from "../components/seo";
+
+// The home page is both a personal identity page and the blog's front door,
+// so it declares both entities. sameAs is what lets a search engine connect
+// this site to the GitHub/LinkedIn/dev.to profiles as one person.
+const HOME_SCHEMA = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Thiago Colen",
+    url: "https://thiagocolen.github.io/",
+    sameAs: [
+      "https://github.com/thiagocolen",
+      "https://www.linkedin.com/in/thiagocolen/",
+      "https://dev.to/thiagocolen",
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Thiago Colen",
+    url: "https://thiagocolen.github.io/",
+  },
+];
 
 const useSafeLayoutEffect = typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect;
 
@@ -31,6 +55,8 @@ const HomePage2 = ({ location, pageContext: { articlesList } }) => {
 
   return (
     <>
+      <Seo path="/" schema={HOME_SCHEMA} />
+
       {loadState === "loading" && (
         <LoadingScreen onDismiss={handleInitialize} isShort={isShortAnimation} />
       )}

@@ -5,7 +5,10 @@ const React = require("react");
 // `exports.` below), hence require rather than import.
 exports.wrapRootElement = require("./src/wrapRootElement").wrapRootElement;
 
-const HtmlAttributes = {};
+// The document had no lang, so screen readers and search engines had to guess
+// the content language. Set globally here rather than per page — it is the
+// same for the whole site.
+const HtmlAttributes = { lang: "en" };
 
 const HeadComponents = [
   <link key="1" rel="preconnect" href="https://fonts.googleapis.com" />,

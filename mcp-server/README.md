@@ -91,7 +91,8 @@ on `new-articles`**, and the draft files sit there uncommitted until
 
 The base branch for `new-articles` is inferred from whatever branch the tree was
 on before the first switch (`master` if it was already on `new-articles`),
-overridable with `MCP_BASE_BRANCH`.
+overridable with `MCP_BASE_BRANCH`. `master` is the usual answer — it holds the
+content pipeline and every published post, and it is what gets deployed.
 
 All post logic is delegated to `develop-tools/posts.js` — the same module the npm
 scripts use, so the CLI and the agent can never drift apart.
@@ -117,8 +118,9 @@ create_draft ──► update_post (iterate) ──► publish_post ──► st
 4. **Stage** — `stage_changes` commits and pushes to `new-articles`. Deliberately, no
    CI workflow builds that branch, so pushing still does not publish anything to the web.
 5. **PR** — open a pull request from the returned compare URL. That is what triggers
-   the preview build and, on merge, the deploy.
+   the preview build. Merging it still publishes nothing: the deploy is a manual
+   `npm run deploy` from `master`, run by a human.
 
-There are two independent gates before anything goes public: `publish_post` (the
-post's own status flag) and the pull request (the actual deploy). Steps 1–4 are all
-reversible; only merging the PR is outward-facing.
+There are three independent gates before anything goes public: `publish_post` (the
+post's own status flag), the pull request, and `npm run deploy` (the actual deploy).
+Steps 1–5 are all reversible; only the deploy is outward-facing.

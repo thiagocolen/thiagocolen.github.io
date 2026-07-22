@@ -10,10 +10,61 @@
 // "pr-preview/pr-1" and Gatsby resolves it to "/pr-preview/pr-1".
 const pathPrefix = process.env.PATH_PREFIX || "";
 
+// The canonical origin. Every SEO tag is built from this, never from
+// window.location, so the URL a crawler is told about is the same whether the
+// page was server-rendered, hydrated, or built for a PR preview.
+const siteUrl = "https://thiagocolen.github.io";
+
 module.exports = {
   pathPrefix,
+  siteMetadata: {
+    siteUrl,
+    // pathPrefix is repeated here because siteMetadata is what reaches the
+    // browser bundle (via GraphQL); process.env.PATH_PREFIX is build-time only
+    // and would be undefined during hydration, desyncing the rendered tags.
+    pathPrefix,
+    // Truthy only in PR preview builds, which share the production domain
+    // (thiagocolen.github.io/pr-preview/pr-N/) and would otherwise be indexed
+    // as duplicates of the real site. Drives the noindex tag in <Seo>.
+    isPreview: Boolean(pathPrefix),
+    title: "Thiago Colen",
+    titleTemplate: "%s — Thiago Colen",
+    description:
+      "Essays on algorithms, system design, and the strange places where simple rules produce complex behaviour, by Thiago Colen.",
+    author: "Thiago Colen",
+    // Fallback share image for pages that have no cover of their own. Left
+    // empty deliberately: pointing at a file that does not exist produces a
+    // broken preview card, which is worse than no card. Drop a 1200x630 image
+    // at static/images/og-default.jpg and set this to "/images/og-default.jpg".
+    defaultImage: "",
+    social: {
+      github: "https://github.com/thiagocolen",
+      linkedin: "https://www.linkedin.com/in/thiagocolen/",
+      devto: "https://dev.to/thiagocolen",
+    },
+  },
   plugins: [
     "gatsby-plugin-postcss",
+    "gatsby-plugin-react-helmet",
+    {
+      resolve: "gatsby-plugin-sitemap",
+      options: {
+        // /homepage/ is a superseded splash variant of /, and the 404 is not a
+        // real destination — listing either invites duplicate-content and
+        // soft-404 warnings in Search Console. /about/ is a stub and carries a
+        // matching noindex in aboutPage.js; submitting a URL you also tell
+        // crawlers to ignore is a contradiction Search Console reports. Drop
+        // it from both places once the page has real content.
+        // `excludes`, not `exclude` — renamed in gatsby-plugin-sitemap v4.
+        excludes: [
+          "/homepage/",
+          "/about/",
+          "/404/",
+          "/404.html",
+          "/dev-404-page/",
+        ],
+      },
+    },
     {
       resolve: "gatsby-plugin-react-svg",
       options: {

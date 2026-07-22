@@ -5,6 +5,7 @@ import { ShareIcon, CheckIcon, MoonIcon, SunIcon } from "@heroicons/react/outlin
 import Footer from "../components/footer";
 import Container from "../components/container";
 import Poster from "../components/poster";
+import Seo from "../components/seo";
 import { datePipe } from "../utils/datePipe";
 import { assetUrl } from "../utils/assetUrl";
 
@@ -251,6 +252,19 @@ const PostPage = ({ pageContext: { article }, data }) => {
 
   return (
     <>
+      {/* headline is the subtitle shown under the title; it reads better as a
+          search snippet than the body's opening line, so it seeds the
+          description when the post has no explicit one. */}
+      <Seo
+        title={article.title}
+        description={article.description || article.headline}
+        path={`/blog/post/${article.slug}/`}
+        image={article.cover_image}
+        type="article"
+        publishedAt={article.published_at}
+        tags={article.tags}
+        noindex={article.status !== "published"}
+      />
       <Poster
         colorOpacity={0.8}
         extraControls={

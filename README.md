@@ -93,7 +93,7 @@ Every script below is run with `npm run <name>` (e.g. `npm run develop`).
 | `build` | `gatsby build` | Produces the optimized, static production build in `public/` — runs `gatsby-node.js` (page creation from `content/posts/*.mdx`) and `gatsby-config.js` (plugin/source setup) as part of the build. |
 | `serve` | `gatsby serve` | Serves the already-built `public/` folder locally, so you can sanity-check a production build before deploying it. Run `build` first. |
 | `clean` | `gatsby clean` | Deletes Gatsby's cache and `public/` output (`.cache/`, `public/`). Use this when the dev server is misbehaving after config/schema changes — a stale cache is a common culprit. |
-| `deploy` | `gatsby build && gh-pages -d public` | Builds the site, then publishes the `public/` folder to the `gh-pages` branch via the `gh-pages` package. This is the manual production deploy path. |
+| `deploy` | `gatsby clean && gatsby build && node develop-tools/deploy.js` | The manual production deploy path, in three parts: wipe the cache and `public/` so no stale hashed bundle from an earlier build rides along, build fresh, then publish `public/` to the `gh-pages` branch. The publish step goes through `develop-tools/deploy.js` rather than the `gh-pages` CLI so it removes everything on the branch *except* `pr-preview/` — see [PR Previews](#-pr-previews). |
 
 ### Post scripts
 
@@ -198,11 +198,9 @@ git push origin new-articles
 
 Pushing doesn't build anything. The only workflow in the repo, `pr-preview.yml`, triggers on `pull_request` — not on `push`.
 
-### 7. Open a PR into `release/v1.2.0` and check the preview
+### 7. Open a PR into `master` and check the preview
 
-`new-articles` is where posts are staged; `release/v1.2.0` is where they're integrated. So the PR goes `new-articles → release/v1.2.0`.
-
-(Neither is `master`, deliberately: until `release/v1.2.0` lands there, `master` predates the MDX pipeline and has no `content/posts` directory at all.)
+`new-articles` is where posts are staged; `master` is where they're integrated and what gets deployed. So the PR goes `new-articles → master`.
 
 Opening the PR is what triggers the preview build, published at `https://thiagocolen.github.io/pr-preview/pr-<number>/`. It refreshes on every push to the branch and is deleted when the PR closes. See [PR Previews](#-pr-previews) for details.
 
@@ -210,17 +208,19 @@ This is the real review step: the preview is a production build, so it's the fir
 
 ### 8. Merge the PR
 
-Merging still doesn't deploy anything — no workflow builds `release/v1.2.0` on push.
+Merging still doesn't deploy anything — no workflow builds `master` on push.
 
 ### 9. Deploy
 
 ```bash
-git checkout release/v1.2.0
+git checkout master
 git pull
 npm run deploy
 ```
 
-`npm run deploy` is `gatsby build && gh-pages -d public`: it builds the site and pushes `public/` to the `gh-pages` branch, which is what GitHub Pages serves. **This is the only step that touches the live site.**
+`npm run deploy` is `gatsby clean && gatsby build && node develop-tools/deploy.js`: it clears the cache, builds the site, and pushes `public/` to the `gh-pages` branch, which is what GitHub Pages serves. **This is the only step that touches the live site.**
+
+If dependencies aren't installed yet, use `npm install --legacy-peer-deps` — `gatsby-plugin-mdx-embed@0.0.20-alpha` declares a peer on react@16 while the project is on react@17, which npm's strict resolver rejects. CI does the same thing (`npm ci --legacy-peer-deps` in `pr-preview.yml`).
 
 ---
 
@@ -262,7 +262,7 @@ The agent works in your **main working tree**, switching it to a branch called `
 agent → new-articles → you open a PR → preview build → merge → npm run deploy
 ```
 
-`new-articles` is branched from whatever the working tree was on before the first switch (override with `MCP_BASE_BRANCH`). Note this is deliberately *not* `master` — until `release/v1.2.0` lands, master predates the MDX pipeline and has no `content/posts` at all.
+`new-articles` is branched from whatever the working tree was on before the first switch, falling back to `master` (override with `MCP_BASE_BRANCH`). Starting from `master` is the normal case — it carries the content pipeline and every published post, and it's the branch the PR targets.
 
 Two tradeoffs worth knowing: a publishing session **leaves your working tree checked out on `new-articles`** (files stay uncommitted there until `stage_changes`), and because agent drafts live on `new-articles`, `npm run develop` from that branch is where you preview them — or open the PR and use the preview URL.
 
@@ -275,6 +275,8 @@ https://thiagocolen.github.io/pr-preview/pr-<number>/
 ```
 
 The preview is created when the PR opens, refreshed on every push, and deleted when the PR is closed or merged. Since posts are committed MDX files, previews always build from exactly what's in the PR — there's no separate sync step to remember.
+
+Previews share the `gh-pages` branch with the production site, living under `pr-preview/` while the site itself sits at the root. That's why `npm run deploy` publishes through `develop-tools/deploy.js` instead of the `gh-pages` CLI: the package's default is to `git rm` the entire branch before copying the new build, which would take every open PR's preview with it. The script removes everything *except* `pr-preview/`, so deploying while a PR is open is safe.
 
 ## 🧠 Development Philosophy
 

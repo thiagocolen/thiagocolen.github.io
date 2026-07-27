@@ -16,6 +16,19 @@ const HOME_SCHEMA = [
     "@type": "Person",
     name: "Thiago Colen",
     url: "https://thiagocolen.github.io/",
+    jobTitle: "AI Engineer",
+    description:
+      "AI Engineer building production agentic systems (LangGraph, Retrieval-Augmented Generation, Anthropic Claude), with a background in front-end development and web architecture.",
+    knowsAbout: [
+      "Agentic Systems",
+      "LangGraph",
+      "Retrieval-Augmented Generation",
+      "Anthropic Claude",
+      "TypeScript",
+      "AWS",
+      "Terraform",
+      "Front-End Architecture",
+    ],
     sameAs: [
       "https://github.com/thiagocolen",
       "https://www.linkedin.com/in/thiagocolen/",

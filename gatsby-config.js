@@ -30,13 +30,11 @@ module.exports = {
     title: "Thiago Colen",
     titleTemplate: "%s — Thiago Colen",
     description:
-      "Essays on algorithms, system design, and the strange places where simple rules produce complex behaviour, by Thiago Colen.",
+      "Thiago Colen — AI Engineer building agentic systems (LangGraph, Retrieval-Augmented Generation, Anthropic Claude) and software/front-end architecture. Also writes essays on algorithms, system design, and cellular automata.",
     author: "Thiago Colen",
-    // Fallback share image for pages that have no cover of their own. Left
-    // empty deliberately: pointing at a file that does not exist produces a
-    // broken preview card, which is worse than no card. Drop a 1200x630 image
-    // at static/images/og-default.jpg and set this to "/images/og-default.jpg".
-    defaultImage: "",
+    // Fallback share image for pages that have no cover of their own (home,
+    // about). Reuses an existing post cover rather than a dedicated OG asset.
+    defaultImage: "/images/conway-s-game-of-life-explained.jpg",
     social: {
       github: "https://github.com/thiagocolen",
       linkedin: "https://www.linkedin.com/in/thiagocolen/",

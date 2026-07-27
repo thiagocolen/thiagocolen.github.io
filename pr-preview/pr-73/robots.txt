@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# PR previews are deployed to this same domain by .github/workflows/pr-preview.yml
+# (https://thiagocolen.github.io/pr-preview/pr-N/). They are copies of the site
+# and must never be indexed. The pages also carry a noindex tag; this rule keeps
+# crawlers from spending budget fetching them at all.
+Disallow: /pr-preview/
+
+# gatsby-plugin-sitemap v4 emits an index plus numbered chunks under /sitemap/,
+# not a single /sitemap.xml. Pointing at the index is what lets a crawler find
+# the chunks; /sitemap.xml is a 404 on this build.
+Sitemap: https://thiagocolen.github.io/sitemap/sitemap-index.xml

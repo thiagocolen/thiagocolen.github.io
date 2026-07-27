@@ -1,0 +1,60 @@
+---
+title: 'Let''s Fail Project: Fail Cheap, Fail Small, Fail Fast'
+headline: >-
+  A build-in-public ecosystem, and the engineering philosophy that keeps it
+  honest
+description: >-
+  What Let's Fail Project actually is, and why "fail cheap, fail small, fail
+  fast" is a rigorous engineering discipline, not a slogan — with the research
+  behind it.
+published_at: '2026-07-27T16:23:37.005Z'
+cover_image: ''
+status: published
+tags:
+  - build-in-public
+  - engineering-philosophy
+  - agentic-ai
+  - software-engineering
+---
+
+Most personal projects die quietly, in a private repo, the moment the first approach turns out to be wrong. **Let's Fail Project** is my attempt to build differently: a living, public GitHub ecosystem where I ship experimental software in the open, document what breaks, and let the failures be as visible as the wins. The [public roadmap](https://github.com/users/thiagocolen/projects/3/views/8) is the record of that — not a highlight reel, a working log.
+
+The name is not self-deprecating. It's the point. If failure is going to happen anyway — and in any project pushing past what you already know how to build, it will — the only real engineering decision is *how* it happens: how much it costs, how far it spreads, and how quickly you find out.
+
+## Fail Cheap, Fail Small, Fail Fast
+
+These three constraints aren't independent slogans; they compound.
+
+**Fail cheap** means the cost of being wrong should be small relative to what you'd spend proving yourself right the slow way. This is the core argument of Eric Ries's *The Lean Startup*, which formalized the Build-Measure-Learn loop specifically to limit how much time and money go into an idea before it's tested against reality ([TechTarget](https://www.techtarget.com/whatis/definition/fail-fast); [Wikipedia](https://en.wikipedia.org/wiki/Fail_fast_(business))). Ries built on Steve Blank's customer development work, which pushed the same logic further upstream: don't perfect a solution before you've confirmed the problem is real. The underlying goal in both is avoiding the sunk-cost trap — the tendency to keep funding a bad direction just because you've already funded it.
+
+**Fail small** is about blast radius, a term I'm borrowing directly from chaos engineering. Netflix's chaos engineering practice — deliberately injecting failure into production to learn how systems actually behave — is built around a strict rule: scope every experiment to a subset of the system, bound it in time, and never let a controlled failure become an uncontrolled one. Canary rollouts, time-boxed experiments, and avoiding peak load are all mechanisms for the same goal: keep the damage local and reversible.
+
+**Fail fast** is what makes the first two matter at all. A cheap, small failure that takes six months to surface has already stopped being cheap. John Boyd's OODA loop — Observe, Orient, Decide, Act, developed for fighter pilots who needed to out-decide an opponent in real time — makes the case that the speed of the *iteration*, not the accuracy of any single decision, is the actual competitive advantage. W. Edwards Deming's PDCA cycle (Plan-Do-Check-Act), which rebuilt Japanese manufacturing quality after WWII, is the slower, more methodical sibling of the same idea: short, disciplined loops beat long, confident ones.
+
+<Callout type="note" title="The common thread">
+None of these frameworks are about failing more. They're about shrinking the unit of failure until it's small enough to learn from instead of being buried by.
+</Callout>
+
+## Why This Requires Psychological Safety, Not Just Process
+
+None of the above works if failing visibly feels dangerous. Google's Project Aristotle, its multi-year internal study of what actually makes teams effective, found psychological safety to be the single strongest predictor of team performance — stronger than talent, clearer goals, or better leadership. Teams that could acknowledge failure without it becoming personal were the ones that actually learned from it and improved.
+
+That finding scales down to a team of one. Building in public — publishing a roadmap where abandoned experiments sit next to shipped ones — is a deliberate attempt to manufacture that same safety externally: if the failure is already public and already framed as expected, there's nothing left to hide, and nothing left to lose by trying the next thing.
+
+## What This Looks Like in Practice
+
+Let's Fail Project isn't a philosophy in the abstract — it's the operating model behind everything currently in the ecosystem:
+
+- **[Pinky and the Brain](https://thiagocolen.github.io/pinky-and-the-brain/)** — a cloud-native Deep Agent built on LangGraph.js, grounded by a custom RAG pipeline, deployed to AWS via Terraform, and reachable through an IDE protocol, REST/SSE, and MCP. Each of those integration surfaces was its own small, cheap, fast bet on whether a given protocol was worth committing to — not a single monolithic architecture decision made once and defended forever.
+- **[patb-cli](https://github.com/thiagocolen/patb-cli)** — a terminal REPL and Zed IDE bridge for that same agent, built to test a different interaction model without touching the agent's core.
+- **[Monday Money](https://github.com/thiagocolen/monday-money)** — a lightweight, privacy-focused desktop app for personal finance, small enough in scope that a wrong turn costs a weekend, not a quarter.
+
+Each of these is scoped so a bad bet is recoverable in days, not months — and documented so the bad bets are as visible as the good ones. That's the actual mechanism behind "ship-first": not recklessness, but failure small enough, cheap enough, and fast enough that shipping the next attempt is always the easier option.
+
+## Sources
+
+- Eric Ries, *The Lean Startup* (2011); Steve Blank, *The Four Steps to the Epiphany* — [TechTarget: What is fail fast?](https://www.techtarget.com/whatis/definition/fail-fast), [Wikipedia: Fail fast (business)](https://en.wikipedia.org/wiki/Fail_fast_(business))
+- Chaos engineering and blast-radius scoping at Netflix — [Computer.org: Chaos engineering — it sounds scary](https://www.computer.org/publications/tech-news/research/netflix-chaos-engineering), [IBM: What is Chaos Engineering?](https://www.ibm.com/think/topics/chaos-engineering)
+- John Boyd's OODA loop — [Wikipedia: OODA loop](https://en.wikipedia.org/wiki/OODA_loop)
+- W. Edwards Deming's PDCA / Shewhart cycle — [OODA Loop vs PDCA Cycle](https://techhelp.ca/ooda-loop-vs-pdca-cycle/)
+- Google's Project Aristotle on psychological safety — [Psychological Safety in Software Workplaces: A Systematic Literature Review (arXiv)](https://arxiv.org/html/2508.03369)

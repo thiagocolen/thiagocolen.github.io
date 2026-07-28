@@ -69,7 +69,7 @@ const Footer = () => {
               Thiago Colen
             </h2>
             <p className="font-domine text-xs sm:text-sm uppercase tracking-wide font-bold text-black text-opacity-70 mb-3">
-              AI Engineer — Agentic Systems (LangGraph, RAG) &amp; Anthropic Claude · Software &amp; Front-End Architecture
+              AI Engineering, Agentic Systems (LangGraph, RAG) &amp; Anthropic Claude · Software &amp; Front-End Architecture
             </p>
             <p className="font-sans text-sm sm:text-base leading-relaxed text-black">
               I build production-grade agentic systems — most recently a cloud-native Deep Agent

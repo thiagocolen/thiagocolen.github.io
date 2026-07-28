@@ -72,12 +72,14 @@ const Footer = () => {
               AI Engineering, Agentic Systems (LangGraph, RAG) &amp; Anthropic Claude · Software &amp; Front-End Architecture
             </p>
             <p className="font-sans text-sm sm:text-base leading-relaxed text-black">
-              I build production-grade agentic systems — most recently a cloud-native Deep Agent
-              grounded by a custom Retrieval-Augmented Generation pipeline, deployed on AWS via
-              Terraform and reachable from an IDE, a REST API, and the Model Context Protocol.
-              That sits on top of years as a Front-End Developer and Web Architect, building
-              proprietary front-end frameworks and Micro Front-End / Web Components
-              architectures for large-scale applications.
+              Building a production-grade agentic system on AWS, combining LangChain-based Deep
+              Agents with retrieval-augmented generation to ground AI-driven applications in
+              reliable, context-aware reasoning. Brings a background spanning front-end
+              architecture and cloud infrastructure, with recent focus on designing and deploying
+              scalable AI systems that integrate large language models into real-world products.
+              Experienced in leading technical initiatives across the full stack, from
+              cloud-native infrastructure to user-facing frameworks, with a current emphasis on
+              agentic systems, prompt engineering, and applied AI architecture on AWS.
             </p>
           </div>
         </div>

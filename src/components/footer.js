@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "gatsby";
 import { songsSnippets } from "../utils/constants";
 
-const Footer = ({ hideBio = false }) => {
+const Footer = ({ hideBio = false, hideConnect = false }) => {
   const [song, setSong] = useState({ title: "", content: "" });
 
   useEffect(() => {
@@ -98,7 +98,7 @@ const Footer = ({ hideBio = false }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Column 1: Now Playing Music Console Box (Slices lyric into Short Title and Long Content) */}
-          <div className="lg:col-span-7 w-full">
+          <div className={`${hideConnect ? "lg:col-span-12" : "lg:col-span-7"} w-full`}>
             <div className="bg-white border-4 border-black p-6 shadow-md relative rounded transform -rotate-1 hover:rotate-0 transition-transform duration-200">
               {song.title && (
                 <div className="absolute -top-3.5 left-4 max-w-[85%] bg-black text-white px-2.5 py-1 text-[9px] font-head uppercase border-2 border-black tracking-widest leading-snug break-words">
@@ -112,6 +112,7 @@ const Footer = ({ hideBio = false }) => {
           </div>
 
           {/* Column 2: Brutalist Connect Dashboard (Visual Social Icons) */}
+          {!hideConnect && (
           <div className="lg:col-span-5 w-full flex flex-col space-y-4 lg:items-end">
             <div className="font-head text-xs uppercase tracking-wider text-black font-extrabold flex items-center space-x-2">
               <span className="inline-block w-2.5 h-2.5 bg-black rounded-full" />
@@ -120,9 +121,9 @@ const Footer = ({ hideBio = false }) => {
 
             {/* Row of visual brutalist square buttons containing SVGs */}
             <div className="flex flex-wrap gap-4 lg:justify-end">
-              <a 
-                href="https://dev.to/thiagocolen" 
-                target="_blank" 
+              <a
+                href="https://dev.to/thiagocolen"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="w-12 h-12 flex items-center justify-center border-3 border-black bg-white hover:bg-black hover:text-white text-black rounded shadow-xs hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
                 aria-label="Dev.to"
@@ -132,8 +133,8 @@ const Footer = ({ hideBio = false }) => {
                 </svg>
               </a>
 
-              <a 
-                href="https://github.com/thiagocolen" 
+              <a
+                href="https://github.com/thiagocolen"
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-12 h-12 flex items-center justify-center border-3 border-black bg-white hover:bg-black hover:text-white text-black rounded shadow-xs hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
@@ -167,6 +168,7 @@ const Footer = ({ hideBio = false }) => {
               </a>
             </div>
           </div>
+          )}
 
         </div>
 

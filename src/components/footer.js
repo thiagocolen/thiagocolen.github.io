@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "gatsby";
 import { songsSnippets } from "../utils/constants";
 
-const Footer = () => {
+const Footer = ({ hideBio = false }) => {
   const [song, setSong] = useState({ title: "", content: "" });
 
   useEffect(() => {
@@ -63,33 +63,37 @@ const Footer = () => {
       <div className="container mx-auto relative z-10">
         {/* Bio block: the site has no dedicated About page, so this is where
             crawlable, real bio text about Thiago lives — on every page,
-            since Footer is shared across post/blog/home templates. */}
-        <div className="mb-10">
-          <div className="bg-white border-4 border-black p-6 sm:p-8 shadow-md rounded max-w-3xl">
-            <h2 className="font-head text-sm uppercase tracking-widest font-extrabold mb-2">
-              Thiago Colen
-            </h2>
-            <p className="font-domine text-xs sm:text-sm uppercase tracking-wide font-bold text-black text-opacity-70 mb-3">
-              AI Engineering, Agentic Systems (LangGraph, RAG) &amp; Anthropic Claude · Software &amp; Front-End Architecture
-            </p>
-            <p className="font-sans text-sm sm:text-base leading-relaxed text-black">
-              Building a production-grade agentic system on AWS, combining LangChain-based Deep
-              Agents with retrieval-augmented generation to ground AI-driven applications in
-              reliable, context-aware reasoning. Brings a background spanning front-end
-              architecture and cloud infrastructure, with recent focus on designing and deploying
-              scalable AI systems that integrate large language models into real-world products.
-              Experienced in leading technical initiatives across the full stack, from
-              cloud-native infrastructure to user-facing frameworks, with a current emphasis on
-              agentic systems, prompt engineering, and applied AI architecture on AWS.
-            </p>
-            <Link
-              to="/about/"
-              className="inline-block mt-4 font-head text-xs uppercase tracking-widest font-extrabold underline decoration-2 underline-offset-2 hover:text-primary-hover"
-            >
-              Read the full bio &rarr;
-            </Link>
+            since Footer is shared across post/blog/home templates. Hidden on
+            the About page itself (hideBio) — that page already is the bio,
+            so repeating it in the footer would be redundant. */}
+        {!hideBio && (
+          <div className="mb-10">
+            <div className="bg-white border-4 border-black p-6 sm:p-8 shadow-md rounded max-w-3xl">
+              <h2 className="font-head text-sm uppercase tracking-widest font-extrabold mb-2">
+                Thiago Colen
+              </h2>
+              <p className="font-domine text-xs sm:text-sm uppercase tracking-wide font-bold text-black text-opacity-70 mb-3">
+                AI Engineering, Agentic Systems (LangGraph, RAG) &amp; Anthropic Claude · Software &amp; Front-End Architecture
+              </p>
+              <p className="font-sans text-sm sm:text-base leading-relaxed text-black">
+                Building a production-grade agentic system on AWS, combining LangChain-based Deep
+                Agents with retrieval-augmented generation to ground AI-driven applications in
+                reliable, context-aware reasoning. Brings a background spanning front-end
+                architecture and cloud infrastructure, with recent focus on designing and deploying
+                scalable AI systems that integrate large language models into real-world products.
+                Experienced in leading technical initiatives across the full stack, from
+                cloud-native infrastructure to user-facing frameworks, with a current emphasis on
+                agentic systems, prompt engineering, and applied AI architecture on AWS.
+              </p>
+              <Link
+                to="/about/"
+                className="inline-block mt-4 font-head text-xs uppercase tracking-widest font-extrabold underline decoration-2 underline-offset-2 hover:text-primary-hover"
+              >
+                Read the full bio &rarr;
+              </Link>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           

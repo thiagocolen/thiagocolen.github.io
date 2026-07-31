@@ -2,6 +2,7 @@ import React from "react";
 import MainMenu from "../components/mainMenu";
 import Footer from "../components/footer";
 import Container from "../components/container";
+import Poster from "../components/poster";
 import Seo from "../components/seo";
 
 // ProfilePage + a Person mainEntity is the schema.org shape recommended for a
@@ -84,7 +85,8 @@ const AboutPage = () => {
         schema={ABOUT_SCHEMA}
       />
       <MainMenu activePage="about" />
-      <Container>
+      <Poster />
+      <Container className="bg-transparent">
         <section className="max-w-3xl mx-auto w-full pt-4 pb-16">
           <div className="bg-white border-4 border-black p-6 sm:p-10 shadow-md rounded">
             <h1 className="font-head text-2xl sm:text-3xl font-extrabold mb-2">
@@ -170,7 +172,7 @@ const AboutPage = () => {
           </div>
         </section>
       </Container>
-      <Footer />
+      <Footer hideBio />
     </>
   );
 };

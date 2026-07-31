@@ -75,16 +75,11 @@ const Footer = ({ hideBio = false, hideConnect = false }) => {
               <p className="font-domine text-xs sm:text-sm uppercase tracking-wide font-bold text-black text-opacity-70 mb-3">
                 AI Engineering, Agentic Systems (LangGraph, RAG) &amp; Anthropic Claude · Software &amp; Front-End Architecture
               </p>
-              <p className="font-sans text-sm sm:text-base leading-relaxed text-black">
-                Experienced in leading technical initiatives across the full stack, from
-                cloud-native infrastructure to user-facing frameworks, with a current emphasis on
-                agentic systems, prompt engineering, and applied AI architecture on AWS.
-              </p>
               <Link
                 to="/about/"
                 className="inline-block mt-4 font-head text-xs uppercase tracking-widest font-extrabold underline decoration-2 underline-offset-2 hover:text-primary-hover"
               >
-                Read the full bio &rarr;
+                Read about &rarr;
               </Link>
             </div>
           </div>

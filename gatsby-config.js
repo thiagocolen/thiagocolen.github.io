@@ -67,14 +67,12 @@ module.exports = {
       options: {
         // /homepage/ is a superseded splash variant of /, and the 404 is not a
         // real destination — listing either invites duplicate-content and
-        // soft-404 warnings in Search Console. /about/ is a stub and carries a
-        // matching noindex in aboutPage.js; submitting a URL you also tell
-        // crawlers to ignore is a contradiction Search Console reports. Drop
-        // it from both places once the page has real content.
+        // soft-404 warnings in Search Console. /about/ now has real,
+        // indexable content (see aboutPage.js), so it's submitted like any
+        // other page.
         // `excludes`, not `exclude` — renamed in gatsby-plugin-sitemap v4.
         excludes: [
           "/homepage/",
-          "/about/",
           "/404/",
           "/404.html",
           "/dev-404-page/",

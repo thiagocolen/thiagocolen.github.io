@@ -23,11 +23,19 @@ const MainMenu = (props) => {
         {/* Menu Links */}
         <ul className="flex items-center space-x-4 font-head text-sm">
           <li>
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className={`inline-block border-2 border-black rounded px-3 py-1 shadow-sm transition-all ${activePageClass("home")}`}
             >
               HOME
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/about/"
+              className={`inline-block border-2 border-black rounded px-3 py-1 shadow-sm transition-all ${activePageClass("about")}`}
+            >
+              ABOUT
             </Link>
           </li>
         </ul>

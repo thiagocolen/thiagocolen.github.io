@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "gatsby";
 import { songsSnippets } from "../utils/constants";
 
 const Footer = () => {
@@ -81,6 +82,12 @@ const Footer = () => {
               cloud-native infrastructure to user-facing frameworks, with a current emphasis on
               agentic systems, prompt engineering, and applied AI architecture on AWS.
             </p>
+            <Link
+              to="/about/"
+              className="inline-block mt-4 font-head text-xs uppercase tracking-widest font-extrabold underline decoration-2 underline-offset-2 hover:text-primary-hover"
+            >
+              Read the full bio &rarr;
+            </Link>
           </div>
         </div>
 

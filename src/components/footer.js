@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "gatsby";
 import { songsSnippets } from "../utils/constants";
+import { assetUrl } from "../utils/assetUrl";
 
 const Footer = () => {
   const [song, setSong] = useState({ title: "", content: "" });
@@ -60,25 +62,30 @@ const Footer = () => {
       <div className="absolute inset-0 opacity-5 pointer-events-none bg-[repeating-linear-gradient(45deg,#000,#000_10px,transparent_10px,transparent_20px)]" />
 
       <div className="container mx-auto relative z-10">
-        {/* Bio block: the site has no dedicated About page, so this is where
-            crawlable, real bio text about Thiago lives — on every page,
-            since Footer is shared across post/blog/home templates. */}
+        {/* Bio block: brief identity summary shown on every page, since
+            Footer is shared across post/blog/home templates. Links to the
+            About page for the full bio. */}
         <div className="mb-10">
-          <div className="bg-white border-4 border-black p-6 sm:p-8 shadow-md rounded max-w-3xl">
-            <h2 className="font-head text-sm uppercase tracking-widest font-extrabold mb-2">
-              Thiago Colen
-            </h2>
-            <p className="font-domine text-xs sm:text-sm uppercase tracking-wide font-bold text-black text-opacity-70 mb-3">
-              AI Engineer — Agentic Systems (LangGraph, RAG) &amp; Anthropic Claude · Software &amp; Front-End Architecture
-            </p>
-            <p className="font-sans text-sm sm:text-base leading-relaxed text-black">
-              I build production-grade agentic systems — most recently a cloud-native Deep Agent
-              grounded by a custom Retrieval-Augmented Generation pipeline, deployed on AWS via
-              Terraform and reachable from an IDE, a REST API, and the Model Context Protocol.
-              That sits on top of years as a Front-End Developer and Web Architect, building
-              proprietary front-end frameworks and Micro Front-End / Web Components
-              architectures for large-scale applications.
-            </p>
+          <div className="bg-white border-4 border-black p-6 sm:p-8 shadow-md rounded max-w-3xl flex flex-row items-center gap-6">
+            <img
+              src={assetUrl("/images/thiago-colen-avatar.png")}
+              alt="Thiago Colen"
+              className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-3 border-black object-cover grayscale shrink-0"
+            />
+            <div>
+              <h2 className="font-head text-sm uppercase tracking-widest font-extrabold mb-2">
+                Thiago Colen
+              </h2>
+              <p className="font-domine text-xs sm:text-sm uppercase tracking-wide font-bold text-black text-opacity-70 mb-3">
+                AI Engineering | Agentic Systems (LangGraph/Deep Agents) &amp; RAG | TypeScript, Anthropic Claude, AWS/Terraform | Software Engineering | Front-End Development
+              </p>
+              <Link
+                to="/about/"
+                className="font-sans text-sm sm:text-base font-bold text-black underline hover:no-underline"
+              >
+                Read full bio &rarr;
+              </Link>
+            </div>
           </div>
         </div>
 

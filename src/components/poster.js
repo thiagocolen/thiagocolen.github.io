@@ -27,7 +27,7 @@ const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 // `extraControls` lets a page drop a page-specific button into the fixed
 // bottom-left control row (postPage passes its share button), so those buttons
 // line up with the poster/glitch pair instead of needing their own fixed box.
-const Poster = ({ colorOpacity = 0.7, extraControls = null }) => {
+const Poster = ({ colorOpacity = 0.7, extraControls = null, hideControls = false }) => {
   const [currentPosterIndex, setCurrentPosterIndex] = useState(0);
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -119,30 +119,32 @@ const Poster = ({ colorOpacity = 0.7, extraControls = null }) => {
   return (
     <>
       {/* Floating Retro Controls (Change Poster + Glitch Toggle Buttons) */}
-      <div className="fixed bottom-6 left-6 z-50 flex items-center space-x-2 animate-brutalist-wiggle">
-        <button 
-          onClick={changePoster}
-          disabled={isTransitioning}
-          className="font-head text-xs bg-primary text-black border-2 border-black rounded w-control h-control flex items-center justify-center shadow-sm hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-xs transition-all duration-150 cursor-pointer select-none disabled:opacity-75 disabled:cursor-not-allowed"
-          title="Switch background video and color theme"
-        >
-          {isTransitioning ? icons.loading : icons.poster}
-        </button>
+      {!hideControls && (
+        <div className="fixed bottom-6 left-6 z-50 flex items-center space-x-2 animate-brutalist-wiggle">
+          <button
+            onClick={changePoster}
+            disabled={isTransitioning}
+            className="font-head text-xs bg-primary text-black border-2 border-black rounded w-control h-control flex items-center justify-center shadow-sm hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-xs transition-all duration-150 cursor-pointer select-none disabled:opacity-75 disabled:cursor-not-allowed"
+            title="Switch background video and color theme"
+          >
+            {isTransitioning ? icons.loading : icons.poster}
+          </button>
 
-        <button 
-          onClick={toggleGlitch}
-          className={`font-head text-xs border-2 border-black rounded w-control h-control flex items-center justify-center shadow-sm hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 transition-all duration-150 cursor-pointer select-none ${
-            glitchEnabled 
-              ? "bg-accent text-black" 
-              : "bg-red-500 text-white"
-          }`}
-          title={glitchEnabled ? "Glitch effects ON — click to disable" : "Glitch effects OFF — click to enable"}
-        >
-          {glitchEnabled ? icons.glitchOn : icons.glitchOff}
-        </button>
+          <button
+            onClick={toggleGlitch}
+            className={`font-head text-xs border-2 border-black rounded w-control h-control flex items-center justify-center shadow-sm hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 transition-all duration-150 cursor-pointer select-none ${
+              glitchEnabled
+                ? "bg-accent text-black"
+                : "bg-red-500 text-white"
+            }`}
+            title={glitchEnabled ? "Glitch effects ON — click to disable" : "Glitch effects OFF — click to enable"}
+          >
+            {glitchEnabled ? icons.glitchOn : icons.glitchOff}
+          </button>
 
-        {extraControls}
-      </div>
+          {extraControls}
+        </div>
+      )}
 
       {/* Fullscreen Video Background & Dual Overlay (Color + Dark) */}
       <div className="fixed inset-0 w-full h-full -z-50 overflow-hidden bg-background pointer-events-none">

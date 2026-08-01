@@ -58,21 +58,35 @@ const ArticleComponent = ({ article, index }) => {
   );
 };
 
+const VISIBLE_TAG_LIMIT = 8;
+
 const ArticleList = ({ articles }) => {
   const [selectedTag, setSelectedTag] = useState(null);
+  const [showAllTags, setShowAllTags] = useState(false);
 
-  // Extract unique tags from articles
-  const allTags = articles.reduce((acc, article) => {
+  // Extract unique tags from articles, with their article counts
+  const tagCounts = articles.reduce((acc, article) => {
     if (article.tags) {
       article.tags.forEach((tag) => {
         const normalizedTag = tag.trim().toLowerCase();
-        if (normalizedTag && !acc.includes(normalizedTag)) {
-          acc.push(normalizedTag);
+        if (normalizedTag) {
+          acc[normalizedTag] = (acc[normalizedTag] || 0) + 1;
         }
       });
     }
     return acc;
-  }, []);
+  }, {});
+
+  // Most-used tags first, so the truncated view surfaces the most relevant ones
+  const allTags = Object.keys(tagCounts).sort(
+    (a, b) => tagCounts[b] - tagCounts[a]
+  );
+
+  const hiddenTagCount = allTags.length - VISIBLE_TAG_LIMIT;
+  const visibleTags =
+    showAllTags || hiddenTagCount <= 0
+      ? allTags
+      : allTags.slice(0, VISIBLE_TAG_LIMIT);
 
   // Filter articles based on selected tag
   const filteredArticles = selectedTag
@@ -112,25 +126,29 @@ const ArticleList = ({ articles }) => {
             </button>
 
             {/* Individual Tag Buttons */}
-            {allTags.map((tag) => {
-              const count = articles.filter(
-                (a) => a.tags && a.tags.some((t) => t.trim().toLowerCase() === tag)
-              ).length;
+            {visibleTags.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => setSelectedTag(tag)}
+                className={`font-head text-xs border-2 border-black rounded px-3.5 py-1.5 transition-all duration-100 shadow-xs cursor-pointer select-none uppercase ${
+                  selectedTag === tag
+                    ? "bg-black text-white shadow-none translate-x-[1px] translate-y-[1px]"
+                    : "bg-white text-black hover:bg-primary hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]"
+                }`}
+              >
+                #{tag} ({tagCounts[tag]})
+              </button>
+            ))}
 
-              return (
-                <button
-                  key={tag}
-                  onClick={() => setSelectedTag(tag)}
-                  className={`font-head text-xs border-2 border-black rounded px-3.5 py-1.5 transition-all duration-100 shadow-xs cursor-pointer select-none uppercase ${
-                    selectedTag === tag
-                      ? "bg-black text-white shadow-none translate-x-[1px] translate-y-[1px]"
-                      : "bg-white text-black hover:bg-primary hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]"
-                  }`}
-                >
-                  #{tag} ({count})
-                </button>
-              );
-            })}
+            {/* Show all / Show less toggle */}
+            {hiddenTagCount > 0 && (
+              <button
+                onClick={() => setShowAllTags((prev) => !prev)}
+                className="font-head text-xs border-2 border-dashed border-black/50 rounded px-3.5 py-1.5 transition-all duration-100 cursor-pointer select-none text-black/60 hover:text-black hover:border-black hover:bg-primary/40"
+              >
+                {showAllTags ? "Show less" : `Show all (+${hiddenTagCount})`}
+              </button>
+            )}
           </div>
         </div>
       )}

@@ -1,4 +1,5 @@
 import React from "react";
+import { navigate } from "gatsby";
 import Footer from "../components/footer";
 import Container from "../components/container";
 import Poster from "../components/poster";
@@ -80,7 +81,13 @@ const AboutPage = () => {
       <Poster hideControls />
       <Container className="bg-transparent">
         <section className="max-w-3xl mx-auto w-full pt-4 pb-16">
-          <div className="bg-white border-4 border-black p-6 sm:p-10 shadow-md rounded">
+          {/* Card doubles as a "back to home" link — nested Connect anchors
+              stop propagation so they still open their own href instead of
+              also navigating home. */}
+          <div
+            className="bg-white border-4 border-black p-6 sm:p-10 shadow-md rounded cursor-pointer"
+            onClick={() => navigate("/")}
+          >
             <h1 className="font-head text-2xl sm:text-3xl font-extrabold mb-2">
               Thiago Colen
             </h1>
@@ -91,33 +98,28 @@ const AboutPage = () => {
 
             <div className="font-sans text-sm sm:text-base leading-relaxed text-black space-y-4">
               <p>
-                Building a production-grade agentic system on AWS, combining
-                LangChain-based Deep Agents with retrieval-augmented generation
-                to ground AI-driven applications in reliable, context-aware
-                reasoning. Brings a background spanning front-end architecture
-                and cloud infrastructure, with recent focus on designing and
-                deploying scalable AI systems that integrate large language
-                models into real-world products.
+                Software Engineer building production-grade agentic system, a
+                cloud-native Deep Agent (LangGraph.js) grounded by a custom
+                RAG pipeline.
               </p>
               <p>
-                Experienced in leading technical initiatives across the full
-                stack, from cloud-native infrastructure to user-facing
-                frameworks, with a current emphasis on agentic systems, prompt
-                engineering, and applied AI architecture on AWS.
+                The service is deployed on AWS (Lightsail, CloudFront) via
+                Terraform, and exposed through the Agent Client Protocol, a
+                REST/SSE API, and a Model Context Protocol server — with a
+                companion CLI (patb-cli) bridging it into the Zed IDE.
               </p>
               <p>
-                Outside of the day job, writes essays on algorithms, system
-                design, and cellular automata, and ships small build-in-public
-                tools under the{" "}
-                <a
-                  href="https://dev.to/thiagocolen"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline decoration-2 underline-offset-2 hover:text-primary-hover"
-                >
-                  Let&apos;s Fail Project
-                </a>{" "}
-                banner — small, cheap, frequent experiments over big bets.
+                That work sits on top of years as a Front-End Developer and
+                Web Architect, most recently at Santander/F1rst, where I built
+                proprietary front-end and UI frameworks, led Micro Front-End
+                and Web Components architectures and shipped AWS-hosted (S3,
+                Lambda, API Gateway) static deployment pipelines for
+                large-scale applications.
+              </p>
+              <p>
+                I&apos;m currently focused on Agentic Systems,
+                Retrieval-Augmented Generation, Prompt Engineering, and
+                Anthropic Claude / LLM integration.
               </p>
             </div>
 
@@ -144,7 +146,10 @@ const AboutPage = () => {
               <h2 className="font-head text-xs uppercase tracking-widest font-extrabold mb-3">
                 Connect
               </h2>
-              <div className="flex flex-wrap gap-4">
+              <div
+                className="flex flex-wrap gap-4"
+                onClick={(e) => e.stopPropagation()}
+              >
                 {CONNECT_LINKS.map((link) => (
                   <a
                     key={link.label}

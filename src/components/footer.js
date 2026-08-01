@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "gatsby";
 import { songsSnippets } from "../utils/constants";
+import { assetUrl } from "../utils/assetUrl";
 
-const Footer = () => {
+const Footer = ({ hideBio = false, hideConnect = false }) => {
   const [song, setSong] = useState({ title: "", content: "" });
 
   useEffect(() => {
@@ -60,32 +62,41 @@ const Footer = () => {
       <div className="absolute inset-0 opacity-5 pointer-events-none bg-[repeating-linear-gradient(45deg,#000,#000_10px,transparent_10px,transparent_20px)]" />
 
       <div className="container mx-auto relative z-10">
-        {/* Bio block: the site has no dedicated About page, so this is where
-            crawlable, real bio text about Thiago lives — on every page,
-            since Footer is shared across post/blog/home templates. */}
-        <div className="mb-10">
-          <div className="bg-white border-4 border-black p-6 sm:p-8 shadow-md rounded max-w-3xl">
-            <h2 className="font-head text-sm uppercase tracking-widest font-extrabold mb-2">
-              Thiago Colen
-            </h2>
-            <p className="font-domine text-xs sm:text-sm uppercase tracking-wide font-bold text-black text-opacity-70 mb-3">
-              AI Engineer — Agentic Systems (LangGraph, RAG) &amp; Anthropic Claude · Software &amp; Front-End Architecture
-            </p>
-            <p className="font-sans text-sm sm:text-base leading-relaxed text-black">
-              I build production-grade agentic systems — most recently a cloud-native Deep Agent
-              grounded by a custom Retrieval-Augmented Generation pipeline, deployed on AWS via
-              Terraform and reachable from an IDE, a REST API, and the Model Context Protocol.
-              That sits on top of years as a Front-End Developer and Web Architect, building
-              proprietary front-end frameworks and Micro Front-End / Web Components
-              architectures for large-scale applications.
-            </p>
+        {/* Bio block: brief identity summary shown on every page, since
+            Footer is shared across post/blog/home templates. Links to the
+            About page for the full bio. Hidden there itself (hideBio) —
+            that page already is the bio, so repeating it in the footer
+            would be redundant. */}
+        {!hideBio && (
+          <div className="mb-10">
+            <div className="bg-white border-4 border-black p-6 sm:p-8 shadow-md rounded max-w-3xl flex flex-row items-center gap-6">
+              <img
+                src={assetUrl("/images/thiago-colen-avatar.png")}
+                alt="Thiago Colen"
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-3 border-black object-cover grayscale shrink-0"
+              />
+              <div>
+                <h2 className="font-head text-sm uppercase tracking-widest font-extrabold mb-2">
+                  Thiago Colen
+                </h2>
+                <p className="font-domine text-xs sm:text-sm uppercase tracking-wide font-bold text-black text-opacity-70 mb-3">
+                  AI Engineering | Agentic Systems (LangGraph/Deep Agents) &amp; RAG | TypeScript, Anthropic Claude, AWS/Terraform | Software Engineering | Front-End Development
+                </p>
+                <Link
+                  to="/about/"
+                  className="inline-block font-head text-xs uppercase tracking-widest font-extrabold underline decoration-2 underline-offset-2 hover:text-primary-hover"
+                >
+                  Read full bio &rarr;
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Column 1: Now Playing Music Console Box (Slices lyric into Short Title and Long Content) */}
-          <div className="lg:col-span-7 w-full">
+          <div className={`${hideConnect ? "lg:col-span-12" : "lg:col-span-7"} w-full`}>
             <div className="bg-white border-4 border-black p-6 shadow-md relative rounded transform -rotate-1 hover:rotate-0 transition-transform duration-200">
               {song.title && (
                 <div className="absolute -top-3.5 left-4 max-w-[85%] bg-black text-white px-2.5 py-1 text-[9px] font-head uppercase border-2 border-black tracking-widest leading-snug break-words">
@@ -99,6 +110,7 @@ const Footer = () => {
           </div>
 
           {/* Column 2: Brutalist Connect Dashboard (Visual Social Icons) */}
+          {!hideConnect && (
           <div className="lg:col-span-5 w-full flex flex-col space-y-4 lg:items-end">
             <div className="font-head text-xs uppercase tracking-wider text-black font-extrabold flex items-center space-x-2">
               <span className="inline-block w-2.5 h-2.5 bg-black rounded-full" />
@@ -107,9 +119,9 @@ const Footer = () => {
 
             {/* Row of visual brutalist square buttons containing SVGs */}
             <div className="flex flex-wrap gap-4 lg:justify-end">
-              <a 
-                href="https://dev.to/thiagocolen" 
-                target="_blank" 
+              <a
+                href="https://dev.to/thiagocolen"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="w-12 h-12 flex items-center justify-center border-3 border-black bg-white hover:bg-black hover:text-white text-black rounded shadow-xs hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
                 aria-label="Dev.to"
@@ -119,8 +131,8 @@ const Footer = () => {
                 </svg>
               </a>
 
-              <a 
-                href="https://github.com/thiagocolen" 
+              <a
+                href="https://github.com/thiagocolen"
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-12 h-12 flex items-center justify-center border-3 border-black bg-white hover:bg-black hover:text-white text-black rounded shadow-xs hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
@@ -154,6 +166,7 @@ const Footer = () => {
               </a>
             </div>
           </div>
+          )}
 
         </div>
 

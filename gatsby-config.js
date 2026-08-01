@@ -1,3 +1,12 @@
+// gatsby-config.js runs before Gatsby's own webpack/dotenv step, so
+// .env.<NODE_ENV> isn't in process.env yet at this point unless loaded here
+// explicitly. (Vars are still picked up automatically later, inside actual
+// page/component code, via Gatsby's built-in GATSBY_-prefixed client-bundle
+// injection — this require only covers config files like this one.)
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV || "development"}`,
+});
+
 // PR preview builds are served from a subdirectory of the site
 // (https://thiagocolen.github.io/pr-preview/pr-N/), so asset and link URLs
 // need that prefix. The PR preview workflow sets PATH_PREFIX and builds with
@@ -15,6 +24,18 @@ const pathPrefix = process.env.PATH_PREFIX || "";
 // page was server-rendered, hydrated, or built for a PR preview.
 const siteUrl = "https://thiagocolen.github.io";
 
+// Truthy only in PR preview builds, which share the production domain
+// (thiagocolen.github.io/pr-preview/pr-N/) and would otherwise be indexed
+// as duplicates of the real site (see isPreview below) or tracked as if
+// they were real traffic (see the gtag plugin condition below).
+const isPreview = Boolean(pathPrefix);
+
+// See GA4-Guide.md for how to obtain this and where it's configured
+// per environment. Unset locally/in CI (.env.production is gitignored and
+// PR preview builds never receive it), so GA4 is opt-in: the site builds
+// and deploys fine with no tracking until this is provided.
+const gaMeasurementId = process.env.GA4_MEASUREMENT_ID;
+
 module.exports = {
   pathPrefix,
   siteMetadata: {
@@ -23,10 +44,7 @@ module.exports = {
     // browser bundle (via GraphQL); process.env.PATH_PREFIX is build-time only
     // and would be undefined during hydration, desyncing the rendered tags.
     pathPrefix,
-    // Truthy only in PR preview builds, which share the production domain
-    // (thiagocolen.github.io/pr-preview/pr-N/) and would otherwise be indexed
-    // as duplicates of the real site. Drives the noindex tag in <Seo>.
-    isPreview: Boolean(pathPrefix),
+    isPreview,
     title: "Thiago Colen",
     titleTemplate: "%s — Thiago Colen",
     description:
@@ -49,14 +67,12 @@ module.exports = {
       options: {
         // /homepage/ is a superseded splash variant of /, and the 404 is not a
         // real destination — listing either invites duplicate-content and
-        // soft-404 warnings in Search Console. /about/ is a stub and carries a
-        // matching noindex in aboutPage.js; submitting a URL you also tell
-        // crawlers to ignore is a contradiction Search Console reports. Drop
-        // it from both places once the page has real content.
+        // soft-404 warnings in Search Console. /about/ now has real,
+        // indexable content (see aboutPage.js), so it's submitted like any
+        // other page.
         // `excludes`, not `exclude` — renamed in gatsby-plugin-sitemap v4.
         excludes: [
           "/homepage/",
-          "/about/",
           "/404/",
           "/404.html",
           "/dev-404-page/",
@@ -90,5 +106,26 @@ module.exports = {
         extensions: [".mdx"],
       },
     },
+    // Only registered when a real Measurement ID is present and this isn't a
+    // PR preview build, so `gatsby develop`, CI preview builds, and a fresh
+    // clone with no .env.production all run analytics-free with no extra
+    // flag needed. See GA4-Guide.md.
+    ...(gaMeasurementId && !isPreview
+      ? [
+          {
+            resolve: "gatsby-plugin-google-gtag",
+            options: {
+              trackingIds: [gaMeasurementId],
+              gtagConfig: {
+                anonymize_ip: true,
+              },
+              pluginConfig: {
+                head: true,
+                respectDNT: true,
+              },
+            },
+          },
+        ]
+      : []),
   ],
 };

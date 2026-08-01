@@ -99,11 +99,43 @@ const Seo = ({
         }
       : null);
 
-  const schemaList = !structuredData
-    ? []
-    : Array.isArray(structuredData)
-    ? structuredData
-    : [structuredData];
+  // BreadcrumbList: replaces the raw URL in the SERP with a trail. Skipped on
+  // the home page (it IS the root, nothing to trail from) and on noindexed
+  // pages (drafts, /about/) — Google won't act on it there, so emitting it
+  // would just be dead weight in the HTML.
+  const breadcrumbs = (() => {
+    if (normalizedPath === "/" || isNoindex) return null;
+
+    const segments = normalizedPath.split("/").filter(Boolean);
+    const crumbs = [{ name: "Home", path: "/" }];
+
+    if (segments[0] === "blog") {
+      crumbs.push({ name: "Blog", path: "/blog/" });
+      // segments[1] === "post": the slug segment isn't a real breadcrumb
+      // level, so the post's own title stands in for it.
+      if (segments[1] === "post") {
+        crumbs.push({ name: pageTitle, path: normalizedPath });
+      }
+    }
+
+    return crumbs.length > 1 ? crumbs : null;
+  })();
+
+  const breadcrumbSchema = breadcrumbs && {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: breadcrumbs.map((crumb, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: crumb.name,
+      item: `${meta.siteUrl}${crumb.path}`,
+    })),
+  };
+
+  const schemaList = [
+    ...(!structuredData ? [] : Array.isArray(structuredData) ? structuredData : [structuredData]),
+    ...(breadcrumbSchema ? [breadcrumbSchema] : []),
+  ];
 
   return (
     <Helmet>

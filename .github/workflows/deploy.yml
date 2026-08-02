@@ -1,0 +1,57 @@
+# Builds and publishes the production site whenever master changes.
+#
+#   Live site: https://thiagocolen.github.io
+#
+# Notes:
+#   - Reuses `npm run deploy` (gatsby clean && gatsby build && deploy.js) so
+#     CI and local deploys stay in sync.
+#   - gh-pages clones/pushes into its own cache dir outside the checked-out
+#     working tree, so actions/checkout's persisted credentials don't reach
+#     it. GH_PAGES_REPO below gives deploy.js a token-embedded remote URL to
+#     authenticate with instead (see develop-tools/deploy.js).
+#   - GA4_MEASUREMENT_ID is optional; unset until the repo secret is added,
+#     matching the opt-in behavior gatsby-config.js already has locally.
+
+name: Deploy
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch: {}
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        # --legacy-peer-deps: gatsby-plugin-mdx-embed@0.0.20-alpha declares a
+        # peer on react@16.x while the project is on react@17; npm's default
+        # (strict) resolver rejects that even though it works fine in practice.
+        run: npm ci --legacy-peer-deps
+
+      - name: Configure git identity for gh-pages commit
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Build and deploy
+        env:
+          GA4_MEASUREMENT_ID: ${{ secrets.GA4_MEASUREMENT_ID }}
+          GH_PAGES_REPO: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        run: npm run deploy

@@ -105,12 +105,12 @@ const AboutPage = () => {
               <p>
                 The service is deployed on AWS (Lightsail, CloudFront) via
                 Terraform, and exposed through the Agent Client Protocol, a
-                REST/SSE API, and a Model Context Protocol server — with a
+                REST/SSE API, and a Model Context Protocol server, with a
                 companion CLI (patb-cli) bridging it into the Zed IDE.
               </p>
               <p>
                 That work sits on top of years as a Front-End Developer and
-                Web Architect, most recently at Santander/F1rst, where I built
+                Web Architect where I built
                 proprietary front-end and UI frameworks, led Micro Front-End
                 and Web Components architectures and shipped AWS-hosted (S3,
                 Lambda, API Gateway) static deployment pipelines for

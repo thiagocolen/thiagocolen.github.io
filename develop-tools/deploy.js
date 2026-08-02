@@ -19,6 +19,12 @@ const ghpages = require("gh-pages");
 const options = {
   remove: ["*", "!pr-preview"],
   push: !process.argv.includes("--no-push"),
+  // gh-pages clones/pushes the target branch into its own cache dir outside
+  // the checked-out working tree, so it can't see credentials actions/checkout
+  // persists into this repo's local .git/config. The deploy workflow sets this
+  // to a token-embedded URL to authenticate; local runs leave it unset and
+  // fall back to gh-pages' normal origin auto-detection.
+  ...(process.env.GH_PAGES_REPO ? { repo: process.env.GH_PAGES_REPO } : {}),
 };
 
 ghpages.publish("public", options, (error) => {

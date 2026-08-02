@@ -93,7 +93,7 @@ Every script below is run with `npm run <name>` (e.g. `npm run develop`).
 | `build` | `gatsby build` | Produces the optimized, static production build in `public/` — runs `gatsby-node.js` (page creation from `content/posts/*.mdx`) and `gatsby-config.js` (plugin/source setup) as part of the build. |
 | `serve` | `gatsby serve` | Serves the already-built `public/` folder locally, so you can sanity-check a production build before deploying it. Run `build` first. |
 | `clean` | `gatsby clean` | Deletes Gatsby's cache and `public/` output (`.cache/`, `public/`). Use this when the dev server is misbehaving after config/schema changes — a stale cache is a common culprit. |
-| `deploy` | `gatsby clean && gatsby build && node develop-tools/deploy.js` | The manual production deploy path, in three parts: wipe the cache and `public/` so no stale hashed bundle from an earlier build rides along, build fresh, then publish `public/` to the `gh-pages` branch. The publish step goes through `develop-tools/deploy.js` rather than the `gh-pages` CLI so it removes everything on the branch *except* `pr-preview/` — see [PR Previews](#-pr-previews). |
+| `deploy` | `gatsby clean && gatsby build && node develop-tools/deploy.js` | Publishes to production, in three parts: wipe the cache and `public/` so no stale hashed bundle from an earlier build rides along, build fresh, then publish `public/` to the `gh-pages` branch. The publish step goes through `develop-tools/deploy.js` rather than the `gh-pages` CLI so it removes everything on the branch *except* `pr-preview/` — see [PR Previews](#-pr-previews). Runs automatically on merge to `master` via `.github/workflows/deploy.yml`; run it by hand only as a fallback. |
 
 ### Post scripts
 
@@ -110,14 +110,14 @@ Posts are plain files under `content/posts/` — see [Content](#-content) for th
 
 `new-post` and `publish-post` are the middle of a longer flow — see [Publishing a Post](#-publishing-a-post) for the whole thing, start to finish.
 
-For taking something down, prefer `unpublish-post`: deleting a post that has been live breaks its permalink for anyone who linked to it, while unpublishing just removes it from production builds. Either way the change only reaches the site once you commit and deploy.
+For taking something down, prefer `unpublish-post`: deleting a post that has been live breaks its permalink for anyone who linked to it, while unpublishing just removes it from production builds. Either way the change only reaches the site once you commit and the merge deploys it.
 
 ## 🚀 Publishing a Post
 
 The whole journey, from empty file to live site:
 
 ```
-new-post → write → develop (preview) → publish-post → commit/push → PR (preview URL) → merge → deploy
+new-post → write → develop (preview) → publish-post → commit/push → PR (preview URL) → merge (auto-deploy)
 ```
 
 Nine steps, and only the last one is outward-facing.
@@ -196,7 +196,7 @@ git commit -m 'content: add "My Post Title"'
 git push origin new-articles
 ```
 
-Pushing doesn't build anything. The only workflow in the repo, `pr-preview.yml`, triggers on `pull_request` — not on `push`.
+Pushing to `new-articles` doesn't build anything: `pr-preview.yml` triggers on `pull_request`, and `deploy.yml` only triggers on push to `master` — neither fires for a push to a feature/content branch.
 
 ### 7. Open a PR into `master` and check the preview
 
@@ -208,9 +208,11 @@ This is the real review step: the preview is a production build, so it's the fir
 
 ### 8. Merge the PR
 
-Merging still doesn't deploy anything — no workflow builds `master` on push.
+Merging into `master` is what deploys. `.github/workflows/deploy.yml` triggers on push to `master`: it builds the site and pushes `public/` to the `gh-pages` branch, which is what GitHub Pages serves. **This is the step that touches the live site** — there's no separate manual deploy after this in the normal flow.
 
-### 9. Deploy
+You can also re-run it manually from the Actions tab (`workflow_dispatch`) without a new commit — useful for retrying a failed run or redeploying after changing a secret.
+
+### 9. Deploy manually (fallback)
 
 ```bash
 git checkout master
@@ -218,15 +220,15 @@ git pull
 npm run deploy
 ```
 
-`npm run deploy` is `gatsby clean && gatsby build && node develop-tools/deploy.js`: it clears the cache, builds the site, and pushes `public/` to the `gh-pages` branch, which is what GitHub Pages serves. **This is the only step that touches the live site.**
+`npm run deploy` is `gatsby clean && gatsby build && node develop-tools/deploy.js`: it clears the cache, builds the site, and pushes `public/` to the `gh-pages` branch — the same thing `deploy.yml` runs in CI. This is only needed to deploy outside the normal merge-to-`master` path (e.g. CI is down, or you want to publish from a local, uncommitted state).
 
-If dependencies aren't installed yet, use `npm install --legacy-peer-deps` — `gatsby-plugin-mdx-embed@0.0.20-alpha` declares a peer on react@16 while the project is on react@17, which npm's strict resolver rejects. CI does the same thing (`npm ci --legacy-peer-deps` in `pr-preview.yml`).
+If dependencies aren't installed yet, use `npm install --legacy-peer-deps` — `gatsby-plugin-mdx-embed@0.0.20-alpha` declares a peer on react@16 while the project is on react@17, which npm's strict resolver rejects. CI does the same thing (`npm ci --legacy-peer-deps` in both workflows).
 
 ---
 
-> ⚠️ **Stop the dev server before deploying.** `gatsby build` and `gatsby develop` share the same `.cache/` and `public/` directories. Running a build while the dev server is up corrupts the cache and can produce a broken build with no obvious error. If it happens, `npm run clean` and start over.
+> ⚠️ **Stop the dev server before deploying locally.** `gatsby build` and `gatsby develop` share the same `.cache/` and `public/` directories. Running a build while the dev server is up corrupts the cache and can produce a broken build with no obvious error. If it happens, `npm run clean` and start over.
 
-> 🚦 **Two independent gates.** `status: published` (a flag in a file) and `npm run deploy` (an actual deploy) are unrelated. Steps 1–8 are all reversible; only step 9 is visible to anyone else.
+> 🚦 **Two independent gates.** `status: published` (a flag in a file) and merging to `master` (an actual deploy) are unrelated. Steps 1–7 are all reversible; only step 8 — the merge — is visible to anyone else.
 
 Prefer to have an agent do the writing? Same flow, different driver — see below.
 
@@ -256,10 +258,10 @@ All tools share `develop-tools/posts.js` with the npm scripts above, so the CLI 
 The agent works in your **main working tree**, switching it to a branch called `new-articles` on every call. Two things follow from that:
 
 - **Everything stays on `new-articles`.** The commit pathspec is an explicit allowlist (`content/posts`, `static/images`), so an unrelated dirty file can't ride along — but the switch itself moves your working tree. If uncommitted changes would block it, the call fails with an explanation instead of forcing it, so commit or stash first.
-- **Nothing the agent does can reach the live site.** No workflow builds `new-articles` — `pr-preview.yml` triggers on `pull_request`, not `push`. The agent stages; *you* open the PR, which is what triggers the preview build, and `npm run deploy` stays manual.
+- **Nothing the agent does can reach the live site.** No workflow builds `new-articles` — `pr-preview.yml` triggers on `pull_request`, not `push`. The agent stages; *you* open the PR, which is what triggers the preview build. Merging the PR is now the last human-in-the-loop step: it triggers `deploy.yml` and publishes automatically.
 
 ```
-agent → new-articles → you open a PR → preview build → merge → npm run deploy
+agent → new-articles → you open a PR → preview build → you merge → auto-deploy (GitHub Actions)
 ```
 
 `new-articles` is branched from whatever the working tree was on before the first switch, falling back to `master` (override with `MCP_BASE_BRANCH`). Starting from `master` is the normal case — it carries the content pipeline and every published post, and it's the branch the PR targets.
